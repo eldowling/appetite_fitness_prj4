@@ -6,8 +6,8 @@ body {
     /*background-image: url('/media/gym-group-of-athletes-stretching.jpg'), url('/media/stock-photo-healthy-diet-and-fitness.jpg');
     background-repeat: no-repeat, no-repeat;
     height: 300px;*/
-    background: url('/media/gym-group-of-athletes-stretchingNN.jpg') no-repeat center center fixed;
-    /*            url('/media/stock-photo-healthy-diet-and-fitness.jpg') no-repeat center center fixed;*/
+    background: url('/media/stock-photo-healthy-diet-and-fitness.jpg') no-repeat center center fixed;
+    /*            url('/gym-group-of-athletes-stretching.jpg') no-repeat center center fixed;*/
     background-size: cover;
     height: calc(100vh - 164px);
     color: #555;
