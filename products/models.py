@@ -3,6 +3,9 @@ from django.db import models
 
 class Category(models.Model):
 
+    class Meta:
+        verbose_name_plural = 'Categories'
+
     code = models.CharField(max_length=254)
     name = models.CharField(max_length=254, null=True, blank=True)
 
@@ -13,6 +16,9 @@ class Category(models.Model):
         return self.name
 
 class Subcategory(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Subcategories'
 
     code = models.CharField(max_length=254)
     name = models.CharField(max_length=254, null=True, blank=True)
@@ -37,6 +43,9 @@ class Subscription_Type(models.Model):
 
 class Sizes(models.Model):
 
+    class Meta:
+        verbose_name_plural = 'Sizes'
+
     code = models.CharField(max_length=254)
     name = models.CharField(max_length=254, null=True, blank=True)
 
@@ -57,7 +66,7 @@ class Product(models.Model):
     subscription = models.BooleanField(default=False, null=True, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, null=True,
                                  blank=True)
-    quantity_available = models.DecimalField(max_digits=6, decimal_places=2, null=True,
+    quantity_available = models.DecimalField(max_digits=6, decimal_places=0, null=True,
                                  blank=True)
     rating = models.DecimalField(max_digits=6, decimal_places=2, null=True,
                                  blank=True)
@@ -78,7 +87,7 @@ class Product_Subscription(models.Model):
                                  on_delete=models.SET_NULL)
     price = models.DecimalField(max_digits=6, decimal_places=2, null=True,
                                  blank=True)
-    quantity_available = models.DecimalField(max_digits=6, decimal_places=2, null=True,
+    quantity_available = models.DecimalField(max_digits=6, decimal_places=0, null=True,
                                  blank=True)
 
     def __str__(self):
