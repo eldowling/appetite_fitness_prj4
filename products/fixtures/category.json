@@ -1,0 +1,1 @@
+[{"pk":1,"model":"products.category","fields":{"code":"fitness","name":"Fitness"}},{"pk":2,"model":"products.category","fields":{"code":"nutrition","name":"Nutrition"}},{"pk":3,"model":"products.category","fields":{"code":"accessories","name":"Accessories"}}]
