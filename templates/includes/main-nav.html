@@ -17,12 +17,13 @@
                 Fitness Plans
             </a>
             <div class="dropdown-menu border-0" aria-labelledby="fitness-link">
-                <a href="" class="dropdown-item">Beginner</a>
-                <a href="" class="dropdown-item">Intermediate</a>
-                <a href="" class="dropdown-item">Pro</a>
-                <a href="" class="dropdown-item">Seniors</a>
-                <a href="" class="dropdown-item">Children</a>
-                <a href="" class="dropdown-item">All Fitness Plans</a>
+                <a href="{% url 'products' %}?subcategory=beginners" class="dropdown-item">Beginners</a>
+                <a href="{% url 'products' %}?subcategory=intermediate" class="dropdown-item">Intermediate</a>
+                <a href="{% url 'products' %}?subcategory=advanced" class="dropdown-item">Advanced</a>
+                <a href="{% url 'products' %}?subcategory=seniors" class="dropdown-item">Seniors</a>
+                <a href="{% url 'products' %}?subcategory=children" class="dropdown-item">Children</a>
+                <a href="{% url 'products' %}?subcategory=online" class="dropdown-item">Online Classes</a>
+                <a href="{% url 'products' %}?category=fitness" class="dropdown-item">All Fitness Plans</a>
             </div>
         </li>
 
@@ -31,11 +32,10 @@
                 Nutrition Plans
             </a>
             <div class="dropdown-menu border-0" aria-labelledby="nutrition-link">
-                <a href="" class="dropdown-item">Weight Loss</a>
-                <a href="" class="dropdown-item">Fat Loss</a>
-                <a href="" class="dropdown-item">Toning</a>
-                <a href="" class="dropdown-item">Detox</a>
-                <a href="" class="dropdown-item">All Nutrition Plans</a>
+                <a href="{% url 'products' %}?subcategory=general_plans" class="dropdown-item">General Nutrition Plans</a>
+                <a href="{% url 'products' %}?subcategory=personalised_plans" class="dropdown-item">Personalised Plans</a>
+                <a href="{% url 'products' %}?subcategory=detox" class="dropdown-item">Detox</a>
+                <a href="{% url 'products' %}?category=nutrition" class="dropdown-item">All Nutrition Plans</a>
             </div>
         </li>
 
@@ -44,10 +44,9 @@
                 Community
             </a>
             <div class="dropdown-menu border-0" aria-labelledby="community-link">
-                <a href="" class="dropdown-item">Blogs &amp; Discussion</a>
-                <a href="" class="dropdown-item">Q&amp;A</a>
-                <a href="" class="dropdown-item">Challanges</a>
-                <a href="" class="dropdown-item">All Community</a>
+                <a href="" class="dropdown-item">Fitness Plan Discussions</a>
+                <a href="" class="dropdown-item">Nutrition Plan Discussions</a>
+                <a href="" class="dropdown-item">All Community Area</a>
             </div>
         </li>
     </ul>
