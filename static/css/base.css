@@ -6,12 +6,13 @@ body {
     /*background-image: url('/media/gym-group-of-athletes-stretching.jpg'), url('/media/stock-photo-healthy-diet-and-fitness.jpg');
     background-repeat: no-repeat, no-repeat;
     height: 300px;*/
-    background: url('/media/stock-photo-healthy-diet-and-fitness.jpg') no-repeat center center fixed;
+    /*--background: url('/media/stock-photo-healthy-diet-and-fitness.jpg') no-repeat center center fixed;--*/
     /*            url('/gym-group-of-athletes-stretching.jpg') no-repeat center center fixed;*/
-    background-size: cover;
+    /*--background-size: cover;
     height: calc(100vh - 164px);
-    color: #555;
+    color: #555;--*/
     /*font-family: 'Lato';*/
+    
 }
 
 /* from Bulma */
@@ -38,24 +39,9 @@ body {
     width: fit-content;
 }
 
-.shop-now-button {
-    background: black;
-    color: white;
-    min-width: 260px;
-}
 
 .btn-black {
     background: black;
-    color: white;
-}
-
-.shop-now-button:hover,
-.shop-now-button:active,
-.shop-now-button:focus,
-.btn-black:hover,
-.btn-black:active,
-.btn-black:focus {
-    background: #222;
     color: white;
 }
 

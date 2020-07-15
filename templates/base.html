@@ -30,6 +30,11 @@
     {% endblock %}
 
     {% block extra_js %}
+        <script>
+            $( document ).ready(function() {
+                $('.carousel').carousel()
+            }
+            </script>
     {% endblock %}
     
     <title>Nutriverse {% block extra_title %}{% endblock %}</title>
