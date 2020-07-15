@@ -68,7 +68,7 @@ class Product(models.Model):
                                  blank=True)
     quantity_available = models.DecimalField(max_digits=6, decimal_places=0, null=True,
                                  blank=True)
-    rating = models.DecimalField(max_digits=6, decimal_places=2, null=True,
+    rating = models.DecimalField(max_digits=6, decimal_places=1, null=True,
                                  blank=True)
     size = models.CharField(max_length=254, null=True, blank=True)
     colour = models.CharField(max_length=254, null=True, blank=True)
