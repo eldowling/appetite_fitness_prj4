@@ -58,6 +58,15 @@ a.subcat-badge > span.badge:hover {
     color: rgb(227, 142, 110) !important;
 }
 
+.btt-button {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+}
+
+.btt-link {
+    cursor: pointer;
+}
 
 /* -------------------------------- Media Queries */
 
@@ -79,13 +88,13 @@ a.subcat-badge > span.badge:hover {
     }
 
     .header-container {
-        padding-top: 164px;
+        padding-top: 7em;
     }
 }
 
 /* pad the top a bit when navbar is collapsed on mobile */
 @media (max-width: 991px) {
     .header-container {
-        padding-top: 70px;
+        padding-top: 4em;
     }
 }

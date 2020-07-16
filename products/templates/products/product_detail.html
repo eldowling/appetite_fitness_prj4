@@ -48,7 +48,7 @@
                     {% if product.subcategory %}
                     <p class="small mt-1 mb-0">
                         <a class="text-info" href="{% url 'products' %}?subcategory={{ product.subcategory.code }}">
-                            <i class="fas fa-tag mr-1"></i>{{ product.subcategory.name }}
+                            <i class="fas fa-tags mr-1"></i>{{ product.subcategory.name }}
                         </a>
                     </p>
                     {% endif %}
