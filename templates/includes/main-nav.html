@@ -7,8 +7,7 @@
             <div class="dropdown-menu border-0" aria-labelledby="all-products-link">
                 <a href="{% url 'products' %}?sort=price&direction=asc" class="dropdown-item">By Price</a>
                 <a href="{% url 'products' %}?sort=rating&direction=desc" class="dropdown-item ">By Rating</a>
-                <a href="{% url 'products' %}?sort=category&direction=asc" class="dropdown-item ">By Category</a>
-                <a href="{% url 'products' %}?sort=subcategory&direction=asc" class="dropdown-item ">By Sub-Category</a>
+                <a href="{% url 'products' %}?sort=subcategory&direction=asc" class="dropdown-item ">By Category</a>
                 <a href="{% url 'products' %}" class="dropdown-item">All Products</a>
             </div>
         </li>
@@ -24,7 +23,7 @@
                 <a href="{% url 'products' %}?subcategory=seniors" class="dropdown-item">Seniors</a>
                 <a href="{% url 'products' %}?subcategory=children" class="dropdown-item">Children</a>
                 <a href="{% url 'products' %}?subcategory=online" class="dropdown-item">Online Classes</a>
-                <a href="{% url 'products' %}?category=fitness" class="dropdown-item">All Fitness Plans</a>
+                <a href="{% url 'products' %}?subcategory=beginners,intermediate,advanced,seniors,children,online" class="dropdown-item">All Fitness Plans</a>
             </div>
         </li>
 
@@ -36,7 +35,7 @@
                 <a href="{% url 'products' %}?subcategory=general_plans" class="dropdown-item">General Nutrition Plans</a>
                 <a href="{% url 'products' %}?subcategory=personalised_plans" class="dropdown-item">Personalised Plans</a>
                 <a href="{% url 'products' %}?subcategory=detox" class="dropdown-item">Detox</a>
-                <a href="{% url 'products' %}?category=nutrition" class="dropdown-item">All Nutrition Plans</a>
+                <a href="{% url 'products' %}?subcategory=general_plans,personalised_plans,detox" class="dropdown-item">All Nutrition Plans</a>
             </div>
         </li>
 

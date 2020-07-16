@@ -53,6 +53,11 @@ html {
   height: 75%;
 }
 
+a.subcat-badge > span.badge:hover {
+    background: #2a7a92 !important;
+    color: rgb(227, 142, 110) !important;
+}
+
 
 /* -------------------------------- Media Queries */
 
