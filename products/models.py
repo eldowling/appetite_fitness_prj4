@@ -81,9 +81,9 @@ class Product(models.Model):
 class Product_Subscription(models.Model):
 
     code = models.CharField(max_length=254)
-    product = models.ForeignKey('Product', null=True, blank=True,
-                                 on_delete=models.SET_NULL)
     subscription_type = models.ForeignKey('Subscription_Type', null=True, blank=True,
+                                 on_delete=models.SET_NULL)
+    product = models.ForeignKey('Product', null=True, blank=True,
                                  on_delete=models.SET_NULL)
     price = models.DecimalField(max_digits=6, decimal_places=2, null=True,
                                  blank=True)
