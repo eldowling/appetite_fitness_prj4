@@ -41,11 +41,13 @@
                             </select>
                             <input type="submit" value="Select">
                         </form>
-                            <h5>Subscriptions: (Name / Product / Price)</h5>
-                            {% for prod_sub in product_subscription %}
-                                <p>Subscription_Name {{ prod_sub.subscription_type }}</p>
-                                <p>Price {{ prod_sub.price }}</p>
-                            {% endfor %}
+                            {% if sel_prod_sub != 'None' %}
+                                <h5>Subscriptions: (Name / Product / Price)</h5>
+                                {% for sel_prod_sub in sel_product_subscription %}
+                                    <p>Subscription_Name {{ sel_prod_sub.subscription_type }}</p>
+                                    <p>Price {{ sel_prod_sub.price }}</p>
+                                {% endfor %}
+                            {% endif %}
                     {% else %}
                         <p class="lead mb-0 text-left font-weight-bold">€{{ product.price }}</p>
                     {% endif %}

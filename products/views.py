@@ -60,28 +60,24 @@ def product_detail(request, product_id):
 
     product = get_object_or_404(Product, pk=product_id)
     product_subscription = product.product_subscription_set.all()
-    #product_subscription = Product_Subscription.objects.filter(id=product_id).prefetch_related('product')
-    #product_subscription =  Product_Subscription.objects.select_related('product').filter(id=product_id)
-    #for prod_sub in product_subscription:
-    #    print(prod_sub.product.name, prod_sub.subscription_type.name, prod_sub.price)
     sub_types = Subscription_Type.objects.filter(id=product_id)
     #for sub_type in sub_types:
     #   print(sub_type.name, sub_type.id)
     selected_subscription = None
-   # sel_product_subscription = None
+    sel_product_subscription = None
     #product_subscription = Product_Subscription.objects.all()
 
     if request.method == "POST":
         # Filter product_subscription by selected subscription, on a POST
         selected_subscription = request.POST.get("subscription")
-        product_subscription = product_subscription.filter(subscription_type=selected_subscription)
+        sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
 
     context = {
         'product': product,
         'product_subscription': product_subscription,
         'sub_types': sub_types,
         'selected_subscription': selected_subscription,
-        #'sel_product_subscription': sel_product_subscription,
+        'sel_product_subscription': sel_product_subscription,
     }
 
     return render(request, 'products/product_detail.html', context)
