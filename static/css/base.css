@@ -48,6 +48,11 @@ html {
 	z-index: -1;
 }
 
+.tab-container{
+    min-height: 14em;
+    background: #4E5D6C;
+}
+
 .carousel-w-100 {
   width: 100% !important;
   height: 75%;

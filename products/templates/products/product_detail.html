@@ -32,31 +32,42 @@
                     <hr>
                     {% if product.subscription == True %}
                         <form method="post">
-                        {% csrf_token %}
-                            <label for="subscription_type_select">Subscription Type</label>
-                            <select class="form-control col-sm-6" id="subscription_type_select" name="subscription">
-                                {% for prod_sub in product_subscription %}
-                                    <option value="{{ prod_sub.subscription_type.id }}">{{ prod_sub.subscription_type.name }}</option>
-                                {% endfor %}
-                            </select>
-                            <input type="submit" value="Select">
+                            <fieldset>
+                                {% csrf_token %}
+                                <label for="subscription_type_select">Subscription Type</label>
+                                <select class="form-control" id="subscription_type_select" name="subscription">                                        
+                                    <option disabled selected>Select Subscription</option>
+                                    {% for prod_sub in product_subscription %}
+                                        <option value="{{ prod_sub.subscription_type.id }}">{{ prod_sub.subscription_type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-sm">Change</button>
+                            </fieldset>                            
                         </form>
-                            {% if sel_prod_sub != 'None' %}
-                                <h5>Subscriptions: (Name / Product / Price)</h5>
-                                {% for sel_prod_sub in sel_product_subscription %}
-                                    <p>Subscription_Name {{ sel_prod_sub.subscription_type }}</p>
-                                    <p>Price {{ sel_prod_sub.price }}</p>
-                                {% endfor %}
-                            {% endif %}
+                        {% if sel_prod_sub != 'None' %}
+                            {% for sel_prod_sub in sel_product_subscription %}
+                                <hr>
+                                <p>Subscription: {{ sel_prod_sub.subscription_type.name }}</p>
+                                <p>Price: {{ sel_prod_sub.price }}</p>
+                            {% endfor %}
+                        {% endif %}
                     {% else %}
                         <p class="lead mb-0 text-left font-weight-bold">€{{ product.price }}</p>
                     {% endif %}
                     
+                    <p><small class="text-info"><i class="fas fa-tags mr-1"></i>{{ product.subcategory.name }}</small></p>
                     {% if product.rating %}
                         <small class="text-info"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 10</small>
                     {% else %}
                         <small class="text-info">No Rating</small>
                     {% endif %}
+                    
+            </div>
+        </div>
+        </div>
+        <div class="row tab-container">
+            <div class="col-12 col-md-6 col-lg-4 offset-lg-2">
+                <div class=" container-fluid">
                     <ul class="nav nav-tabs mt-5">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
@@ -72,8 +83,20 @@
                         <div class="tab-pane fade" id="reviews">
                             <p>Product Reviews</p>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+    <script>
+        function sub_select_func() {
+        var sel_val = document.getElementById("subscription_type_select").value;
+            document.getElementById("demo").innerHTML = "You selected: " + sel_val;
+            document.getElementById("mySelect").value = sel_val;
+        }
+    </script>
+{% endblock %}
+
+{% block postloadjs %}
+
 {% endblock %}

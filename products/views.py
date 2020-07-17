@@ -28,7 +28,7 @@ def all_products(request):
                 if direction == 'desc':
                     sortkey = f'-{sortkey}'
             products = products.order_by(sortkey)
-        
+
         if 'subcategory' in request.GET:
             subcategories = request.GET['subcategory'].split(',')
             products = products.filter(subcategory__code__in=subcategories)
@@ -61,11 +61,10 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     product_subscription = product.product_subscription_set.all()
     sub_types = Subscription_Type.objects.filter(id=product_id)
-    #for sub_type in sub_types:
-    #   print(sub_type.name, sub_type.id)
-    selected_subscription = None
-    sel_product_subscription = None
-    #product_subscription = Product_Subscription.objects.all()
+    # Default to the first subscription and display the price for this subscription
+    selected_subscription = Subscription_Type.objects.filter(id=product_id).first()
+    sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
+   
 
     if request.method == "POST":
         # Filter product_subscription by selected subscription, on a POST
