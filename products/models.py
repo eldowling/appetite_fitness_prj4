@@ -64,6 +64,7 @@ class Product(models.Model):
     name = models.CharField(max_length=254)
     description = models.TextField()
     subscription = models.BooleanField(default=False, null=True, blank=True)
+    subscription_type = models.ManyToManyField('Subscription_Type')
     price = models.DecimalField(max_digits=6, decimal_places=2, null=True,
                                  blank=True)
     quantity_available = models.DecimalField(max_digits=6, decimal_places=0, null=True,
