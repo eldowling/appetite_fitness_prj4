@@ -40,6 +40,19 @@
         </li>
 
         <li class="nav-item dropdown">
+            <a class="font-weight-bold nav-link mr-5" href="#" id="accessories-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Accessories
+            </a>
+            <div class="dropdown-menu border-0" aria-labelledby="accessories-link">
+                <a href="{% url 'products' %}?subcategory=clothing" class="dropdown-item">Clothing</a>
+                <a href="{% url 'products' %}?subcategory=resistance" class="dropdown-item">Resistance Bands</a>
+                <a href="{% url 'products' %}?subcategory=weights" class="dropdown-item">Weights</a>
+                <a href="{% url 'products' %}?subcategory=misc" class="dropdown-item">Miscellaneous</a>
+                <a href="{% url 'products' %}?subcategory=clothing,resistance,weights,misc" class="dropdown-item">All Accessories</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
             <a class="font-weight-bold nav-link " href="#" id="community-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Community
             </a>
