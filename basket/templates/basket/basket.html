@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container-fluid bg-white-full">
+        <div class="row bg-white-full pb-5">
+            <div class="col text-center mt-3">
+                <h2 class="logo-font text-dark">Shopping Basket</h2>
+            </div>
+        </div>
+    </div>
+
+    {% if basket_items %}
+        <div class="container-fluid">
+            <div class="row mt-5">
+                <div class="col">
+                    <table class="table table-responsive table-dark">
+                        <thead>
+                            <tr>
+                            <th scope="col">Product Details</th>
+                            <th scope="col"></th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th>image</th>
+                            <td>details</td>
+                            <td>price</td>
+                            <td>qty</td>
+                            <td>sub-t</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+        </div>
+    {% else %}     
+        <div class="container-fluid bg-white mt-0 pt-0 pb-3">
+            <div class="row">
+                <div class="col">
+                    <p class="lead mb-5 text-dark">Your basket is empty.</p>
+                    <button type="button" class="btn btn-secondary btn-sm-smaller">
+                        <a href="{% url 'products'%}" class="text-white "><i class="fas fa-caret-left"></i> Continue Shopping</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
