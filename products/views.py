@@ -64,7 +64,6 @@ def product_detail(request, product_id):
     # Default to the first subscription and display the price for this subscription
     selected_subscription = Subscription_Type.objects.filter(id=product_id).first()
     sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
-   
 
     if request.method == "POST":
         # Filter product_subscription by selected subscription, on a POST

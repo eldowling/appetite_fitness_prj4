@@ -28,36 +28,43 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="product-details-container text-dark mb-5 mt-md-5">
-                    <form class="form-inline" name="change_subscription" method="post">
+                    <form class="form-inline add-basket" action="% url 'add_to_basket' product.id %}" method="post">
+                    {% csrf_token %}
                         <fieldset>
                             <p class="mb-0">{{ product.name }}</p>
                             <hr>
                             {% if product.subscription == True %}
-                                {% csrf_token %}
-                                <span >Subscription Type:</span>
-                                <select class="form-control mr-3 align-top" id="subscription_type_select" onchange="sub_select_func()" name="subscription">
-                                    <option disabled selected>Select Subscription</option>
-                                    {% for prod_sub in product_subscription %}
-                                        <option value="{{ prod_sub.subscription_type.id }}">{{ prod_sub.subscription_type.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-sm">Change</button>
-                            
-                                {% if sel_prod_sub != 'None' %}
-                                    {% for sel_prod_sub in sel_product_subscription %}
-                                        <hr>
-                                        <p>Subscription: {{ sel_prod_sub.subscription_type.name }}</p>
-                                        <p>Price: {{ sel_prod_sub.price }}</p>
-                                        <p>Available Stock: {{ sel_prod_sub.quantity_available }}</p>
-                                    {% endfor %}
-                                {% endif %}
+                                {% include "products/subscription_form.html" %}
                             {% else %}
                                 <p class="lead mb-0 text-left font-weight-bold">€{{ product.price }}</p>
                             {% endif %}
-                            <p class="mt-3">
-                                <label class="float-left mr-3" for="quantity">Quantity:</label>
-                                <input type="number" id="prod_quantity" name="quantity" value="1" >
-                            </p>
+                            <div class="col-12">
+                                <p class="mt-3"><strong>Quantity:</strong></p>
+                                <div class="form-group w-50">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button class="decrement-qty btn text-dark" 
+                                                data-item_id="{{ product.id }}" id="decrement-qty_{{ product.id }}">
+                                                <span class="icon">
+                                                    <i class="fas fa-minus"></i>
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <input class="form-control qty_input" type="number"
+                                            name="quantity" value="1" min="1" max="99"
+                                            data-item_id="{{ product.id }}"
+                                            id="id_qty_{{ product.id }}">
+                                        <div class="input-group-append">
+                                            <button class="increment-qty btn text-dark"
+                                                data-item_id="{{ product.id }}" id="increment-qty_{{ product.id }}">
+                                                <span class="icon">
+                                                    <i class="fas fa-plus"></i>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             {% if product.quantity_available != 'None' %}
                                 <p class=" mb-0 text-left ">Available Stock: {{ product.quantity_available }}</p>
                             {% endif %}
@@ -74,13 +81,9 @@
                             {% else %}
                                 <small class="text-info">No Rating</small>
                             {% endif %}
-                            </fieldset>                            
-                    </form>
-                    <form name="add_to_basket" method="POST">
+                        </fieldset>                            
+                    
                         <fieldset>
-                            <input hidden id="purchase_subscription_id" >
-                            <input hidden id="purchase_quantity" >
-                            <input hidden id="purchase_total_price" >
                             <div class="row mt-3">
                                 <div class="col-6 text-center">
                                     <button type="button" class="btn btn-secondary btn-sm-smaller">
@@ -89,8 +92,9 @@
                                 </div>
                                 
                                 <div class="col-6 text-center">
-                                    <button type="button" class="btn btn-success btn-sm-smaller">Add to Basket</button>
+                                    <button type="submit" class="btn btn-success btn-sm-smaller">Add to Basket</button>
                                 </div>
+                                <input type="hidden" name="redirect_url" value="{{ request.path }}">
                             </div>
                         </fieldset>                            
                     </form>
@@ -119,23 +123,27 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 col-lg-2 bg-white"></div>
         </div>
     </div>
-        <div class="container-fluid bg-white-full mb-5">
-            <div class="row">
-                <div class="col-12"></div>
-            </div>
+    <div class="container-fluid bg-white pb-5">
+        <div class="row">
+            <div class="col-12"><br></div>
         </div>
+    </div>
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
-<script>
-    function sub_select_func() {
-    var sel_sub = document.getElementById("subscription_type_select").value;
-    document.getElementById("purchase_subscription_id").value = sel_sub;
-    }
+    {% include 'products/includes/quantity_input_script.html' %}
+<script type="text/javascript">
+    $('.update-link').click(function(e) {
+        //Get the selected subscription value and populate it to the hidden input
+        var sel_sub = document.getElementById("subscription_type_select").value;
+        document.getElementById("purchase_subscription_id").value = sel_sub;
+        //update the form with the selected subscription type details
+        var form = $(this).prev('.update-subscription-form');
+        form.submit();
+    })
 </script>
 
 {% endblock %}
