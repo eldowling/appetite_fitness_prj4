@@ -1,14 +1,14 @@
-<form class="form update-subscription-form" method="POST" action="{% url 'product_detail' product.id %}">
+<form class="form update-subscription-form" method="POST" action="{% url 'refresh_subscription' product.id %}">
     {% csrf_token %}
     <div class="form-group">
-        <select class="form-control mr-3 align-top" id="subscription_type_select" name="subscription">
+        <select class="form-control mr-3 align-top" id="subscription_type_select" onchange="sub_select_func()" name="subscription">
             <option disabled selected>Select Subscription Type</option>
             {% for prod_sub in product_subscription %}
                 <option value="{{ prod_sub.subscription_type.id }}">{{ prod_sub.subscription_type.name }}</option>
             {% endfor %}
         </select>        
         
-        <input  id="purchase_subscription_id" >
+        <input hidden id="purchase_subscription_id" >
         {% if sel_prod_sub != 'None' %}
         <div class="col-12">
             <p class="mt-3"><strong>Selected Subscription:</strong></p>
@@ -17,10 +17,16 @@
                     <p>Subscription: {{ sel_prod_sub.subscription_type.name }}</p>
                     <p>Price: {{ sel_prod_sub.price }}</p>
                     <p>Available Stock: {{ sel_prod_sub.quantity_available }}</p>
-                {% endfor %}
-            <hr>
+                {% endfor %}            
         </div>
         {% endif %}
     </div>
 </form>
-<a class="update-link text-info"><small>Update</small></a>
+<div class="col-12"><a class="update-link text-info"><small>Update</small></a></div>
+<hr>
+
+{% block postloadjs %}
+    
+    
+    
+{% endblock %}

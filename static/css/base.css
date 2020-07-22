@@ -69,7 +69,7 @@ a.subcat-badge > span.badge:hover {
 
 #subscription_type_select {
     width: 15em;
-    height: 2em;
+    /*height: 3em;*/
 }
 
 .qty_input {
