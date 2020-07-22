@@ -80,8 +80,6 @@ def refresh_subscription(request, product_id):
     product_subscription = product.product_subscription_set.all()
     selected_subscription = request.POST.get("purchase_subscription_id")
     sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
-    print("sel_product_subscription")
-    print(sel_product_subscription)
     
     context = {
         'product': product,
