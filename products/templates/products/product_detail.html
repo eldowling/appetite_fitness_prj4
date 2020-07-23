@@ -137,16 +137,7 @@
     {{ block.super }}
     {% include 'products/includes/quantity_input_script.html' %}
     
-    <script type="text/javascript">
-        $('.update-link').click(function(e) {
-            //Get the selected subscription value and populate it to the hidden input
-            var sel_sub = document.getElementById("subscription_type_select").value;
-            document.getElementById("purchase_subscription_id").value = sel_sub;
-            //update the form with the selected subscription type details
-            var form = $(this).parent().prev('.update-subscription-form');
-            form.submit();
-        })
-    </script>
+    
     
 
 {% endblock %}
