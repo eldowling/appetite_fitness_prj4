@@ -60,18 +60,23 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     product_subscription = product.product_subscription_set.all()
     # Default to the first subscription and display the price for this subscription
-    selected_subscription = Subscription_Type.objects.filter(id=product_id).first()
-    sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
+    #selected_subscription = Subscription_Type.objects.filter(id=product_id).first()
+    #sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
+    selected_subscription = None
+    sel_product_subscription = None
+    #sel_sub_price = None
 
     if request.POST:
-        selected_subscription = request.POST.get("purchase_subscription_id")
+        selected_subscription = request.POST.get("selected_subscription_id")
         sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
+        #sel_sub_price = request.POST.get("selected_subscription_price")
         
     context = {
         'product': product,
         'product_subscription': product_subscription,
         'selected_subscription': selected_subscription,
         'sel_product_subscription': sel_product_subscription,
+        #'sel_sub_price': sel_sub_price,
     }
 
     return render(request, 'products/product_detail.html', context)

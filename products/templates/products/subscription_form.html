@@ -8,7 +8,7 @@
             {% endfor %}
         </select>        
         
-        <input hidden id="purchase_subscription_id" name="purchase_subscription_id" value="{{ selected_subscription }}">
+        <input  id="selected_subscription_id" name="selected_subscription_id" >
         {% if sel_prod_sub != 'None' %}
         <div class="col-12">
             <p class="mt-3"><strong>Selected Subscription:</strong></p>
@@ -17,8 +17,11 @@
                     <p>Subscription: {{ sel_prod_sub.subscription_type.name }}</p>
                     <p>Price: {{ sel_prod_sub.price }}</p>
                     <p>Available Stock: {{ sel_prod_sub.quantity_available }}</p>
+                    {% set sub_price = sel_prod_sub.price %}
+                    
                 {% endfor %}            
         </div>
+        <!--input name="selected_subscription_price" value="{{sub_price}}"-->
         {% endif %}
     </div>
 </form>
@@ -26,16 +29,16 @@
 <hr>
 
 {% block postloadjs %}
- <script type="text/javascript">
+    <script type="text/javascript">
         $('.update-link').click(function(e) {
             //Get the selected subscription value and populate it to the hidden input
             var sel_sub = document.getElementById("subscription_type_select").value;
-            document.getElementById("purchase_subscription_id").value = sel_sub;
+            //var sel_sub_price = sel_prod_sub.price;
+            document.getElementById("selected_subscription_id").value = sel_sub;
+            //document.getElementById("selected_subscription_price").value = {{sub_price}};
             //update the form with the selected subscription type details
             var form = $(this).parent().prev('.update-subscription-form');
             form.submit();
         })
-    </script>   
-    
-    
+    </script> 
 {% endblock %}

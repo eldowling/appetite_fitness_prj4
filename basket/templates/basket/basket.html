@@ -20,6 +20,10 @@
     </div>
 
     {% if basket_items %}
+        {{ basket_items }}
+        <br>
+        <br>
+        {{ request.session.basket }}
         <div class="container-fluid">
             <div class="row mt-5">
                 <div class="col">
