@@ -65,6 +65,7 @@ class Product(models.Model):
     description = models.TextField()
     subscription = models.BooleanField(default=False, null=True, blank=True)
     subscription_type = models.ManyToManyField('Subscription_Type')
+    size = models.ManyToManyField('Sizes')
     rating = models.DecimalField(max_digits=6, decimal_places=1, null=True,
                                  blank=True)
     has_sizes = models.BooleanField(default=False, null=True, blank=True)

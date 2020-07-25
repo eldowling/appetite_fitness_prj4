@@ -15,7 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
         'image',
     )
 
-    ordering = ('category', 'subcategory', 'subscription_type', 'name',)
+    ordering = ('category', 'subcategory', 'name',)
 
 class Product_SubscriptionAdmin(admin.ModelAdmin):
     list_display = (
