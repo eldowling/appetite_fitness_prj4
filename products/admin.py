@@ -9,10 +9,8 @@ class ProductAdmin(admin.ModelAdmin):
         'category',
         'subcategory',
         'subscription',
-        'price',
-        'quantity_available',
+        'has_sizes',
         'rating',
-        'size',
         'colour',
         'image',
     )
@@ -24,6 +22,7 @@ class Product_SubscriptionAdmin(admin.ModelAdmin):
         'code',
         'product',
         'subscription_type',
+        'size',
         'price',
         'quantity_available',
     )
