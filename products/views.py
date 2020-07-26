@@ -56,25 +56,28 @@ def all_products(request):
     return render(request, 'products/products.html', context)
 
 def product_detail(request, product_id):
-    """ A view to show a single products details """
+    """ A view to show a single product details """
     product = get_object_or_404(Product, pk=product_id)
     product_subscription = product.product_subscription_set.all()
     # Default to the first subscription and display the price for this subscription
     #selected_subscription = Subscription_Type.objects.filter(id=product_id).first()
     #sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
-    selected_subscription = None
+    selected_subs_size = None
     sel_product_subscription = None
     #sel_sub_price = None
 
     if request.POST:
-        selected_subscription = request.POST.get("selected_subscription_id")
-        sel_product_subscription = product_subscription.filter(subscription_type=selected_subscription)
+        selected_subs_size = request.POST.get("selected_subs_size_id")
+        if product.subscription:
+            sel_product_subscription = product_subscription.filter(subscription_type=selected_subs_size)
+        elif product.has_sizes:
+            sel_product_subscription = product_subscription.filter(size=selected_subs_size)
         #sel_sub_price = request.POST.get("selected_subscription_price")
         
     context = {
         'product': product,
         'product_subscription': product_subscription,
-        'selected_subscription': selected_subscription,
+        'selected_subs_size': selected_subs_size,
         'sel_product_subscription': sel_product_subscription,
         #'sel_sub_price': sel_sub_price,
     }

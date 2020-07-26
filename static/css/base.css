@@ -67,7 +67,8 @@ a.subcat-badge > span.badge:hover {
     color: rgb(227, 142, 110) !important;
 }
 
-#subscription_type_select {
+#subscription_type_select,
+#sizes_select {
     width: 15em;
     /*height: 3em;*/
 }
@@ -84,7 +85,8 @@ a.subcat-badge > span.badge:hover {
 }
 
 .btt-link,
-.update-link {
+.update-sub-link,
+.update-size-link {
     cursor: pointer;
 }
 

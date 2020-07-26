@@ -7,6 +7,9 @@
         var plusDisabled = currentValue > 98;
         $(`#decrement-qty_${itemId}`).prop('disabled', minusDisabled);
         $(`#increment-qty_${itemId}`).prop('disabled', plusDisabled);
+        //Calculate Item Sub-Total (Price * Quantity)
+        var item_sub_total = {{ prod_sub.price }} * currentValue
+        document.getElementById("item-sub-total").value = item_sub_total
     }
 
     // Ensure proper enabling/disabling of all inputs on page load
@@ -20,6 +23,7 @@
     $('.qty_input').change(function() {
         var itemId = $(this).data('item_id');
         handleEnableDisable(itemId);
+        
     });
 
     // Increment quantity
