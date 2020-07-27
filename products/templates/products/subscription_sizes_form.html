@@ -2,21 +2,21 @@
     {% csrf_token %}
     <div class="form-group">
         {% if product.subscription == True %}
-            <select class="form-control mr-3 align-top" id="subscription_type_select" onchange="sub_select_func()" name="subscription">
+            <select class="form-control mr-3 align-top" id="subscription_type_select" name="subscription">
                 <option disabled selected>Select Subscription Type</option>
                 {% for prod_sub in product_subscription %}
                     <option value="{{ prod_sub.subscription_type.id }}">{{ prod_sub.subscription_type.name }}</option>
                 {% endfor %}
             </select>
         {% elif product.has_sizes == True %} 
-            <select class="form-control mr-3 align-top" id="sizes_select" onchange="size_select_func()" name="size">
+            <select class="form-control mr-3 align-top" id="sizes_select" name="size">
                 <option disabled selected>Select Size</option>
                 {% for prod_sub in product_subscription %}
                     <option value="{{ prod_sub.size.id }}">{{ prod_sub.size.id }} | {{ prod_sub.size.name }}</option>
                 {% endfor %}
             </select>  
         {% endif %}   
-        <input hidden id="selected_subs_size_id" name="selected_subs_size_id" >
+        <input type="hidden" id="selected_subs_size_id" name="selected_subs_size_id" >
         {% if selected_subs_size != 'None' %}
         <!--div class="col-12"-->
             {% for sel_prod_sub in sel_product_subscription %}
@@ -32,10 +32,11 @@
                     <p>Size: {{ sel_prod_sub.size.name }}</p>
                 {% endif %}
                 <p>Price: {{ sel_prod_sub.price }}</p>
-                <p>Available Stock: {{ sel_prod_sub.quantity_available }}</p>                    
+                <p>Available Stock: {{ sel_prod_sub.quantity_available }}</p>
+                <input type="hidden" id="purchase_qty_available" value="{{ sel_prod_sub.quantity_available }}">
+                                   
             {% endfor %}            
         <!--/div-->
-        <!--input name="selected_subscription_price" value="{{sub_price}}"-->
         {% endif %}
     </div>
 </form>
@@ -53,8 +54,7 @@
         <p>Available Stock: {{ prod_sub.quantity_available }}</p>
     {% endfor %}
 {% endif %}
-<p>Sub-Total:</p>
-<input type="text" name="item-sub-total" id="item-sub-total">
+
 {% if product.colour != 'none' %}
     <p>Colour: {{ product.colour }}</p>
 {% endif %}
@@ -64,9 +64,7 @@
         $('.update-sub-link').click(function(e) {
             //Get the selected subscription value and populate it to the hidden input
             var sel_sub = document.getElementById("subscription_type_select").value;
-            //var sel_sub_price = sel_prod_sub.price;
             document.getElementById("selected_subs_size_id").value = sel_sub;
-            //document.getElementById("selected_subscription_price").value = {{sub_price}};
             //update the form with the selected subscription type details
             var form = $(this).parent().prev('.update-sub-size-form');
             form.submit();
@@ -75,9 +73,7 @@
         $('.update-size-link').click(function(e) {
             //Get the selected subscription value and populate it to the hidden input
             var sel_size = document.getElementById("sizes_select").value;
-            //var sel_sub_price = sel_prod_sub.price;
             document.getElementById("selected_subs_size_id").value = sel_size;
-            //document.getElementById("selected_subscription_price").value = {{sub_price}};
             //update the form with the selected subscription type details
             var form = $(this).parent().prev('.update-sub-size-form');
             form.submit();

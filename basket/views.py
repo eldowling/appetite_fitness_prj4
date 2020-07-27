@@ -24,10 +24,12 @@ def add_to_basket(request, item_id):
     #    print("purchase_subscription_id is in the request.Post")
     subscription = request.POST.get('purchase_subscription_id')
     subs = str(subscription)
+    price = request.POST.get('purchase_subscription_price')
     basket = request.session.get('basket', {})
-    print("subscription, quantity, redirect_url")
+    print("subscription, quantity, price, redirect_url")
     print(subs)
     print(quantity)
+    print(price)
     print(redirect_url)
 
     if subs:
