@@ -31,12 +31,9 @@
                     <p class="mb-0">{{ product.name }}</p>
                     <hr>
                     {% include "products/subscription_sizes_form.html" %}
-                            
                     <form class="form-inline add-basket" action="{% url 'add_to_basket' product.id %}" method="post">
                     {% csrf_token %}
                         <fieldset>
-                        <input type="hidden" name="purchase_subscription_id" value="{{ selected_subscription }}">
-                        
                             <div class="col-12">
                                 <p class="mt-3"><strong>Quantity:</strong></p>
                                 <div class="form-group w-50">
@@ -64,7 +61,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" id="selected_subs_size_id" name="selected_subs_size_id" value="{{ selected_subs_size }}">
+                            
                             <p><small class="text-info"><i class="fas fa-tags mr-1"></i>{{ product.subcategory.name }}</small></p>
+
                             {% if product.rating %}
                                 <small class="text-info"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 10</small>
                             {% else %}

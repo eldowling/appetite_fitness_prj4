@@ -3,11 +3,19 @@
     // Disable +/- buttons outside 1-99 range
     function handleEnableDisable(itemId) {
         var currentValue = parseInt($(`#id_qty_${itemId}`).val());
-        var qty_avail = Number(document.getElementById("purchase_qty_available").value);
+        if (document.getElementById("purchase_qty_available") != null) {
+            var qty_avail = Number(document.getElementById("purchase_qty_available").value);
+        } else {
+            var qty_avail = 0;
+        }
+        
         var minusDisabled = currentValue < 2;
         //Check that the quantity selected is less than to the quantity available
-        //var plusDisabled = currentValue > 98;
-        var plusDisabled = (currentValue > qty_avail-1);
+        if (isNaN(qty_avail) || (qty_avail < 1)) {
+            var plusDisabled = currentValue > 98;
+        }else{
+            var plusDisabled = (currentValue > qty_avail-1);
+        }
         $(`#decrement-qty_${itemId}`).prop('disabled', minusDisabled);
         $(`#increment-qty_${itemId}`).prop('disabled', plusDisabled);
     }

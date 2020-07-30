@@ -16,32 +16,39 @@ def add_to_basket(request, item_id):
     """ Add a quantity of the specified product to the shopping basket """
 
     product = get_object_or_404(Product, pk=item_id)
-    #subscription = None
+    subscription_size = None
     quantity = int(request.POST.get('quantity'))
     redirect_url = request.POST.get('redirect_url')
     print("starting add_to_basket")
-    #if 'purchase_subscription_id' in request.POST:
+    #if 'selected_subs_size_id' in request.POST:
     #    print("purchase_subscription_id is in the request.Post")
-    subscription = request.POST.get('purchase_subscription_id')
-    subs = str(subscription)
-    price = request.POST.get('purchase_subscription_price')
+    subscription_size = request.POST.get('selected_subs_size_id')
+    subs_size = str(subscription_size)
+    #size = None
+    #if 'purchase_size_id' in request.POST:
+    #    size = request.POST.get('purchase_size_id')
     basket = request.session.get('basket', {})
-    print("subscription, quantity, price, redirect_url")
-    print(subs)
+    print("subscription_size")
+    print(subs_size)
+    print("quantity")
     print(quantity)
-    print(price)
-    print(redirect_url)
-
-    if subs:
+    if subs_size != 'None' and product.has_sizes:
         if item_id in list(basket.keys()):
-            if subs in basket[item_id]['items_subscription'].keys():
-                basket[item_id]['items_subscription'][subs] += quantity
+            if subs_size in basket[item_id]['items_by_size'].keys():
+                basket[item_id]['items_by_size'][subs_size] += quantity
             else:
-                basket[item_id]['items_subscription'][subs] = quantity
+                basket[item_id]['items_by_size'][subs_size] = quantity
         else:
-            basket[item_id] = {'items_subscription': {subs: quantity}}
+            basket[item_id] = {'items_by_size': {subs_size: quantity}}
+    elif subs_size != 'None' and not product.has_sizes:
+        if item_id in list(basket.keys()):
+            if subs_size in basket[item_id]['item_subscription'].keys():
+                basket[item_id]['item_subscription'][subs_size] += quantity
+            else:
+                basket[item_id]['item_subscription'][subs_size] = quantity
+        else:
+            basket[item_id] = {'item_subscription': {subs_size: quantity}}
     else:
-
         if item_id in list(basket.keys()):
             basket[item_id] += quantity
         else:

@@ -23,15 +23,26 @@ def basket_contents(request):
             })
         else:
             product = get_object_or_404(Product, pk=item_id)
-            for subscription, quantity in item_data['items_subscription'].items():
-                total += quantity * product.price
-                product_count += quantity
-                basket_items.append({
-                    'item_id': item_id,
-                    'quantity': quantity,
-                    'product': product,
-                    'subscription': subscription,
-                })
+            if 'items_by_size' in basket[item_id]:
+                for subs_size, quantity in item_data['items_by_size'].items():
+                    #total += quantity * product.price
+                    product_count += quantity
+                    basket_items.append({
+                        'item_id': item_id,
+                        'quantity': quantity,
+                        'product': product,
+                        'subs_size': subs_size,
+                    })
+            if 'item_subscription' in basket[item_id]:
+                for subs_size, quantity in item_data['item_subscription'].items():
+                    #total += quantity * product.price
+                    product_count += quantity
+                    basket_items.append({
+                        'item_id': item_id,
+                        'quantity': quantity,
+                        'product': product,
+                        'subs_size': subs_size,
+                    })
 
     if total < settings.FREE_DELIVERY_THRESHOLD:
         delivery = total * Decimal(settings.STANDARD_DELIVERY_PERCENTAGE / 100)
