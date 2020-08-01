@@ -2,7 +2,7 @@
     {% csrf_token %}
     <div class="form-group">
         {% if product.subscription == True %}
-            <select class="form-control mr-3 align-top" id="subscription_type_select" name="subscription" onchange="updateSubscription(this)">
+            <select class="form-control mr-3 align-top text-primary" id="subscription_type_select" name="subscription" onchange="updateSubscription(this)">
                 <option disabled selected>Select Subscription Type</option>
                 {% for prod_sub in product_subscription %}
                     <option value="{{ prod_sub.subscription_type.id }}">{{ prod_sub.subscription_type.name }}</option>

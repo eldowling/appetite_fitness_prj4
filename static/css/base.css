@@ -30,28 +30,6 @@ html {
     color: #000 !important;
 }
 
-.border-black {
-    border: 1px solid black !important;
-}
-
-.bg-black {
-    background: #000 !important;
-}
-
-.bg-white {
-	background: white;
-}
-
-.overlay {
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	position: fixed;
-	background: white;
-	z-index: -1;
-}
-
 .tab-container{
     /*min-height: 14em;*/
     padding-bottom: 2em;
@@ -63,19 +41,18 @@ html {
 }
 
 a.subcat-badge > span.badge:hover {
-    background: #2a7a92 !important;
-    color: rgb(227, 142, 110) !important;
+    background: rgb(69, 156, 214) !important;
+    color: rgb(1, 25, 41) !important;
 }
 
 #subscription_type_select,
 #sizes_select {
     width: 15em;
-    /*height: 3em;*/
 }
 
 .qty_input {
-    width: 3.3em !important;
-    font-size: 0.91em;
+    /*width: 3em !important;
+    font-size: 0.91em;*/
 }
 
 .btt-button {

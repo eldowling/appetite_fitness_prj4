@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load basket_tools %}
 
 {% block page_header %}
     <div class="container header-container">
@@ -11,10 +12,10 @@
 
 {% block content %}
     
-    <div class="container-fluid bg-white-full">
-        <div class="row bg-white-full pb-5">
+    <div class="container-fluid">
+        <div class="row pb-5">
             <div class="col text-center mt-3">
-                <h2 class="logo-font text-dark">Shopping Basket</h2>
+                <h2 class="logo-font text-primary">Shopping Basket</h2>
             </div>
         </div>
     </div>
@@ -27,7 +28,7 @@
         <div class="container-fluid">
             <div class="row mt-5">
                 <div class="col">
-                    <table class="table table-responsive table-dark">
+                    <table class="table table-responsive table-light">
                         <thead>
                             <tr>
                             <th scope="col">Product Details</th>
@@ -37,13 +38,35 @@
                             <th scope="col">Subtotal</th>
                             </tr>
                         </thead>
+                        {% for item in basket_items %}
                         <tbody>
                             <tr>
-                            <th>image</th>
-                            <td>details</td>
-                            <td>price</td>
-                            <td>qty</td>
-                            <td>sub-t</td>
+                                <td class="p-3 w-25">
+                                    {% include "basket/product-image.html" %}
+                                </td>
+                                <td class="py-3">
+                                    {% include "basket/product-info.html" %}
+                                </td>
+                                <td class="py-3">
+                                    <p class="my-0">€{{ item.product.price }}</p>
+                                </td>
+                                <td class="py-3 w-25">
+                                    {% include "basket/quantity-form.html" %}
+                                </td>
+                                <td class="py-3">
+                                    <p class="my-0">€{{ item.product.price | calc_subtotal:item.quantity }}</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="5" class="pt-5 text-right">
+                                    {% include "basket/basket-total.html" %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-right">
+                                    {% include "basket/checkout-buttons.html" %}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -56,7 +79,7 @@
                 <div class="col">
                     <p class="lead mb-5 text-dark">Your basket is empty.</p>
                     <button type="button" class="btn btn-secondary btn-sm-smaller">
-                        <a href="{% url 'products'%}" class="text-white "><i class="fas fa-caret-left"></i> Continue Shopping</a>
+                        <a href="{% url 'products'%}" class="text-white "><i class="fas fa-caret-left"></i> Shopping</a>
                     </button>
                 </div>
             </div>
