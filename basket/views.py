@@ -3,7 +3,7 @@ from django.shortcuts import (
 )
 from django.contrib import messages
 
-from products.models import Product
+from products.models import Product, Sizes, Subscription_Type, Product_Subscription
 
 
 def view_basket(request):

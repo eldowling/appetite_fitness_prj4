@@ -33,28 +33,31 @@
                             <tr>
                             <th scope="col">Product Details</th>
                             <th scope="col"></th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
+                            <th scope="col"></th>
                             <th scope="col">Subtotal</th>
                             </tr>
                         </thead>
                         {% for item in basket_items %}
                         <tbody>
                             <tr>
-                                <td class="p-3 w-25">
+                                <td class="p-3 w-25" >
                                     {% include "basket/product-image.html" %}
                                 </td>
-                                <td class="py-3">
-                                    {% include "basket/product-info.html" %}
+                                <td class="py-3" colspan="2">
+                                    <strong>{{ item.product.name }}</strong>
+                                    <p class="my-0 small text-muted">Code: {{item.product.code}}</p>                                    
                                 </td>
-                                <td class="py-3">
-                                    <p class="my-0">€{{ item.product.price }}</p>
+                                
+                            </tr>
+                            <tr>
+                                <td>
+                                    {% include "basket/product-info.html" %}
                                 </td>
                                 <td class="py-3 w-25">
                                     {% include "basket/quantity-form.html" %}
                                 </td>
                                 <td class="py-3">
-                                    <p class="my-0">€{{ item.product.price | calc_subtotal:item.quantity }}</p>
+                                    <p class="my-0">€{{ item.product.price | calc_subtotal:item.quantity }}310.00</p>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -85,6 +88,25 @@
             </div>
         </div>
     {% endif %}
+    <p> NEW TEST LAYOUT </p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col" colspan="2">Product Details</div>
+            <div class="col"></div>
+            <div class="col">Total</div>
+        </div>
+        <div class="row">
+            <div class="col" rowspan="2">Image</div>
+            <div class="col" colspan="2">Product Name, long title</div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col">Product-info</div>
+            <div class="col">Quantity</div>
+            <div class="col">Total €</div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block postloadjs %}
