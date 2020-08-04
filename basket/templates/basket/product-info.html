@@ -1,3 +1,4 @@
-<p class="my-0"><strong>Price: </strong>€{{ item.product.price }}155.00</p>
+<p class="my-0"><strong>Price: </strong>€{{ item.product.subscription.price }}</p>
 <p class="my-0"><strong>Size: </strong>{% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
 <p class="my-0"><strong>Colour: </strong>{{item.product.subscription}}</p>
+<h2>{{item.product.product_subscription.price}}</h2>

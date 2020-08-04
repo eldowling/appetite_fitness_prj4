@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -64,8 +65,7 @@ class Product(models.Model):
     name = models.CharField(max_length=254)
     description = models.TextField()
     subscription = models.BooleanField(default=False, null=True, blank=True)
-    subscription_type = models.ManyToManyField('Subscription_Type')
-    size = models.ManyToManyField('Sizes')
+    product_sub = models.ManyToManyField('Product_Subscription', through='Subscriptions')
     rating = models.DecimalField(max_digits=6, decimal_places=1, null=True,
                                  blank=True)
     has_sizes = models.BooleanField(default=False, null=True, blank=True)
@@ -78,9 +78,8 @@ class Product(models.Model):
 
 class Product_Subscription(models.Model):
 
-    code = models.CharField(max_length=254)
-    product = models.ForeignKey('Product', null=True, blank=True,
-                                 on_delete=models.SET_NULL)
+    code = models.CharField(max_length=254, default=timezone.now(), null=True, blank=True)
+    #product = models.ManyToManyField('Product', through='Subscriptions')
     subscription_type = models.ForeignKey('Subscription_Type', null=True, blank=True,
                                  on_delete=models.SET_NULL)
     size = models.ForeignKey('Sizes', null=True, blank=True,
@@ -89,6 +88,23 @@ class Product_Subscription(models.Model):
                                  blank=True)
     quantity_available = models.DecimalField(max_digits=6, decimal_places=0, null=True,
                                  blank=True)
+
+    def __str__(self):
+        return self.code
+
+    def get_name(self):
+        return self.name
+
+class Subscriptions(models.Model):
+    
+    class Meta:
+        verbose_name_plural = 'Subscriptions'
+
+    code = models.CharField(max_length=254)
+    product = models.ForeignKey('Product', null=True, blank=True,
+                                 on_delete=models.SET_NULL)
+    product_sub = models.ForeignKey('Product_Subscription', null=True, blank=True,
+                                 on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.code
