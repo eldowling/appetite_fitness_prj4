@@ -28,10 +28,7 @@ def add_to_basket(request, item_id):
     #if 'purchase_size_id' in request.POST:
     #    size = request.POST.get('purchase_size_id')
     basket = request.session.get('basket', {})
-    print("subscription_size")
-    print(subs_size)
-    print("quantity")
-    print(quantity)
+    print("subscription_size", subs_size, "quantity", quantity)
     if subs_size != 'None' and product.has_sizes:
         if item_id in list(basket.keys()):
             if subs_size in basket[item_id]['items_by_size'].keys():

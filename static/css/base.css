@@ -50,9 +50,8 @@ a.subcat-badge > span.badge:hover {
     width: 15em;
 }
 
-.qty_input {
-    /*width: 3em !important;
-    font-size: 0.91em;*/
+.btn-font-sm{
+    font-size: 1em; 
 }
 
 .btt-button {

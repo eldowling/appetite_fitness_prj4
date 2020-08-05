@@ -1,4 +1,8 @@
-<p class="my-0"><strong>Price: </strong>€{{ item.product.subscription.price }}</p>
-<p class="my-0"><strong>Size: </strong>{% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
-<p class="my-0"><strong>Colour: </strong>{{item.product.subscription}}</p>
-<h2>{{item.product.product_subscription.price}}</h2>
+{% for p in item.prod_sub %}
+    {% if item.product.subscription %}<p class="my-0"><strong>Subscription: </strong>{{p.subscription_type.name}}</p>{% endif %}
+    {% if item.product.has_sizes %}<p class="my-0"><strong>Size: </strong>{{ p.size|upper }}</p>{% endif %}
+    {% if item.product.colour != 'none' %}
+        <p class="my-0"><strong>Colour: </strong>{{item.product.colour}}</p>
+    {% endif %}
+    <p class="my-0"><strong>Price: </strong>€{{p.price}}</p>
+{% endfor %}

@@ -57,7 +57,9 @@
                                     {% include "basket/quantity-form.html" %}
                                 </td>
                                 <td class="py-3">
-                                    <p class="my-0">€{{ item.product.price | calc_subtotal:item.quantity }}310.00</p>
+                                    {% for p in item.prod_sub  %}
+                                    <p class="my-0">€{{ p.price | calc_subtotal:item.quantity }}</p>
+                                    {% endfor %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -82,7 +84,7 @@
                 <div class="col">
                     <p class="lead mb-5 text-dark">Your basket is empty.</p>
                     <button type="button" class="btn btn-secondary btn-sm-smaller">
-                        <a href="{% url 'products'%}" class="text-white "><i class="fas fa-caret-left"></i> Shopping</a>
+                        <a href="{% url 'products'%}" class="text-white "><i class="fas fa-caret-left"></i> Keep Shopping</a>
                     </button>
                 </div>
             </div>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from django.db.models.functions import Lower
-from .models import Product, Subcategory, Sizes, Subscription_Type, Product_Subscription
+from .models import Product, Subcategory, Sizes, Subscription_Type, Product_Subscription, Subscriptions
 
 # Create your views here.
 def all_products(request):
@@ -58,18 +58,18 @@ def all_products(request):
 def product_detail(request, product_id):
     """ A view to show a single product details """
     product = get_object_or_404(Product, pk=product_id)
-    product_subscription = product.product_subscription_set.all()
+    product_subscription = Product_Subscription.objects.filter(product=product)
     selected_subs_size = None
     sel_product_subscription = None
 
     if request.POST:
         selected_subs_size = request.POST.get("selected_subs_size_id")
-        #sel_sub_qty_available = request.POST.get("purch_qty_avail")
+        sel_sub_qty_available = request.POST.get("purch_qty_avail")
         if product.subscription:
             sel_product_subscription = product_subscription.filter(subscription_type=selected_subs_size)
         elif product.has_sizes:
             sel_product_subscription = product_subscription.filter(size=selected_subs_size)
-        
+
     context = {
         'product': product,
         'product_subscription': product_subscription,
