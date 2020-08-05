@@ -19,16 +19,10 @@ def add_to_basket(request, item_id):
     subscription_size = None
     quantity = int(request.POST.get('quantity'))
     redirect_url = request.POST.get('redirect_url')
-    print("starting add_to_basket")
-    #if 'selected_subs_size_id' in request.POST:
-    #    print("purchase_subscription_id is in the request.Post")
     subscription_size = request.POST.get('selected_subs_size_id')
     subs_size = str(subscription_size)
-    #size = None
-    #if 'purchase_size_id' in request.POST:
-    #    size = request.POST.get('purchase_size_id')
+
     basket = request.session.get('basket', {})
-    print("subscription_size", subs_size, "quantity", quantity)
     if subs_size != 'None' and product.has_sizes:
         if item_id in list(basket.keys()):
             if subs_size in basket[item_id]['items_by_size'].keys():
@@ -52,5 +46,40 @@ def add_to_basket(request, item_id):
             basket[item_id] = quantity
 
     request.session['basket'] = basket
-    print(request.session['basket'])
     return redirect(redirect_url)
+
+def adjust_basket(request, item_id):
+    """Adjust the quantity of the specified product to the specified amount"""
+
+    product = get_object_or_404(Product, pk=item_id)
+    quantity = int(request.POST.get('quantity'))
+    size = None
+    subscription = None
+    if 'product_size' in request.POST:
+        size = request.POST['product_size']
+    if 'product_subs'in request.POST:
+        subscription = request.POST['product_subs']
+    basket = request.session.get('basket', {})
+
+    if subscription:
+        if quantity > 0:
+            basket[item_id]['item_subscription'][subscription] = quantity
+        else:
+            del basket[item_id]['item_subscription'][subscription]
+            if not basket[item_id]['item_subscription']:
+                basket.pop(item_id)
+    elif size:
+        if quantity > 0:
+            basket[item_id]['items_by_size'][size] = quantity
+        else:
+            del basket[item_id]['items_by_size'][size]
+            if not basket[item_id]['items_by_size']:
+                basket.pop(item_id)
+    else:
+        if quantity > 0:
+            basket[item_id] = quantity
+        else:
+            basket.pop(item_id)
+
+    request.session['basket'] = basket
+    return redirect(reverse('view_basket'))

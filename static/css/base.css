@@ -61,8 +61,8 @@ a.subcat-badge > span.badge:hover {
 }
 
 .btt-link,
-.update-sub-link,
-.update-size-link {
+.update-link,
+.remove-item {
     cursor: pointer;
 }
 

@@ -1,4 +1,4 @@
-<form class="form update-form" method="POST" action="">
+<form class="form update-form" method="POST" action="{% url 'adjust_basket' item.item_id %}">
     {% csrf_token %}
     <div class="form-group">
         <div class="input-group">
@@ -23,12 +23,17 @@
                     </span>
                 </button>
             </div>
-            <div class="col">
-                <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-product_size="{{ item.size }}"><i class="far fa-trash-alt"></i></a>
-            </div>
-            {% if item.product.has_sizes %}
-                <input type="hidden" name="product_size" value="{{ item.size }}">
-            {% endif %}
+            {% for p in item.prod_sub %}
+                <div class="col">
+                    <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-product_size="{{ p.size }}"><i class="far fa-trash-alt"></i></a>
+                </div>
+                {% if item.product.subscription == True %}
+                    <input type="hidden" name="product_subs" value="{{ p.subscription_type.id }}">
+                {% endif %}
+                {% if item.product.has_sizes %}
+                    <input type="hidden" name="product_size" value="{{ p.size.id }}">
+                {% endif %}                
+            {% endfor %}
         </div>
     </div>
 </form>
