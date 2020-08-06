@@ -31,6 +31,7 @@
                     <p class="mb-0">{{ product.name }}</p>
                     <hr>
                     {% include "products/subscription_sizes_form.html" %}
+                    
                     <form class="form-inline add-basket" action="{% url 'add_to_basket' product.id %}" method="post">
                     {% csrf_token %}
                         <fieldset>
