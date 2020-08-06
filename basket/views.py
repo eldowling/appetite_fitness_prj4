@@ -83,3 +83,34 @@ def adjust_basket(request, item_id):
 
     request.session['basket'] = basket
     return redirect(reverse('view_basket'))
+
+def remove_from_basket(request, item_id):
+    """Remove the item from the basket"""
+
+    try:
+        product = get_object_or_404(Product, pk=item_id)
+        size = None
+        subscription = None
+        if 'product_size' in request.POST:
+            size = request.POST['product_size']
+        if 'product_subs'in request.POST:
+            subscription = request.POST['product_subs']
+        basket = request.session.get('basket', {})
+
+        if subscription:
+            del basket[item_id]['item_subscription'][subscription]
+            if not basket[item_id]['item_subscription']:
+                basket.pop(item_id)
+        elif size:
+            del basket[item_id]['items_by_size'][size]
+            if not basket[item_id]['items_by_size']:
+                basket.pop(item_id)
+        else:
+            basket.pop(item_id)
+
+        request.session['basket'] = basket
+        return HttpResponse(status=200)
+
+    except Exception as e:
+        messages.error(request, f'Error removing item: {e}')
+        return HttpResponse(status=500)

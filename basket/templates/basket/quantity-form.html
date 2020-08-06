@@ -24,14 +24,22 @@
                 </button>
             </div>
             {% for p in item.prod_sub %}
-                <div class="col">
-                    <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-product_size="{{ p.size }}"><i class="far fa-trash-alt"></i></a>
-                </div>
+                
+                
                 {% if item.product.subscription == True %}
                     <input type="hidden" name="product_subs" value="{{ p.subscription_type.id }}">
                 {% endif %}
                 {% if item.product.has_sizes %}
+                    <div class="col">
+                        <a class="remove-item-size text-danger float-right" id="remove_{{ item.item_id }}" 
+                        data-product_size="{{ p.size.id }}"><i class="far fa-trash-alt"></i></a>
+                    </div>
                     <input type="hidden" name="product_size" value="{{ p.size.id }}">
+                {% else %}
+                    <div class="col">
+                        <a class="remove-item-subs text-danger float-right" id="remove_{{ item.item_id }}" 
+                        data-product_subs="{{ p.subscription_type.id }}"><i class="far fa-trash-alt"></i></a>
+                    </div>
                 {% endif %}                
             {% endfor %}
         </div>
