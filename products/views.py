@@ -9,6 +9,8 @@ def all_products(request):
     """ A view to show all products, including sorting and search queries """
 
     products = Product.objects.all()
+    product_subscription = Product_Subscription.objects.all()
+    subscriptions = Subscriptions.objects.all()
     query = None
     subcategories = None
     sort = None
@@ -48,6 +50,8 @@ def all_products(request):
     
     context = {
         'products': products,
+        'product_subscription': product_subscription,
+        'subscriptions': subscriptions,
         'search_term': query,
         'current_subcategories': subcategories,
         'current_sorting': current_sorting,
