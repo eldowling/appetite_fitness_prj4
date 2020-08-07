@@ -14,17 +14,13 @@
     
     <div class="container-fluid">
         <div class="row pb-5">
-            <div class="col text-center mt-3">
+            <div class="col text-center mt-5">
                 <h2 class="logo-font text-primary">Shopping Basket</h2>
             </div>
         </div>
     </div>
 
     {% if basket_items %}
-        {{ basket_items }}
-        <br>
-        <br>
-        {{ request.session.basket }}
         <div class="container-fluid">
             <div class="row mt-5">
                 <div class="col">

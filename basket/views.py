@@ -27,23 +27,47 @@ def add_to_basket(request, item_id):
         if item_id in list(basket.keys()):
             if subs_size in basket[item_id]['items_by_size'].keys():
                 basket[item_id]['items_by_size'][subs_size] += quantity
+                messages.success(request,
+                                 (f'Updated size {subs_size.upper()} '
+                                  f'{product.name} quantity to '
+                                  f'{basket[item_id]["items_by_size"][subs_size]}'))
             else:
                 basket[item_id]['items_by_size'][subs_size] = quantity
+                messages.success(request,
+                                 (f'Added size {subs_size.upper()} '
+                                  f'{product.name} to your basket'))
         else:
             basket[item_id] = {'items_by_size': {subs_size: quantity}}
+            messages.success(request,
+                             (f'Added size {subs_size.upper()} '
+                              f'{product.name} to your basket'))
     elif subs_size != 'None' and not product.has_sizes:
         if item_id in list(basket.keys()):
             if subs_size in basket[item_id]['item_subscription'].keys():
                 basket[item_id]['item_subscription'][subs_size] += quantity
+                messages.success(request,
+                                 (f'Updated subscription {subs_size} '
+                                  f'{product.name} quantity to '
+                                  f'{basket[item_id]["item_subscription"][subs_size]}'))
             else:
                 basket[item_id]['item_subscription'][subs_size] = quantity
+                messages.success(request,
+                                 (f'Added subscription {subs_size} '
+                                  f'{product.name} to your basket'))
         else:
             basket[item_id] = {'item_subscription': {subs_size: quantity}}
+            messages.success(request,
+                             (f'Added subscription {subs_size} '
+                              f'{product.name} to your basket'))
     else:
         if item_id in list(basket.keys()):
             basket[item_id] += quantity
+            messages.success(request,
+                             (f'Updated {product.name} '
+                              f'quantity to {basket[item_id]}'))
         else:
             basket[item_id] = quantity
+            messages.success(request, f'Added {product.name} to your basket')
 
     request.session['basket'] = basket
     return redirect(redirect_url)
@@ -64,22 +88,42 @@ def adjust_basket(request, item_id):
     if subscription:
         if quantity > 0:
             basket[item_id]['item_subscription'][subscription] = quantity
+            messages.success(request,
+                             (f'Updated subscription {subscription} '
+                              f'{product.name} quantity to '
+                              f'{basket[item_id]["item_subscription"][subscription]}'))
         else:
             del basket[item_id]['item_subscription'][subscription]
             if not basket[item_id]['item_subscription']:
                 basket.pop(item_id)
+            messages.success(request,
+                            (f'Removed subscription {subscription} '
+                            f'{product.name} from your basket'))
     elif size:
         if quantity > 0:
             basket[item_id]['items_by_size'][size] = quantity
+            messages.success(request,
+                             (f'Updated size {size.upper()} '
+                              f'{product.name} quantity to '
+                              f'{basket[item_id]["items_by_size"][size]}'))
         else:
             del basket[item_id]['items_by_size'][size]
             if not basket[item_id]['items_by_size']:
                 basket.pop(item_id)
+            messages.success(request,
+                        (f'Removed size {size.upper()} '
+                        f'{product.name} from your basket'))
     else:
         if quantity > 0:
             basket[item_id] = quantity
+            messages.success(request,
+                             (f'Updated {product.name} '
+                              f'quantity to {basket[item_id]}'))
         else:
             basket.pop(item_id)
+            messages.success(request,
+                             (f'Removed {product.name} '
+                              f'from your basket'))
 
     request.session['basket'] = basket
     return redirect(reverse('view_basket'))
@@ -101,12 +145,19 @@ def remove_from_basket(request, item_id):
             del basket[item_id]['item_subscription'][subscription]
             if not basket[item_id]['item_subscription']:
                 basket.pop(item_id)
+            messages.success(request,
+                             (f'Removed subscription {subscription} '
+                              f'{product.name} from your basket'))
         elif size:
             del basket[item_id]['items_by_size'][size]
             if not basket[item_id]['items_by_size']:
                 basket.pop(item_id)
+            messages.success(request,
+                             (f'Removed size {size.upper()} '
+                              f'{product.name} from your basket'))
         else:
             basket.pop(item_id)
+            messages.success(request, f'Removed {product.name} from your basket')
 
         request.session['basket'] = basket
         return HttpResponse(status=200)

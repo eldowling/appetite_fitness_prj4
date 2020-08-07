@@ -1,0 +1,58 @@
+<div class="toast custom-toast rounded-0 border-success bg-light" data-autohide="false">
+    <div class="w-100 toast-capper bg-success"></div>
+    <div class="toast-header">
+        <strong class="mr-auto ">Basket updated sucessfully</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body bg-success text-center small text-white w-100 mx-0 px-0">
+        <div class="row">
+            <div class="col">
+                {{ message }}
+            </div>
+        </div>
+    </div>
+    <div class="text-center text-primary mt-2">
+        <h5>Items in your basket:</h5>
+        <hr class="mt-1 mb-3">
+    </div>
+    <div class="current-basket-items-wrapper ml-1">
+        {% for item in basket_items %}
+            <div class="row">
+                <div class="col-3 my-1">
+                    {% if item.product.image %}
+                        <img class="w-100" src="{{ item.product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <img class="w-100" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                    {% endif %}
+                </div>
+                <div class="col">
+                    {% for p in item.prod_sub %}
+                        <p>{{item.product}}</p>
+                        {% if item.product.has_sizes %}<p class="my-0 small">Size: {{ p.size|upper }}</p>{% endif %}
+                        {% if item.product.subscription %}<p class="my-0 small">Subscription: {{ p.subscription_type.name }}</p>{% endif %}
+                        <p class="my-0 small">Qty: {{item.quantity}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr class="w-75">
+        {% endfor %}
+        <div class="row mb-2">
+            <div class="col">
+                <a href="{% url 'products' %}" class="btn rounded-1 btn-sm btn-secondary">
+                    <span class="icon">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                    <span class="text-uppercase">Keep Shopping</span>
+                </a>
+                <a href="{% url 'checkout' %}" class="btn rounded-1 btn-sm btn-primary">
+                    <span class="text-uppercase">Secure Checkout</span>
+                    <span class="icon">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
