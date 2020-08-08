@@ -141,7 +141,7 @@ def remove_from_basket(request, item_id):
             subscription = request.POST['product_subs']
         basket = request.session.get('basket', {})
 
-        if subscription:
+        if product.subscription:
             del basket[item_id]['item_subscription'][subscription]
             if not basket[item_id]['item_subscription']:
                 basket.pop(item_id)
