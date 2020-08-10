@@ -41,33 +41,49 @@ def add_to_basket(request, item_id):
             messages.success(request,
                              (f'Added size {subs_size.upper()} '
                               f'{product.name} to your basket'))
-    elif subs_size != 'None' and not product.has_sizes:
+    #elif subs_size != 'None' and not product.has_sizes:
+    else:
         if item_id in list(basket.keys()):
             if subs_size in basket[item_id]['item_subscription'].keys():
                 basket[item_id]['item_subscription'][subs_size] += quantity
-                messages.success(request,
-                                 (f'Updated subscription {subs_size} '
-                                  f'{product.name} quantity to '
-                                  f'{basket[item_id]["item_subscription"][subs_size]}'))
+                if subs_size != 'None':
+                    messages.success(request,
+                                    (f'Updated subscription {subs_size} '
+                                    f'{product.name} quantity to '
+                                    f'{basket[item_id]["item_subscription"][subs_size]}'))
+                else: # for items without a size or subscription (such as accessories)
+                    messages.success(request,
+                                    (f'Updated {product.name} quantity to '
+                                    f'{basket[item_id]["item_subscription"][subs_size]}'))     #update this
             else:
                 basket[item_id]['item_subscription'][subs_size] = quantity
-                messages.success(request,
-                                 (f'Added subscription {subs_size} '
-                                  f'{product.name} to your basket'))
+                if subs_size != 'None':
+                    messages.success(request,
+                                    (f'Added subscription {subs_size} '
+                                    f'{product.name} to your basket'))
+                else: # for items without a size or subscription (such as accessories)
+                    messages.success(request,
+                                    (f'Added subscription {subs_size} '     #update this
+                                    f'{product.name} to your basket'))
         else:
             basket[item_id] = {'item_subscription': {subs_size: quantity}}
-            messages.success(request,
-                             (f'Added subscription {subs_size} '
-                              f'{product.name} to your basket'))
-    else:
-        if item_id in list(basket.keys()):
-            basket[item_id] += quantity
-            messages.success(request,
-                             (f'Updated {product.name} '
-                              f'quantity to {basket[item_id]}'))
-        else:
-            basket[item_id] = quantity
-            messages.success(request, f'Added {product.name} to your basket')
+            if subs_size != 'None':
+                messages.success(request,
+                                (f'Added subscription {subs_size} '
+                                f'{product.name} to your basket'))
+            else: # for items without a size or subscription (such as accessories)
+                messages.success(request,
+                                (f'Added subscription {subs_size} '     #update this
+                                f'{product.name} to your basket'))
+    #else:
+    #    if item_id in list(basket.keys()):
+    #        basket[item_id] += quantity
+    #        messages.success(request,
+    #                         (f'Updated {product.name} '
+    #                          f'quantity to {basket[item_id]}'))
+    #    else:
+    #        basket[item_id] = quantity
+    #        messages.success(request, f'Added {product.name} to your basket')
 
     request.session['basket'] = basket
     return redirect(redirect_url)
@@ -159,6 +175,7 @@ def remove_from_basket(request, item_id):
             basket.pop(item_id)
             messages.success(request, f'Removed {product.name} from your basket')
 
+        print('basket', basket)
         request.session['basket'] = basket
         return HttpResponse(status=200)
 

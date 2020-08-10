@@ -13,8 +13,8 @@ def basket_contents(request):
 
     for item_id, item_data in basket.items():
         product_subscription = Product_Subscription.objects.filter(product=item_id)
-        if isinstance(item_data, int):
-            product = get_object_or_404(Product, pk=item_id)
+        product = get_object_or_404(Product, pk=item_id)
+        if isinstance(item_data, int):            
             prod_sub = product_subscription.filter(product=product)
             for p in prod_sub:
                 sub_price = p.price
@@ -27,7 +27,6 @@ def basket_contents(request):
                 'prod_sub': prod_sub,
             })
         else:
-            product = get_object_or_404(Product, pk=item_id)
             if 'items_by_size' in basket[item_id]:
                 for subs_size, quantity in item_data['items_by_size'].items():
                     prod_sub = product_subscription.filter(size=subs_size)
