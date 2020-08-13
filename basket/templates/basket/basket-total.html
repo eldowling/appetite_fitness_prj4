@@ -1,8 +1,10 @@
-<h6><strong>Basket Total: €{{ total|floatformat:2 }}</strong></h6>
+<p class="small">- Total for items that exclude delivery: <strong>€{{ non_delivery_total|floatformat:2 }}</strong></p>
+<p class="small">- Total for items that include delivery: <strong>€{{ total|floatformat:2 }}</strong></p>
+<h6><strong>Basket Sub Total: €{{ sub_total|floatformat:2 }}</strong></h6>
 <h6>Delivery: €{{ delivery|floatformat:2 }}</h6>
 <h4 class="mt-4"><strong>Grand Total: €{{ grand_total|floatformat:2 }}</strong></h4>
-{% if free_delivery_delta > 0 %}
+{% if free_delivery_delta > 0 and total > 0 %}
     <p class="mb-1 text-danger">
-        Get free delivery when you spend <strong>€{{ free_delivery_delta }}</strong> more!
+        **Get free delivery when you spend <strong>€{{ free_delivery_delta }}</strong> more!
     </p>
 {% endif %}
