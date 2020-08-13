@@ -26,7 +26,7 @@
             {% for p in item.prod_sub %}
                 
                 
-                {% if item.product.subscription == True %}
+                {% if item.product.has_sizes == False %}
                     <input type="hidden" name="product_subs" value="{{ p.subscription_type.id }}">
                 {% endif %}
                 {% if item.product.has_sizes %}

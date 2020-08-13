@@ -60,11 +60,18 @@ def all_products(request):
     return render(request, 'products/products.html', context)
 
 def product_detail(request, product_id):
-    """ A view to show a single product details """
+    """ A view to show a details for a single product"""
     product = get_object_or_404(Product, pk=product_id)
     product_subscription = Product_Subscription.objects.filter(product=product)
+    prod_sub_count = product_subscription.count()
     selected_subs_size = None
     sel_product_subscription = None
+
+    #If product has no size and only 1 subscription - such as accessories, 
+    # then set the values to populate the hidden field for adding to the basket
+    if prod_sub_count==1 and product.subscription==False:
+        selected_subs_size = 6
+        sel_product_subscription = product_subscription
 
     if request.POST:
         selected_subs_size = request.POST.get("selected_subs_size_id")

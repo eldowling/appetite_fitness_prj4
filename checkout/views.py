@@ -37,30 +37,7 @@ def checkout(request):
                 try:
                     product = get_object_or_404(Product, pk=item_id)
                     product_subscription = Product_Subscription.objects.filter(product=item_id)
-                    #if isinstance(item_data, int):
-                    #    prod_sub = product_subscription.filter(product=product)
-                    #    for p in prod_sub:
-                    #        sub_price = p.price                            
-                    #    order_line_item = OrderLineItem(
-                    #        order=order,
-                    #        product=product,
-                    #        quantity=item_data,
-                    #    )
-                    #    order_line_item.save()
-                    #else:
-                    #    if 'items_by_size' in basket[item_id]:
-                    #        for subs_size, quantity in item_data['items_by_size'].items():
-                    #            prod_sub = product_subscription.filter(size=subs_size)
-                    #            for p in prod_sub:
-                    #                sub_price = p.price
-                    #            order_line_item = OrderLineItem(
-                    #                order=order,
-                    #                product=product,
-                    #                quantity=quantity,
-                    #                product_subscription=subs_size,
-                    #                product_size=prod_sub,
-                    #            )
-                    #            order_line_item.save()
+
                     if 'item_subscription' in basket[item_id]:
                         for subs_size, quantity in item_data['item_subscription'].items():
                             prod_sub = product_subscription.filter(subscription_type=subs_size)
@@ -87,7 +64,6 @@ def checkout(request):
                                 product_subscription=selected_product_subs,
                                 product_size=sel_prod_size,
                             )
-
                             order_line_item.save()
                 except Product.DoesNotExist:
                     messages.error(request, (
@@ -97,11 +73,11 @@ def checkout(request):
                     order.delete()
                     return redirect(reverse('view_basket'))
 
-                request.session['save_info'] = 'save-info' in request.POST
-                return redirect(reverse('checkout_success', args=[order.order_number]))
-            else:
-                messages.error(request, 'There is an error on the form. \
-                    Please review the details entered')
+            request.session['save_info'] = 'save-info' in request.POST
+            return redirect(reverse('checkout_success', args=[order.order_number]))
+        else:
+            messages.error(request, 'There is an error on the form. \
+                Please review the details entered')
     else:
         basket = request.session.get('basket', {})
         if not basket:
