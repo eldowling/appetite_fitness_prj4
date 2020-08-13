@@ -24,6 +24,7 @@ class Product_SubscriptionAdmin(admin.ModelAdmin):
         'size',
         'price',
         'quantity_available',
+        'delivery_charge',
     )
 
     ordering = ('subscription_type',)
