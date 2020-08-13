@@ -79,7 +79,6 @@ class Product(models.Model):
 class Product_Subscription(models.Model):
 
     code = models.CharField(max_length=20, default=timezone.now(), null=False, blank=False, unique=True)
-    #product = models.ManyToManyField('Product', through='Subscriptions')
     subscription_type = models.ForeignKey('Subscription_Type', null=True, blank=True,
                                  on_delete=models.SET_NULL)
     size = models.ForeignKey('Sizes', null=True, blank=True,
