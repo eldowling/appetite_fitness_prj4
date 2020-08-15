@@ -16,17 +16,101 @@
 {% block content %}
     
     <div class="container-fluid">
+        
         <div class="row pb-5">
-            <div class="col text-center mt-5">
+            <div class="col-sm-12 col-md-8 offset-md-2 text-center mt-5">
                 <h2 class="logo-font text-primary">Order Completed - Thank You!</h2>
             </div>
-            <div class="col text-center">
-                <p>Details of your order is below, we've also sent you a confirmation email to: {{order.email}}</p>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8 offset-md-2 text-center">
+                <p>Details of your order are below, and we've sent a confirmation email to: {{order.email}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 text-sm-left text-md-right">
+                <span class="badge badge-success">Order Number:</span>
+            </div>
+            <div class="col-sm-12 col-md-6 ">
+                <p>{{ order.order_number }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 text-sm-left text-md-right">
+                <span class="badge badge-success">Order Date:</span>
+            </div>
+            <div class="col-sm-12 col-md-6 ">
+                <p>{{ order.date }}</p>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 ">
+                <div class="order-details-wrapper border mt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-8 mt-2 ml-3 order-sm-1">
+                            <h5>Order Details</h5>
+                        </div>
+                        <div class="col-sm-12 col-lg-3 mt-2 ml-sm-3 order-sm-4">
+                            <h5>Order Info: </h5>
+                        </div>
+                    
+                        <div class="col-sm-12 col-md-6 col-lg-4 order-sm-3">
+                            <div class="card border-success mx-2 mb-3" >
+                                <div class="card-header">Deliver To:</div>
+                                <div class="card-body">
+                                    <strong>{{ order.full_name }}</strong><br>
+                                    <small>{{ order.street_address1 }}</small><br>
+                                    {% if order.street_address2 %}
+                                        <small>{{ order.street_address2 }}</small><br>
+                                    {% endif %}
+                                    {% if order.county %}
+                                        <small>{{ order.county }}</small><br>
+                                    {% endif %}
+                                    {% if order.postcode %}
+                                        <small>{{ order.postcode }}</small><br>
+                                    {% endif %}
+                                    {% if order.country %}
+                                        <small>{{ order.country }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 order-sm-2">
+                            <div class="card border-success mx-2 mb-3" >
+                                <div class="card-header">Billing Details:</div>
+                                <div class="card-body text-right">
+                                    {% if order.non_delivery_total %}
+                                        <small><strong>Items without delivery charge:</strong> €{{ order.non_delivery_total }}</small><br>
+                                    {% endif %}
+                                    {% if order.order_total %}
+                                        <small><strong>Items with a delivery charge:</strong> €{{ order.order_total }}</small><br>
+                                    {% endif %}
+                                    <small><strong>Delivery:</strong> €{{ order.delivery_cost }}</small><br>
+                                    <hr class="w-75 text-right">
+                                    <p><strong>Grand Total:</strong> €{{ order.grand_total }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 order-sm-5">
+                            <div class="card border-success mx-2 mb-3" >
+                                <div class="card-header">Order Items:</div>
+                                <div class="card-body">
+                                    {% for item in order.lineitems.all %}
+                                        <p><strong>{{ item.product.name }}</strong></p>
+                                        {% if item.product_subscription %}
+                                            Subs: {{ item.product.product_sub.name }}
+                                        {% endif %}
+                                        <p>€{{ item.lineitem_total }}</p>
+                                        <p>{{ item.quantity }}</p>
+                                        <hr class="w-25">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+             
+                </div>
             </div>
         </div>
     </div>
