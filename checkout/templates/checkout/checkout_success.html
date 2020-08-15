@@ -43,20 +43,15 @@
                 <p>{{ order.date }}</p>
             </div>
         </div>
-
         <div class="row">
             <div class="col-12 ">
                 <div class="order-details-wrapper border mt-2">
                     <div class="row">
-                        <div class="col-sm-12 col-lg-8 mt-2 ml-3 order-sm-1">
+                        <div class="col-12 mt-2 ml-3">
                             <h5>Order Details</h5>
                         </div>
-                        <div class="col-sm-12 col-lg-3 mt-2 ml-sm-3 order-sm-4">
-                            <h5>Order Info: </h5>
-                        </div>
-                    
-                        <div class="col-sm-12 col-md-6 col-lg-4 order-sm-3">
-                            <div class="card border-success mx-2 mb-3" >
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card border-success mx-2 mb-1 pb-1 h-100" >
                                 <div class="card-header">Deliver To:</div>
                                 <div class="card-body">
                                     <strong>{{ order.full_name }}</strong><br>
@@ -76,8 +71,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4 order-sm-2">
-                            <div class="card border-success mx-2 mb-3" >
+                        <div class="col d-md-none">
+                            <br>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card border-success mx-2 mb-1 pb-1 h-100" >
                                 <div class="card-header">Billing Details:</div>
                                 <div class="card-body text-right">
                                     {% if order.non_delivery_total %}
@@ -86,32 +84,65 @@
                                     {% if order.order_total %}
                                         <small><strong>Items with a delivery charge:</strong> €{{ order.order_total }}</small><br>
                                     {% endif %}
-                                    <small><strong>Delivery:</strong> €{{ order.delivery_cost }}</small><br>
+                                    {% if order.order_total < settings.FREE_DELIVERY_THRESHOLD %}
+                                        <small><strong>Delivery:</strong> €{{ order.delivery_cost }}</small><br>
+                                    {% else %}
+                                        <small class="text-danger">*Free delivery applies to your order*</small><br>
+                                    {% endif %}
                                     <hr class="w-75 text-right">
                                     <p><strong>Grand Total:</strong> €{{ order.grand_total }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4 order-sm-5">
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 mt-2 ml-sm-3">
+                            <h5>Order Info </h5>
+                        </div>
+                        <div class="col-sm-12 col-md-10 col-lg-9 offset-md-1 ">
                             <div class="card border-success mx-2 mb-3" >
                                 <div class="card-header">Order Items:</div>
                                 <div class="card-body">
                                     {% for item in order.lineitems.all %}
-                                        <p><strong>{{ item.product.name }}</strong></p>
-                                        {% if item.product_subscription %}
-                                            Subs: {{ item.product.product_sub.name }}
-                                        {% endif %}
-                                        <p>€{{ item.lineitem_total }}</p>
-                                        <p>{{ item.quantity }}</p>
-                                        <hr class="w-25">
+                                        <div class="row">
+                                            <div class="col-8 mx-0 px-0">
+                                                <strong>{{ item.product.name }}</strong>
+                                            </div>
+                                            <div class="col-4 mx-0 px-1 text-right">
+                                                {% if item.product_subscription.subscription_type.name is not null and item.product_subscription.subscription_type.name != 'None' %} 
+                                                    {{ item.product_subscription.subscription_type.name }}
+                                                {% endif %}
+                                                {% if item.product_size.name is not null %} 
+                                                    <p>{{ item.product_size.name }}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-8">                                        
+                                                <p><small>€{{ item.product_subscription.price }} (per item) x Qty: {{ item.quantity }} </small></p>
+                                            </div>
+                                            <div class="col-4 px-1 text-right">
+                                                <p><small>Subtotal: €{{ item.lineitem_total }}</small></p>
+                                            </div>
+                                        </div>
+                                        <hr class="w-50 font-weight-bold">
                                     {% endfor %}
                                 </div>
                             </div>
                         </div>
-                    </div>
-             
+                    </div>             
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col-6 offset-1">
+            <a href="{% url 'products' %}" class="btn rounded-1 btn-sm btn-secondary">
+                <span class="icon">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                <span class="text-uppercase">Keep Shopping</span>
+            </a>
         </div>
     </div>
 {% endblock %}

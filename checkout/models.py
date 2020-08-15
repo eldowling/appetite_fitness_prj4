@@ -49,9 +49,9 @@ class Order(models.Model):
         else:
             self.delivery_cost = 0
             
-        #if self.deliver_charge:
-            #self.non_delivery_total = self.lineitems.aggregate(delivery_charge=True(
-            #    Sum('lineitem_total')))['lineitem_total__sum'] or 0
+        #if self.product_subscription.delivery_charge:
+        #    self.non_delivery_total = self.lineitems.aggregate(delivery_charge=True(
+        #        Sum('lineitem_total')))['lineitem_total__sum'] or 0
         self.grand_total = self.order_total + self.non_delivery_total + self.delivery_cost
         self.save()
 
