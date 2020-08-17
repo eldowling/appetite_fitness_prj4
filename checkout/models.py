@@ -41,19 +41,20 @@ class Order(models.Model):
         Update grand total each time a line item is added,
         accounting for delivery costs.
         """
-        #self.order_total = self.lineitems.aggregate(delivery_charge=True(
-        #    Sum('lineitem_total')))['lineitem_total__sum'] or 0            
+        # Order total is for items that need to be delivered
         self.order_total = self.lineitems.aggregate(
-            Sum('lineitem_total'))['lineitem_total__sum'] or 0            
-        if self.order_total < settings.FREE_DELIVERY_THRESHOLD:
-            sdp = settings.STANDARD_DELIVERY_PERCENTAGE
-            self.delivery_cost = self.order_total * sdp / 100
+            Sum('lineitem_total'))['lineitem_total__sum'] or 0
+        # Non_delivery_total is for online / live subscriptions that don't need a delivery charge
+        self.non_delivery_total = self.lineitems.aggregate(
+            Sum('lineitem_nondel_total'))['lineitem_nondel_total__sum'] or 0
+        # delivery_cost is only calculated for deliverable items
+        # but checked against free delivery threshold for the order_subtotal value
+        order_subtotal = self.order_total + self.non_delivery_total
+        if order_subtotal < settings.FREE_DELIVERY_THRESHOLD:
+            self.delivery_cost = self.lineitems.aggregate(
+                Sum('lineitem_deliverycost'))['lineitem_deliverycost__sum'] or 0
         else:
             self.delivery_cost = 0
-            
-        #if self.product_subscription.delivery_charge:
-        #    self.non_delivery_total = self.lineitems.aggregate(delivery_charge=True(
-        #        Sum('lineitem_total')))['lineitem_total__sum'] or 0
         self.grand_total = self.order_total + self.non_delivery_total + self.delivery_cost
         self.save()
 
@@ -81,17 +82,32 @@ class OrderLineItem(models.Model):
                                 on_delete=models.SET_NULL)
     quantity = models.IntegerField(null=False, blank=False, default=0)
     delivery_charge = models.BooleanField(default=False, null=True, blank=True)
+    lineitem_deliverycost = models.DecimalField(max_digits=6, decimal_places=2,
+                                         null=False, blank=False,
+                                         editable=False, default=0)
     lineitem_total = models.DecimalField(max_digits=6, decimal_places=2,
                                          null=False, blank=False,
                                          editable=False)
+    lineitem_nondel_total = models.DecimalField(max_digits=6, decimal_places=2,
+                                         null=False, blank=False,
+                                         editable=False, default=0)
 
     def save(self, *args, **kwargs):
         """
         Override the original save method to set the lineitem total
         and update the order total.
         """
-        self.lineitem_total = self.product_subscription.price * self.quantity
+
         self.delivery_charge = self.product_subscription.delivery_charge
+        # Check if there is a delivery charge for the subscription type of item selected
+        # and calculate the delivery cost if it is a deliverable item
+        if self.delivery_charge:
+            self.lineitem_total = self.product_subscription.price * self.quantity
+            sdp = settings.STANDARD_DELIVERY_PERCENTAGE
+            self.lineitem_deliverycost = self.lineitem_total * sdp / 100
+        else:
+            self.lineitem_total = 0
+            self.lineitem_nondel_total = self.product_subscription.price * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):
