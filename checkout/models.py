@@ -112,3 +112,17 @@ class OrderLineItem(models.Model):
 
     def __str__(self):
         return f'Product_code {self.product.code} on order {self.order.order_number}'
+
+class Country(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Countries'
+
+    code = models.CharField(max_length=4)
+    name = models.CharField(max_length=254, null=True, blank=True)
+
+    def __str__(self):
+        return self.code
+
+    def get_name(self):
+        return self.name

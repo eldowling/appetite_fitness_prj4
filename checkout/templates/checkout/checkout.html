@@ -62,12 +62,16 @@
                 <hr class="my-0">
                 <div class="row text-right">
                     <div class="col-7 offset-2">
-                        <p class="my-0">Order Total:</p>
+                        <p class="my-0 small">- Items excluding delivery total:</p>
+                        <p class="my-0 small">- Items including delivery total:</p>
+                        <p class="my-0"><strong>Order Subtotal:</strong></p>
                         <p class="my-0">Delivery:</p>
-                        <p class="my-0">Grand Total:</p>
+                        <p class="my-0"><strong>Grand Total:</strong></p>
                     </div>
                     <div class="col-3">
-                        <p class="my-0">€{{ total | floatformat:2 }}</p>
+                        <p class="my-0 small">€{{ non_delivery_total | floatformat:2 }}</p>
+                        <p class="my-0 small">€{{ total | floatformat:2 }}</p>
+                        <p class="my-0"><strong>€{{ sub_total | floatformat:2 }}</strong></p>
                         <p class="my-0">€{{ delivery | floatformat:2 }}</p>
                         <p class="my-0"><strong>€{{ grand_total | floatformat:2 }}</strong></p>
                     </div>
@@ -108,7 +112,7 @@
                         <legend class="fieldset-label small px-2 w-auto">Payment</legend>
                         <div class="mb-3" id="card-element"></div>
                         <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-                        <input type="text" value="{{ client_secret }}" name="client_secret">
+                        <input type="hidden" value="{{ client_secret }}" name="client_secret">
                     </fieldset>
 
                     <div class="submit-button text-right mt-5 mb-2">                    
@@ -135,7 +139,6 @@
             </div>
         </div>
     </div>
-    <!--div id="spinner" class="spinner-border text-success" role="status"></div-->
      <div id="loading-overlay">
         <h1 class="logo-font loading-spinner text-success">
             <span class="icon">

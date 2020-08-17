@@ -59,7 +59,6 @@ class StripeWH_Handler:
                     stripe_pid=pid,
                 )
                 order_exists = True
-                print('--ORDER EXISTS')
                 break
             except Order.DoesNotExist:
                 attempt += 1
@@ -71,7 +70,6 @@ class StripeWH_Handler:
         else:
             order = None
             try:
-                print('Order DOES NOT EXIST - creating...')
                 order = Order.objects.create(
                     full_name=shipping_details.name,
                     email=billing_details.email,
@@ -85,51 +83,39 @@ class StripeWH_Handler:
                     original_basket=basket,
                     stripe_pid=pid,
                 )
-                print('Order is created here, now for OrderLine Item...')
                 for item_id, item_data in json.loads(basket).items():
-                    product = Product.objects.get(id=item_id)
-                    product_subscription = Product_Subscription.objects.filter(product=item_id)
+                    product = Product.objects.get(id = item_id)
+                    product_subscription = Product_Subscription.objects.filter(product = item_id)
 
-                    print('-INSIDE the orderlineitemfor loop')
-                    print('basket[item_id]', basket)
-                    if 'item_subscription' in basket[item_id]:
-                        print('We are at ITEM SUBSCRIPTION')
+                    if 'item_subscription' in item_data:
                         for subs_size, quantity in item_data['item_subscription'].items():
                             prod_sub = product_subscription.filter(subscription_type=subs_size)
-                            selected_product_subs = get_object_or_404(Product_Subscription, pk=prod_sub[0].id)
+                            selected_product_subs = Product_Subscription.objects.get(pk=prod_sub[0].id)
                             order_line_item = OrderLineItem(
                                 order=order,
                                 product=product,
                                 quantity=quantity,
-                                #product_subscription=selected_product_subs,
+                                product_subscription=selected_product_subs,
                             )
-
-                            print('order', order)
-                            print('product', product)
-
                             order_line_item.save()
-                    elif 'items_by_size' in basket[item_id]:
-                        print('We are at ITEM SIZE')
+                    elif 'items_by_size' in item_data:
                         for subs_size, quantity in item_data['items_by_size'].items():
                             prod_sub = product_subscription.filter(size=subs_size)
                             for p in prod_sub:
                                 prod_size = p.size
-                            sel_prod_size = get_object_or_404(Sizes, code=prod_size)
-                            selected_product_subs = get_object_or_404(Product_Subscription, pk=prod_sub[0].id)
+                            sel_prod_size = Sizes.objects.get(code=prod_size)
+                            selected_product_subs = Product_Subscription.objects.get(pk=prod_sub[0].id)
                             order_line_item = OrderLineItem(
                                 order=order,
                                 product=product,
                                 quantity=quantity,
-                                #product_subscription=selected_product_subs,
-                                #product_size=sel_prod_size,
+                                product_subscription=selected_product_subs,
+                                product_size=sel_prod_size,
                             )
-                            print('order', order)
-                            print('product', product)
                             order_line_item.save()
             except Exception as e:
                 if order:
                     order.delete()
-                    print('--Failed creating order, error', e)
                 return HttpResponse(
                     content=f'Webhook received: {event["type"]} | ERROR: {e}',
                     status=500)                    

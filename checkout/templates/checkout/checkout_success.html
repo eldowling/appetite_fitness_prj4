@@ -84,7 +84,7 @@
                                     {% if order.order_total %}
                                         <small><strong>Items with a delivery charge:</strong> €{{ order.order_total }}</small><br>
                                     {% endif %}
-                                    {% if order.order_total < settings.FREE_DELIVERY_THRESHOLD %}
+                                    {% if order.delivery_cost > 0 %}
                                         <small><strong>Delivery:</strong> €{{ order.delivery_cost }}</small><br>
                                     {% else %}
                                         <small class="text-danger">*Free delivery applies to your order*</small><br>
