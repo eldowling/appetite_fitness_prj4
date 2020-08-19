@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from .models import Order, OrderLineItem
-from products.models import Product, Product_Subscription
+from products.models import Product, Product_Subscription, Sizes
 
 import json
 import time
