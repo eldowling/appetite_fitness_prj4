@@ -8,9 +8,11 @@ def basket_contents(request):
 
     basket_items = []
     total = 0
-    #non_delivery_total used to calculate deliver only on items that will be shipped (not online content / live classes)
+    # non_delivery_total used to calculate deliver only on items that will
+    # be shipped (not online content / live classes)
     non_delivery_total = 0
-    #sub_total is used to calculate total before any delivery (total + non_delivery_total)
+    # sub_total is used to calculate total before any delivery
+    # (total + non_delivery_total)
     sub_total = 0
     product_count = 0
     basket = request.session.get('basket', {})
@@ -33,40 +35,42 @@ def basket_contents(request):
         #else:
         if 'items_by_size' in basket[item_id]:
             for subs_size, quantity in item_data['items_by_size'].items():
-                prod_sub = product_subscription.filter(size=subs_size)
-                for p in prod_sub:
-                    sub_price = p.price
-                    has_delivery = p.delivery_charge
-                if has_delivery:                    
-                    total += quantity * sub_price                    
-                else:
-                    non_delivery_total += quantity * sub_price
-                product_count += quantity
-                basket_items.append({
-                    'item_id': item_id,
-                    'quantity': quantity,
-                    'product': product,
-                    'subs_size': subs_size,
-                    'prod_sub': prod_sub,
-                })
+                if subs_size != 'None':
+                    prod_sub = product_subscription.filter(size=subs_size)
+                    for p in prod_sub:
+                        sub_price = p.price
+                        has_delivery = p.delivery_charge
+                    if has_delivery:
+                        total += quantity * sub_price
+                    else:
+                        non_delivery_total += quantity * sub_price
+                    product_count += quantity
+                    basket_items.append({
+                        'item_id': item_id,
+                        'quantity': quantity,
+                        'product': product,
+                        'subs_size': subs_size,
+                        'prod_sub': prod_sub,
+                    })
         elif 'item_subscription' in basket[item_id]:
             for subs_size, quantity in item_data['item_subscription'].items():
-                prod_sub = product_subscription.filter(subscription_type=subs_size)
-                for p in prod_sub:
-                    sub_price = p.price
-                    has_delivery = p.delivery_charge
-                if has_delivery:
-                    total += quantity * sub_price
-                else:
-                    non_delivery_total += quantity * sub_price
-                product_count += quantity
-                basket_items.append({
-                    'item_id': item_id,
-                    'quantity': quantity,
-                    'product': product,
-                    'subs_size': subs_size,
-                    'prod_sub': prod_sub,
-                })
+                if subs_size != 'None':
+                    prod_sub = product_subscription.filter(subscription_type=subs_size)
+                    for p in prod_sub:
+                        sub_price = p.price
+                        has_delivery = p.delivery_charge
+                    if has_delivery:
+                        total += quantity * sub_price
+                    else:
+                        non_delivery_total += quantity * sub_price
+                    product_count += quantity
+                    basket_items.append({
+                        'item_id': item_id,
+                        'quantity': quantity,
+                        'product': product,
+                        'subs_size': subs_size,
+                        'prod_sub': prod_sub,
+                    })
 
     if total < settings.FREE_DELIVERY_THRESHOLD:
         delivery = total * Decimal(settings.STANDARD_DELIVERY_PERCENTAGE / 100)

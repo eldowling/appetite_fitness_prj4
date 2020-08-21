@@ -21,7 +21,6 @@
     </div>
 
     {% if basket_items %}
-        {{basket_items}}
         <div class="container-fluid">
             <div class="row mt-5">
                 <div class="col">
@@ -123,7 +122,7 @@
         form.submit();
     })
 
-    // Remove item and reload on click
+    // Remove item with subscription and reload on click
     $('.remove-item-subs').click(function(e) {
         var csrfToken = "{{ csrf_token }}";
         var itemId = $(this).attr('id').split('remove_')[1];
@@ -137,7 +136,7 @@
          });
     })
 
-    // Remove item and reload on click
+    // Remove item with a size and reload on click
     $('.remove-item-size').click(function(e) {
         var csrfToken = "{{ csrf_token }}";
         var itemId = $(this).attr('id').split('remove_')[1];

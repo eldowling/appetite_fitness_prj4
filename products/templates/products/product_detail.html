@@ -31,10 +31,15 @@
                     <p class="mb-0">{{ product.name }}</p>
                     <hr>
                     {% include "products/subscription_sizes_form.html" %}
-                    
-                    <form class="form-inline add-basket" action="{% url 'add_to_basket' product.id %}" method="post">
+                    <form class="form-inline add-basket" id="add-basket" action="{% url 'add_to_basket' product.id %}" method="post">
                     {% csrf_token %}
                         <fieldset>
+                            
+                            <div class="alert alert-dismissible alert-warning" id="qty-alert">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <p class="mb-0 small">Please check the quantity of your order <br> is not more than quantity available</p>
+                            </div>
+                            
                             <div class="col-12">
                                 <p class="mt-3"><strong>Quantity:</strong></p>
                                 <div class="form-group w-75">
@@ -58,12 +63,13 @@
                                                     <i class="fas fa-plus"></i>
                                                 </span>
                                             </button>
-                                        </div>
+                                        </div>                                        
                                     </div>
-                                </div>
+                                </div>                                
                             </div>
-                            <input type="hidden" id="selected_subs_size_id" name="selected_subs_size_id" value="{{ selected_subs_size }}">
-                            
+                            <div class="col text-danger" id="qty-available-error"></div>
+                            <input type="hidden" id="purchase_subs_size_id" name="purchase_subs_size_id" value="{{ selected_subs_size }}">
+                            <input type="hidden" id="has_sizes_val" value="{{ product.has_sizes }}">
                             <p><small class="text-warning"><i class="fas fa-tags mr-1"></i>{{ product.subcategory.name }}</small></p>
 
                             {% if product.rating %}
@@ -85,9 +91,12 @@
                                 </div>
                                 
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-primary btn-fon-sm text-uppercase my-1 py-3">Add to Basket</button>
+                                    <!--button type="submit" class="btn btn-primary btn-fon-sm text-uppercase my-1 py-3">Add to Basket</button-->
+                                    <a class="submit-button btn btn-primary btn-fon-sm my-1 py-3" id="add_{{ product.id }}" >
+                                        <span class="text-uppercase text-white">Add to Basket</span>
+                                    </a>
                                 </div>
-                                <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                                <input type="hidden" id="redirect_url" name="redirect_url" value="{{ request.path }}">
                             </div>
                         </fieldset>                            
                     </form>
@@ -122,4 +131,6 @@
 {% block postloadjs %}
     {{ block.super }}
     {% include 'products/includes/quantity_input_script.html' %}
+     
+    <script src="{% static 'products/js/subs_quantity_inputs.js' %}"></script>
 {% endblock %}

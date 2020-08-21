@@ -18,6 +18,11 @@
         <hr class="mt-1 mb-3">
     </div>
     <div class="current-basket-items-wrapper ml-1">
+        {% if not basket_items %}
+            <p class="text-center">There are no items currently in your basket</p>
+        {% else %}
+            <a href="{% url 'view_basket' %}"><p class="small text-right">Edit Basket</p></a>
+        {% endif %}
         {% for item in basket_items %}
             <div class="row">
                 <div class="col-3 my-1">
@@ -46,12 +51,14 @@
                     </span>
                     <span class="text-uppercase">Keep Shopping</span>
                 </a>
+                {% if basket_items %}
                 <a href="{% url 'checkout' %}" class="btn rounded-1 btn-sm btn-primary">
                     <span class="text-uppercase">Secure Checkout</span>
                     <span class="icon">
                         <i class="fas fa-lock"></i>
                     </span>
                 </a>
+                {% endif %}
             </div>
         </div>
     </div>

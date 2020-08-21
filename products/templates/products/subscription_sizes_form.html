@@ -12,10 +12,12 @@
             <select class="form-control mr-3 align-top" id="sizes_select" name="size"  onchange="updateSubscription(this)">
                 <option disabled selected>Select Size</option>
                 {% for prod_sub in product_subscription %}
-                    <option value="{{ prod_sub.size.id }}">{{ prod_sub.size.id }} | {{ prod_sub.size.name }}</option>
+                    <option value="{{ prod_sub.size.id }}">{{ prod_sub.size.name }}</option>
                 {% endfor %}
             </select>  
-        {% endif %}   
+        {% endif %}
+        <p id="submit-error" class="text-danger"></p> 
+        <input type="hidden" id="selected_subs_size_id" name="selected_subs_size_id" value="{{selected_subs_size}}" >
         <!--display placeholder labels for the scription / size fields before a selection is made-->
         {% if not sel_product_subscription  %}
             {% if product.subscription == True %}
@@ -30,7 +32,7 @@
             <p><strong>Price:</strong> €</p>
             <p><strong>Available Stock:</strong> </p>            
         {% endif %}
-        <input type="hidden" id="selected_subs_size_id" name="selected_subs_size_id" value="{{selected_subs_size}}" >
+        
         {% if selected_subs_size != 'None' %}
         <!--div class="col-12"-->
             {% for sel_prod_sub in sel_product_subscription %}
@@ -43,7 +45,7 @@
                     <hr>
                     <p><strong>Size:</strong> {{ sel_prod_sub.size.name }}</p>
                 {% endif %}
-                
+                                    
                 <p><strong>Price:</strong> €{{ sel_prod_sub.price }}</p>
                 <p><strong>Available Stock:</strong> {{ sel_prod_sub.quantity_available }}</p>
                 <input type="hidden" id="purchase_qty_available" name="purchase_qty_available" value="{{ sel_prod_sub.quantity_available }}">
@@ -68,4 +70,5 @@
             selectItem.form.submit();
         }
     </script> 
+   
 {% endblock %}

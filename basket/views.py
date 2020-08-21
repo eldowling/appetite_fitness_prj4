@@ -22,40 +22,51 @@ def add_to_basket(request, item_id):
     subscription_size = request.POST.get('selected_subs_size_id')
     subs_size = str(subscription_size)
 
-    basket = request.session.get('basket', {})
-    if subs_size != 'None' and product.has_sizes:       # Clothing item with only sizes
-        if item_id in list(basket.keys()):
-            if subs_size in basket[item_id]['items_by_size'].keys():
-                basket[item_id]['items_by_size'][subs_size] += quantity
-                messages.success(request,
-                                 (f'Updated size {subs_size.upper()} '
-                                  f'{product.name} quantity to '
-                                  f'{basket[item_id]["items_by_size"][subs_size]}'))
-            else:
-                basket[item_id]['items_by_size'][subs_size] = quantity
-                messages.success(request,
-                                 (f'Added size {subs_size.upper()} '
-                                  f'{product.name} to your basket'))
-        else:
-            basket[item_id] = {'items_by_size': {subs_size: quantity}}
-            messages.success(request,
-                             (f'Added size {subs_size.upper()} '
-                              f'{product.name} to your basket'))
-    else:                                             # Other items with subscriptions incl. Accessories
-        if item_id in list(basket.keys()):
-            if subs_size in basket[item_id]['item_subscription'].keys():
-                basket[item_id]['item_subscription'][subs_size] += quantity
-                if subs_size != 'None':
+    if request.POST:
+        basket = request.session.get('basket', {})
+        if subs_size != 'None' and product.has_sizes:       # Clothing item with only sizes
+            if item_id in list(basket.keys()):
+                if subs_size in basket[item_id]['items_by_size'].keys():
+                    basket[item_id]['items_by_size'][subs_size] += quantity
                     messages.success(request,
-                                    (f'Updated subscription {subs_size} '
+                                    (f'Updated size {subs_size.upper()} '
                                     f'{product.name} quantity to '
-                                    f'{basket[item_id]["item_subscription"][subs_size]}'))
-                else: # for items without a size or subscription (such as accessories)
+                                    f'{basket[item_id]["items_by_size"][subs_size]}'))
+                else:
+                    basket[item_id]['items_by_size'][subs_size] = quantity
                     messages.success(request,
-                                    (f'Updated {product.name} quantity to '
-                                    f'{basket[item_id]["item_subscription"][subs_size]}'))     #update this
+                                    (f'Added size {subs_size.upper()} '
+                                    f'{product.name} to your basket'))
             else:
-                basket[item_id]['item_subscription'][subs_size] = quantity
+                basket[item_id] = {'items_by_size': {subs_size: quantity}}
+                messages.success(request,
+                                (f'Added size {subs_size.upper()} '
+                                f'{product.name} to your basket'))
+        else:                                             # Other items with subscriptions incl. Accessories
+            if item_id in list(basket.keys()):
+                if subs_size in basket[item_id]['item_subscription'].keys():
+                    basket[item_id]['item_subscription'][subs_size] += quantity
+                    if subs_size != 'None':
+                        messages.success(request,
+                                        (f'Updated subscription {subs_size} '
+                                        f'{product.name} quantity to '
+                                        f'{basket[item_id]["item_subscription"][subs_size]}'))
+                    else: # for items without a size or subscription (such as accessories)
+                        messages.success(request,
+                                        (f'Updated {product.name} quantity to '
+                                        f'{basket[item_id]["item_subscription"][subs_size]}'))     #update this
+                else:
+                    basket[item_id]['item_subscription'][subs_size] = quantity
+                    if subs_size != 'None':
+                        messages.success(request,
+                                        (f'Added subscription {subs_size} '
+                                        f'{product.name} to your basket'))
+                    else: # for items without a size or subscription (such as accessories)
+                        messages.success(request,
+                                        (f'Added subscription {subs_size} '     #update this
+                                        f'{product.name} to your basket'))
+            else:
+                basket[item_id] = {'item_subscription': {subs_size: quantity}}
                 if subs_size != 'None':
                     messages.success(request,
                                     (f'Added subscription {subs_size} '
@@ -64,19 +75,9 @@ def add_to_basket(request, item_id):
                     messages.success(request,
                                     (f'Added subscription {subs_size} '     #update this
                                     f'{product.name} to your basket'))
-        else:
-            basket[item_id] = {'item_subscription': {subs_size: quantity}}
-            if subs_size != 'None':
-                messages.success(request,
-                                (f'Added subscription {subs_size} '
-                                f'{product.name} to your basket'))
-            else: # for items without a size or subscription (such as accessories)
-                messages.success(request,
-                                (f'Added subscription {subs_size} '     #update this
-                                f'{product.name} to your basket'))
 
-    request.session['basket'] = basket
-    return redirect(redirect_url)
+        request.session['basket'] = basket
+        return redirect(redirect_url)
 
 def adjust_basket(request, item_id):
     """Adjust the quantity of the specified product to the specified amount"""

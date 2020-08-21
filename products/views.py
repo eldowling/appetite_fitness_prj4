@@ -67,16 +67,17 @@ def product_detail(request, product_id):
     selected_subs_size = None
     sel_product_subscription = None
 
-    #If product has no size and only 1 subscription - such as accessories, 
+    # If product has no size and only 1 subscription - such as accessories, 
     # then set the values to populate the hidden field for adding to the basket
-    if prod_sub_count==1 and product.subscription==False:
-        selected_subs_size = 6
-        sel_product_subscription = product_subscription
+    if prod_sub_count == 1 and not product.has_sizes:
+        for p in product_subscription:
+            selected_subs_size = p.subscription_type.id
+            sel_product_subscription = product_subscription
 
     if request.POST:
         selected_subs_size = request.POST.get("selected_subs_size_id")
         sel_sub_qty_available = request.POST.get("purch_qty_avail")
-        if product.subscription:
+        if product.subscription and selected_subs_size != 'None':
             sel_product_subscription = product_subscription.filter(subscription_type=selected_subs_size)
         elif product.has_sizes:
             sel_product_subscription = product_subscription.filter(size=selected_subs_size)
