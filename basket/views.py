@@ -71,7 +71,8 @@ def add_to_basket(request, item_id):
                     messages.success(request,
                                     (f'Added subscription {subs_size} '
                                     f'{product.name} to your basket'))
-                else: # for items without a size or subscription (such as accessories)
+                else:
+                    # for items without a size or subscription (such as accessories)
                     messages.success(request,
                                     (f'Added subscription {subs_size} '     #update this
                                     f'{product.name} to your basket'))
