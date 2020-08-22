@@ -3,6 +3,16 @@
     overflow-y: auto;
 }
 
+/*
+.table-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+*/
 #profile-update-form .form-control {
     color: #000;
 }

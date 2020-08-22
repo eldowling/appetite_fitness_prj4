@@ -23,43 +23,45 @@
         {% else %}
             <a href="{% url 'view_basket' %}"><p class="small text-right">Edit Basket</p></a>
         {% endif %}
-        {% for item in basket_items %}
-            <div class="row">
-                <div class="col-3 my-1">
-                    {% if item.product.image %}
-                        <img class="w-100" src="{{ item.product.image.url }}" alt="{{ product.name }}">
-                    {% else %}
-                        <img class="w-100" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+        {% if grand_total and not on_profile_page %}
+            {% for item in basket_items %}
+                <div class="row">
+                    <div class="col-3 my-1">
+                        {% if item.product.image %}
+                            <img class="w-100" src="{{ item.product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <img class="w-100" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                        {% for p in item.prod_sub %}
+                            <p>{{item.product}}</p>
+                            {% if item.product.has_sizes %}<p class="my-0 small">Size: {{ p.size|upper }}</p>{% endif %}
+                            {% if item.product.subscription %}<p class="my-0 small">Subscription: {{ p.subscription_type.name }}</p>{% endif %}
+                            <p class="my-0 small">Qty: {{item.quantity}}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr class="w-75">
+            {% endfor %}
+            <div class="row mb-2">
+                <div class="col">
+                    <a href="{% url 'products' %}" class="btn rounded-1 btn-sm btn-secondary">
+                        <span class="icon">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                        <span class="text-uppercase">Keep Shopping</span>
+                    </a>
+                    {% if basket_items %}
+                    <a href="{% url 'checkout' %}" class="btn rounded-1 btn-sm btn-primary">
+                        <span class="text-uppercase">Secure Checkout</span>
+                        <span class="icon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </a>
                     {% endif %}
                 </div>
-                <div class="col">
-                    {% for p in item.prod_sub %}
-                        <p>{{item.product}}</p>
-                        {% if item.product.has_sizes %}<p class="my-0 small">Size: {{ p.size|upper }}</p>{% endif %}
-                        {% if item.product.subscription %}<p class="my-0 small">Subscription: {{ p.subscription_type.name }}</p>{% endif %}
-                        <p class="my-0 small">Qty: {{item.quantity}}</p>
-                    {% endfor %}
-                </div>
             </div>
-            <hr class="w-75">
-        {% endfor %}
-        <div class="row mb-2">
-            <div class="col">
-                <a href="{% url 'products' %}" class="btn rounded-1 btn-sm btn-secondary">
-                    <span class="icon">
-                        <i class="fas fa-chevron-left"></i>
-                    </span>
-                    <span class="text-uppercase">Keep Shopping</span>
-                </a>
-                {% if basket_items %}
-                <a href="{% url 'checkout' %}" class="btn rounded-1 btn-sm btn-primary">
-                    <span class="text-uppercase">Secure Checkout</span>
-                    <span class="icon">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </a>
-                {% endif %}
-            </div>
-        </div>
+        {% endif %}
     </div>
 </div>
