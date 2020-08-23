@@ -1,0 +1,19 @@
+Hello {{order.full_name}},
+
+This is a confirmation that you order has been received with us in Nutriverse, and we are currently processing your order.
+We've included summary of your order details below:
+
+Order Number: {{ order.order_number }}
+Order Date: {{ order.date }}
+
+Order Sub Total: ${{ order.order_total }}
+Delivery: ${{ order.delivery_cost }}
+Grand Total: ${{ order.grand_total }}
+
+Your order will be delivered to {{ order.street_address1 }}, {{ order.town_or_city }}, {{ order.country }}.
+
+Contact Phone Number: {{ order.phone_number }}.
+
+Please contact us at {{ contact_email }} if you have any questions regarding your order, or to update any details.
+
+Thanks for ordering with Nutriverse!

@@ -21,6 +21,8 @@ def add_to_basket(request, item_id):
     redirect_url = request.POST.get('redirect_url')
     subscription_size = request.POST.get('selected_subs_size_id')
     subs_size = str(subscription_size)
+    print('-----form items')
+    print('qty, redir_url, selected_sub_id', quantity, redirect_url, subs_size)
 
     if request.POST:
         basket = request.session.get('basket', {})

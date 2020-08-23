@@ -42,26 +42,40 @@
                             <table class="table table-bordered ">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th scope="col">Order No.</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Items</th>
-                                        <th scope="col">Total</th>
+                                        <th>Order No.</th>
+                                        <th>Date</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">11231231</th>
-                                        <td>01/08/2020</td>
-                                        <td>Nutriverse Product / Subscription / Qty / Colour
-                                        <br><br><br><br><br><br><br><br>New line here
-                                        <br><br><br><br>another line to test the 
-                                        <br><br><br><br>scrolling on the table
-                                        <br><br><br><br><br><br><br><br>more here
-                                        <br><br><br><br>another line to test more 
-                                        <br><br><br><br>scrolling on the table
-                                        </td>
-                                        <td>€42.99</td>
-                                    </tr>                                        
+                                    {% for order in orders %}
+                                        <tr>
+                                            <td>
+                                                <a href="{% url 'order_history' order.order_number %}"
+                                                title="{{ order.order_number }}">
+                                                {{ order.order_number|truncatechars:6 }}</a>
+                                            </td>
+                                            <td>{{ order.date }}</td>
+                                            <td>
+                                                <ul class="list-unstyled">
+                                                    {% for item in order.lineitems.all %}
+                                                        <li class="small">
+                                                            {{ item.product.name }} -
+                                                            {% if item.product_subscription.subscription_type.name is not null and item.product_subscription.subscription_type.name != 'None' %} 
+                                                                Subscription: {{ item.product_subscription.subscription_type.name }}
+                                                            {% endif %}
+                                                            {% if item.product_size.name is not null %} 
+                                                                Size: {{ item.product_size.name }}
+                                                            {% endif %} x {{ item.quantity }}
+                                                            Subtotal: €{{ item.lineitem_total }}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </td>
+                                            <td>{{ order.grand_total }}</td>
+                                        </tr>
+                                    {% endfor %}                                        
                                 </tbody>
                             </table>
                         </div>                            
