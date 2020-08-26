@@ -1,0 +1,125 @@
+html {
+    height: 100%;
+}
+
+/* from Bulma */
+.icon {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+#logo-image {
+  background: url('/media/nutriverse_logo.jpg');
+  height: 7rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.logo-font {
+    text-transform: uppercase;
+}
+
+.main-logo-link {
+    width: fit-content;
+}
+
+.tab-container{
+    /*min-height: 14em;*/
+    padding-bottom: 2em;
+}
+
+.carousel-w-100 {
+  width: 100% !important;
+  height: 75%;
+}
+
+a.subcat-badge > span.badge:hover {
+    background: rgb(69, 156, 214) !important;
+    color: rgb(1, 25, 41) !important;
+}
+
+#subscription_type_select,
+#sizes_select {
+    width: 15em;
+}
+
+.btn-font-sm{
+    font-size: 1em; 
+}
+
+.btt-button {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+}
+
+.btt-link,
+.update-link,
+.remove-item-subs,
+.remove-item-size {
+    cursor: pointer;
+}
+
+.message-container {
+    position: fixed;
+    top: 5em;
+    right: 0.9em;
+    z-index: 99999999999;
+    border: #000;
+}
+
+.custom-toast {
+    overflow: visible;
+}
+
+.toast-capper {
+    height: 0.3em;
+}
+
+.current-basket-items-wrapper{
+    height: 10em;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+/* -------------------------------- Media Queries */
+
+/* Slightly larger container on xl screens */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 80%;
+  }
+}
+
+/* Medium and down */
+@media (max-width: 1199px) {
+    .btn-sm-smaller {
+        font-size: 0.8rem;
+    }
+}
+
+/* fixed top navbar only on medium and up */
+@media (min-width: 992px) {
+    .fixed-top-desktop-only {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+    }
+
+    .header-container {
+        padding-top: 7em;
+    }
+}
+
+/* pad the top a bit when navbar is collapsed on mobile */
+@media (max-width: 991px) {
+    .header-container {
+        padding-top: 7em;
+    }
+}

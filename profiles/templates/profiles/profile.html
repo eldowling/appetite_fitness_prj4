@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'profile/css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 
 {% block page_header %}
@@ -16,73 +16,87 @@
 {% block content %}
     
     <div class="container-fluid">
-        <div class="row pb-5">
-            <div class="col text-center mt-5">
-                <h2 class="logo-font text-primary">My Profile</h2>
+        <form class="mt-3" action="{% url 'profile' %}" method="POST" id="profile-update-form">
+            {% csrf_token %}
+            <div class="row pb-5">
+                <div class="col text-center mt-5">
+                    <h2 class="logo-font text-primary">My Profile</h2>
+                </div>
             </div>
-        </div>        
-        <div class="row">
-            <div class="col-sm-12 col-lg-4">
-                <div class="card border-success my-1" >
-                    <div class="card-header">Default Delivery Information</div>
-                    <div class="card-body">
-                        <form class="mt-3" action="{% url 'profile' %}" method="POST" id="profile-update-form">
-                            {% csrf_token %}
-                            {{ form|crispy }}
-                            <button class="btn btn-primary float-right">Update Information</button>
-                        </form>
+        
+            <div class="row">
+                <div class="col-sm-8 col-lg-6 offset-sm-2 offset-lg-3">
+                    <div class="card border-success my-1" >
+                        <div class="card-header">User Details:</div>
+                        <div class="card-body">
+                            {{ user_form|crispy }}
+                            <button class="btn btn-primary float-right">Update</button>
+                        </div>
                     </div>
                 </div>
             </div>        
-            <div class="col-sm-12 col-lg-8">
-                <div class="card border-success my-1 ">
-                    <div class="card-header">Order History</div>
-                    <div class="card-body">
-                        <div class="table order-history">
-                            <table class="table table-bordered ">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Order No.</th>
-                                        <th>Date</th>
-                                        <th>Items</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for order in orders %}
+            <div class="row">
+                <div class="col-sm-12 col-lg-4">
+                    <div class="card border-success my-1" >
+                        <div class="card-header">Default Delivery Information</div>
+                        <div class="card-body">
+                            
+                                {{ profile_form|crispy }}
+                                <button class="btn btn-primary float-right">Update Information</button>
+                            
+                        </div>
+                    </div>
+                </div>      
+                <div class="col-sm-12 col-lg-8">
+                    <div class="card border-success my-1 ">
+                        <div class="card-header">Order History</div>
+                        <div class="card-body">
+                            <div class="table-responsive order-history">
+                                <table class="table table-bordered ">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <td>
-                                                <a href="{% url 'order_history' order.order_number %}"
-                                                title="{{ order.order_number }}">
-                                                {{ order.order_number|truncatechars:6 }}</a>
-                                            </td>
-                                            <td>{{ order.date }}</td>
-                                            <td>
-                                                <ul class="list-unstyled">
-                                                    {% for item in order.lineitems.all %}
-                                                        <li class="small">
-                                                            {{ item.product.name }} -
-                                                            {% if item.product_subscription.subscription_type.name is not null and item.product_subscription.subscription_type.name != 'None' %} 
-                                                                Subscription: {{ item.product_subscription.subscription_type.name }}
-                                                            {% endif %}
-                                                            {% if item.product_size.name is not null %} 
-                                                                Size: {{ item.product_size.name }}
-                                                            {% endif %} x {{ item.quantity }}
-                                                            Subtotal: €{{ item.lineitem_total }}
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </td>
-                                            <td>{{ order.grand_total }}</td>
+                                            <th>Order No.</th>
+                                            <th>Date</th>
+                                            <th>Items</th>
+                                            <th>Total</th>
                                         </tr>
-                                    {% endfor %}                                        
-                                </tbody>
-                            </table>
-                        </div>                            
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'order_history' order.order_number %}"
+                                                    title="{{ order.order_number }}">
+                                                    {{ order.order_number|truncatechars:6 }}</a>
+                                                </td>
+                                                <td>{{ order.date }}</td>
+                                                <td>
+                                                    <ul class="list-unstyled">
+                                                        {% for item in order.lineitems.all %}
+                                                            <li class="small">
+                                                                {{ item.product.name }} -
+                                                                {% if item.product_subscription.subscription_type.name is not null and item.product_subscription.subscription_type.name != 'None' %} 
+                                                                    Subscription: {{ item.product_subscription.subscription_type.name }}
+                                                                {% endif %}
+                                                                {% if item.product_size.name is not null %} 
+                                                                    Size: {{ item.product_size.name }}
+                                                                {% endif %} x {{ item.quantity }}
+                                                                Subtotal: €{{ item.lineitem_total }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </td>
+                                                <td>{{ order.grand_total }}</td>
+                                            </tr>
+                                        {% endfor %}                                        
+                                    </tbody>
+                                </table>
+                            </div>                            
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form> 
     </div>
 {% endblock %}
 

@@ -14,7 +14,7 @@ def view_basket(request):
 
 def add_to_basket(request, item_id):
     """ Add a quantity of the specified product to the shopping basket """
-
+    print(request.POST)
     product = get_object_or_404(Product, pk=item_id)
     subscription_size = None
     quantity = int(request.POST.get('quantity'))
@@ -24,50 +24,64 @@ def add_to_basket(request, item_id):
     print('-----form items')
     print('qty, redir_url, selected_sub_id', quantity, redirect_url, subs_size)
 
-    if request.POST:
+    if request.method == 'POST':
         basket = request.session.get('basket', {})
-        if subs_size != 'None' and product.has_sizes:       # Clothing item with only sizes
+        if subs_size != 'None' and product.has_sizes:       
+            # Clothing item with only sizes
+            print('Inside 1st has sizes')
             if item_id in list(basket.keys()):
+                print('item in basket - has sizes')
                 if subs_size in basket[item_id]['items_by_size'].keys():
+                    print('sub size in items_by_size, updating quantity')
                     basket[item_id]['items_by_size'][subs_size] += quantity
                     messages.success(request,
                                     (f'Updated size {subs_size.upper()} '
                                     f'{product.name} quantity to '
                                     f'{basket[item_id]["items_by_size"][subs_size]}'))
                 else:
+                    print('Item in basket but size wasnt - adding size/qty')
                     basket[item_id]['items_by_size'][subs_size] = quantity
                     messages.success(request,
                                     (f'Added size {subs_size.upper()} '
                                     f'{product.name} to your basket'))
             else:
+                print('Item wasnt in basket - adding item/size/qty')
                 basket[item_id] = {'items_by_size': {subs_size: quantity}}
                 messages.success(request,
                                 (f'Added size {subs_size.upper()} '
                                 f'{product.name} to your basket'))
-        else:                                             # Other items with subscriptions incl. Accessories
+        else:
+            # Other items with subscriptions incl. Accessories
             if item_id in list(basket.keys()):
+                print('Item is in basket - subscription')
                 if subs_size in basket[item_id]['item_subscription'].keys():
+                    print('subscription is in basket for this item - update quantity: subs_id', subs_size)
                     basket[item_id]['item_subscription'][subs_size] += quantity
                     if subs_size != 'None':
                         messages.success(request,
                                         (f'Updated subscription {subs_size} '
                                         f'{product.name} quantity to '
                                         f'{basket[item_id]["item_subscription"][subs_size]}'))
-                    else: # for items without a size or subscription (such as accessories)
+                    else: 
+                        # for items without a size or subscription (such as accessories)
                         messages.success(request,
                                         (f'Updated {product.name} quantity to '
                                         f'{basket[item_id]["item_subscription"][subs_size]}'))     #update this
                 else:
+                    print('Added new item/subs/qty to basket - subs_id', subs_size)
                     basket[item_id]['item_subscription'][subs_size] = quantity
                     if subs_size != 'None':
                         messages.success(request,
                                         (f'Added subscription {subs_size} '
                                         f'{product.name} to your basket'))
-                    else: # for items without a size or subscription (such as accessories)
+                    else: 
+                        # for items without a size or subscription (such as accessories)
                         messages.success(request,
                                         (f'Added subscription {subs_size} '     #update this
                                         f'{product.name} to your basket'))
             else:
+                print('Adding new item /subscription/ qty')
+                print('item_id, subscription, qty:', item_id, subs_size, quantity)
                 basket[item_id] = {'item_subscription': {subs_size: quantity}}
                 if subs_size != 'None':
                     messages.success(request,
@@ -81,6 +95,7 @@ def add_to_basket(request, item_id):
 
         request.session['basket'] = basket
         return redirect(redirect_url)
+
 
 def adjust_basket(request, item_id):
     """Adjust the quantity of the specified product to the specified amount"""
@@ -126,6 +141,7 @@ def adjust_basket(request, item_id):
 
     request.session['basket'] = basket
     return redirect(reverse('view_basket'))
+
 
 def remove_from_basket(request, item_id):
     """Remove the item from the basket"""
