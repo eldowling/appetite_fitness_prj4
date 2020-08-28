@@ -69,19 +69,22 @@
                                                     title="{{ order.order_number }}">
                                                     {{ order.order_number|truncatechars:6 }}</a>
                                                 </td>
-                                                <td>{{ order.date }}</td>
+                                                <td>{{ order.date|date:'d-m-Y H:i' }}</td>
                                                 <td>
-                                                    <ul class="list-unstyled">
+                                                    <ul class="pl-1">
                                                         {% for item in order.lineitems.all %}
                                                             <li class="small">
-                                                                {{ item.product.name }} -
+                                                                <strong>{{ item.product.name }}</strong>
                                                                 {% if item.product_subscription.subscription_type.name is not null and item.product_subscription.subscription_type.name != 'None' %} 
-                                                                    Subscription: {{ item.product_subscription.subscription_type.name }}
+                                                                    <em>Subscription:</em> {{ item.product_subscription.subscription_type.name }}
                                                                 {% endif %}
                                                                 {% if item.product_size.name is not null %} 
-                                                                    Size: {{ item.product_size.name }}
-                                                                {% endif %} x {{ item.quantity }}
-                                                                Subtotal: €{{ item.lineitem_total }}
+                                                                    <em>Size:</em> {{ item.product_size.name }}
+                                                                {% endif %} 
+                                                                {% if item.product.colour is not null and item.product.colour != 'none' %} 
+                                                                    &nbsp; <em>Colour:</em> {{ item.product.colour|title }}
+                                                                {% endif %} x {{ item.quantity }} 
+                                                                    &nbsp; &nbsp;<em>Subtotal:</em> €{{ item.lineitem_total }}
                                                             </li>
                                                         {% endfor %}
                                                     </ul>

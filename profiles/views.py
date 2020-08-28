@@ -26,7 +26,7 @@ def profile(request):
     else:
         user_form = UserForm(instance=request.user)
         profile_form = UserProfileForm(instance=profile)
-    orders = profile.orders.all()
+    orders = profile.orders.all().order_by('-date')
 
     template = 'profiles/profile.html'
     context = {
