@@ -85,6 +85,11 @@ a.subcat-badge > span.badge:hover {
     overflow-y: auto;
 }
 
+#add-product-form .form-control {
+    color: #2C3E50;
+    border: 1px solid #2C3E50;
+}
+
 
 /* -------------------------------- Media Queries */
 
