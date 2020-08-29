@@ -21,6 +21,7 @@ class ProductAdmin(admin.ModelAdmin):
 class Product_SubscriptionAdmin(admin.ModelAdmin):
     list_display = (
         'code',
+        'name',
         'subscription_type',
         'size',
         'price',

@@ -72,7 +72,7 @@ class Product(models.Model):
                                  on_delete=models.SET_NULL)
     subcategory = models.ForeignKey('Subcategory', null=True, blank=True,
                                  on_delete=models.SET_NULL)
-    code = models.CharField(max_length=30, default = uuid.uuid4, null=False, blank=False, unique=True)
+    code = models.CharField(max_length=40, default = uuid.uuid4, null=False, blank=False, unique=True)
     name = models.CharField(max_length=254)
     description = models.TextField()
     subscription = models.BooleanField(default=False, null=True, blank=True)
@@ -90,7 +90,8 @@ class Product(models.Model):
 
 class Product_Subscription(models.Model):
 
-    code = models.CharField(max_length=20, default = uuid.uuid4, null=False, blank=False, unique=True)
+    code = models.CharField(max_length=40, default = uuid.uuid4, null=False, blank=False, unique=True)
+    name = models.CharField(max_length=254)
     subscription_type = models.ForeignKey('Subscription_Type', null=True, blank=True,
                                  on_delete=models.SET_NULL)
     size = models.ForeignKey('Sizes', null=True, blank=True,

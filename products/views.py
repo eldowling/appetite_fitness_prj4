@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.db.models.functions import Lower
 from django.contrib.auth.decorators import login_required
 from .models import Product, Subcategory, Sizes, Subscription_Type, Product_Subscription, Subscriptions
-from .forms import ProductForm
+from .forms import ProductForm, ProductSubsForm, SubscriptionsForm
 
 # Create your views here.
 def all_products(request):
@@ -102,18 +102,83 @@ def add_product(request):
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            product = form.save()
-            messages.success(request, 'The product has been added successfully')
-            return redirect(reverse('product_detail', args=[product.id]))
+        subscription = request.POST.get('subscription')
+        has_sizes = request.POST.get('has_sizes')
+        if subscription and has_sizes:
+            messages.warning(request, 
+                            ('A product can only have a Subscription or a Size. '
+                              'Please review your selection and change one option.'))
+            form = ProductForm()
         else:
-            messages.error(request,
-                           ('Failed to add product. '
-                            'Please ensure the form is valid.'))
+            if form.is_valid():
+                product = form.save()
+                messages.success(request, 'The product has been added successfully')
+                return redirect(reverse('product_detail', args=[product.id]))
+            else:
+                messages.error(request,
+                            ('Failed to add product. '
+                                'Please ensure the form is valid.'))
     else:
         form = ProductForm()
 
     template = 'products/add_product.html'
+    context = {
+        'form': form,
+    }
+
+    return render(request, template, context)
+
+
+@login_required
+def add_product_subs(request):
+    """ Add a product subscription for all products """
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can access this.')
+        return redirect(reverse('home'))
+
+    if request.method == 'POST':
+        form = ProductSubsForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'The product subscription has been added successfully')
+            return redirect(reverse('products'))
+        else:
+            messages.error(request,
+                           ('Failed to add product subscription. '
+                            'Please ensure the form is valid.'))
+    else:
+        form = ProductSubsForm()
+
+    template = 'products/add_product_subs.html'
+    context = {
+        'form': form,
+    }
+
+    return render(request, template, context)
+
+
+@login_required
+def join_product_and_subs(request):
+    """ Add a product and product subscription join for Many to Many link """
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can access this.')
+        return redirect(reverse('home'))
+    # product = None
+    if request.method == 'POST':
+        form = SubscriptionsForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save()
+            messages.success(request, 'The product / subscription join has been successfully created')
+            return redirect(reverse('product_detail', args=[product.id]))
+        else:
+            messages.error(request,
+                           ('Failed to add product / subscription join. '
+                            'Please ensure the form is valid.'))
+    else:
+        # product = Product.objects.filter(pk=product_id)
+        form = SubscriptionsForm()
+
+    template = 'products/add_subs_join.html'
     context = {
         'form': form,
     }
