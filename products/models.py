@@ -90,7 +90,7 @@ class Product(models.Model):
 
 class Product_Subscription(models.Model):
 
-    code = models.CharField(max_length=40, default = uuid.uuid4, null=False, blank=False, unique=True)
+    code = models.CharField(max_length=40, default=uuid.uuid4, null=False, blank=False, unique=True)
     name = models.CharField(max_length=254)
     subscription_type = models.ForeignKey('Subscription_Type', null=True, blank=True,
                                  on_delete=models.SET_NULL)
@@ -113,7 +113,7 @@ class Subscriptions(models.Model):
     class Meta:
         verbose_name_plural = 'Subscriptions'
 
-    code = models.CharField(max_length=20, null=False, blank=False, unique=True)
+    code = models.CharField(max_length=40, default=uuid.uuid4, null=False, blank=False, unique=True)
     product = models.ForeignKey('Product', null=True, blank=True,
                                  on_delete=models.SET_NULL)
     product_sub = models.ForeignKey('Product_Subscription', null=True, blank=True,

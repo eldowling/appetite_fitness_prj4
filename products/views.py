@@ -104,7 +104,7 @@ def add_product(request):
         form = ProductForm(request.POST, request.FILES)
         subscription = request.POST.get('subscription')
         has_sizes = request.POST.get('has_sizes')
-        if subscription and has_sizes:
+        if subscription == 'true' and has_sizes == 'true':
             messages.warning(request, 
                             ('A product can only have a Subscription or a Size. '
                               'Please review your selection and change one option.'))
@@ -158,29 +158,85 @@ def add_product_subs(request):
 
 
 @login_required
-def join_product_and_subs(request):
+def join_product_and_subs(request, product_id):
     """ Add a product and product subscription join for Many to Many link """
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can access this.')
         return redirect(reverse('home'))
-    # product = None
+    
+    product = get_object_or_404(Product, pk=product_id)
     if request.method == 'POST':
         form = SubscriptionsForm(request.POST, request.FILES)
+        product = int(request.POST.get('product'))
+        print('product:', product)
         if form.is_valid():
-            product = form.save()
+            form.save()
             messages.success(request, 'The product / subscription join has been successfully created')
-            return redirect(reverse('product_detail', args=[product.id]))
+            return redirect(reverse('product_detail', args=[product]))
         else:
             messages.error(request,
                            ('Failed to add product / subscription join. '
                             'Please ensure the form is valid.'))
     else:
-        # product = Product.objects.filter(pk=product_id)
         form = SubscriptionsForm()
 
     template = 'products/add_subs_join.html'
     context = {
         'form': form,
+        'product': product,
     }
 
     return render(request, template, context)
+
+
+@login_required
+def edit_product(request, product_id):
+    """ Edit a product in the store """
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can access this.')
+        return redirect(reverse('home'))
+
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        subscription = request.POST.get('subscription')
+        has_sizes = request.POST.get('has_sizes')
+        print('subscription', subscription)
+        if subscription == 'true' and has_sizes == 'true':
+            messages.warning(request, 
+                            ('A product can only have a Subscription or a Size. '
+                              'Please review your selection and change one option.'))
+            # form = ProductForm(instance=product)
+        else:
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Successfully updated product!')
+                return redirect(reverse('product_detail', args=[product.id]))
+            else:
+                messages.error(request,
+                            ('Failed to update product. '
+                                'Please ensure the form is valid.'))
+    else:
+        form = ProductForm(instance=product)
+        messages.info(request, f'You are editing {product.name}')
+
+    template = 'products/edit_product.html'
+    context = {
+        'form': form,
+        'product': product,
+    }
+
+    return render(request, template, context)
+
+
+@login_required
+def delete_product(request, product_id):
+    """ Delete a product from the store """
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can access this.')
+        return redirect(reverse('home'))
+
+    product = get_object_or_404(Product, pk=product_id)
+    product.delete()
+    messages.success(request, 'Product deleted!')
+    return redirect(reverse('products'))

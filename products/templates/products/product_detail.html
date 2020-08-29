@@ -71,6 +71,14 @@
                             {% else %}
                                 <small class="text-warning">No Rating</small>
                             {% endif %}
+                            {% if request.user.is_superuser %}
+                                <div class="text-right">
+                                    <small>
+                                        <a class="text-info" href="{% url 'edit_product' product.id %}">Edit</a> | 
+                                        <a class="text-danger" href="{% url 'delete_product' product.id %}">Delete</a>
+                                    </small>
+                                </div>
+                            {% endif %}
                         </fieldset>                            
                     
                         <fieldset>

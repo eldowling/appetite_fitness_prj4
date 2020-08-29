@@ -85,9 +85,16 @@ a.subcat-badge > span.badge:hover {
     overflow-y: auto;
 }
 
-#add-product-form .form-control {
-    color: #2C3E50;
+#add-product-form, 
+#add-product-subs-form,
+#add-subs-join-form,
+#edit-product-form .form-control {
+    color: rgb(26, 39, 53);
     border: 1px solid #2C3E50;
+}
+
+.maintenance-extra {
+    max-height: 600px;
 }
 
 
