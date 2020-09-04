@@ -25,8 +25,15 @@
                     <div class="card border-success py-2 px-2 mb-3">
                         {% csrf_token %}
                         {% for field in form %}
+                            {% if field.name == 'product_sub' %}
+                                    Product Subscriptions *<small><a class="center" href="{% url 'add_product_subs' %}">Add</a></small>                                    
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editProdSubModal">
+                                        Edit
+                                    </button>
+                                {% endif %}
                             {% if field.name != 'image' %}
                                 {{ field | as_crispy_field }}
+                                
                             {% else %}
                                 {{ field }}
                             {% endif %}
@@ -39,28 +46,31 @@
                 </form>
             </div>
             <div class="col-12 col-md-6">
-                <div class="card border-success py-3 px-2 mb-3 h-100 maintenance-extra">
-                    <div>
-                        <h5 class="text-center">Maintaining Product Subscriptions</h5>
-                        <hr class="w-50 center">
-                        <p>Select this option to maintain the list of Product Subscriptions, 
-                            this option is to set the price and other options related to a particular subscription for a product</p>
-                        <div class="text-center">
-                            <a class="btn btn-outline-primary rounded-1 center" href="{% url 'add_product_subs' %}">Product Subscriptions</a>
-                        </div>
-                    </div>
-                    <div class="mt-5">
-                        <h5 class="text-center">Linking Products and Subscriptions</h5>
-                        <hr class="w-50 center">
-                        <p>Select this option to create a link between Products and Product Subscriptions / Sizes, 
-                            this will a subscription or size to be selected for a product</p>
-                        <div class="text-center">
-                            <a class="btn btn-outline-success rounded-1" href="{% url 'join_product_and_subs' %}">Link Product / Subscriptions</a>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editProdSubModal" tabindex="-1" role="dialog" aria-labelledby="editProdSubModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="editProdSubModalLabel">Edit Product Subscription</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Select a product subscription to edit:</p>
+            {{form.product_sub}}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Edit Subscription</button>
+        </div>
+        </div>
+    </div>
     </div>
 {% endblock %}
 
