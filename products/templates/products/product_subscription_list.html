@@ -23,7 +23,7 @@
             <div class="col-12">
                 {% if object_list %}
                 <div class="table-responsive">
-                    <table class="table">
+                    <table id="prod_sub_table" class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th>Code</th>
@@ -54,4 +54,16 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function () {
+            $('#prod_sub_table').DataTable({
+                "pagingType": "first_last_numbers"
+            });
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
 {% endblock %}

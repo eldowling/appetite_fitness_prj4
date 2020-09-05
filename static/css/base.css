@@ -90,6 +90,10 @@ a.subcat-badge > span.badge:hover {
     overflow-y: auto;
 }
 
+.table-responsive {
+    overflow-x: auto;
+}
+
 #add-product-form, 
 /*#add-product-subs-form,*/
 #edit-product-form .form-control {
