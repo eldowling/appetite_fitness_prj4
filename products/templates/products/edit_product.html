@@ -20,12 +20,19 @@
         </div>
 
         <div class="row">
-            <div class="col-12 col-md-6 mb-5">
+            <div class="col-12 col-md-6 offset-md-3">
                 <form method="POST" id="edit-product-form" action="{% url 'edit_product' product.id %}" class="form mb-2" enctype="multipart/form-data">
                     <div class="card border-success py-2 px-2 mb-3">
                         {% csrf_token %}
                         {% for field in form %}
                             {% if field.name != 'image' %}
+                                {% if field.name == 'product_sub' %}
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">Product Subscriptions *</li>
+                                        <li class="list-inline-item"><small><a class="center" href="{% url 'add_product_subs' %}">Add</a></small></li>
+                                        <li class="list-inline-item"><small><a class="center" href="{% url 'prod_subs_list' %}">Edit</a></small></li>
+                                    </ul>                             
+                                {% endif %}
                                 {{ field | as_crispy_field }}
                             {% else %}
                                 {{ field }}
@@ -37,19 +44,6 @@
                         <button class="btn btn-primary rounded-1" type="submit">Update Product</button>
                     </div>
                 </form>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="card border-success py-3 px-2 mb-3 h-100 maintenance-extra">
-                    <div>
-                        <h5 class="text-center">Maintaining Product Subscriptions</h5>
-                        <hr class="w-50 center">
-                        <p>Select this option to maintain the list of Product Subscriptions, 
-                            this option is to set the price and other options related to a particular subscription for a product</p>
-                        <div class="text-center">
-                            <a class="btn btn-outline-primary rounded-1 center" href="{% url 'add_product_subs' %}">Product Subscriptions</a>
-                        </div>
-                    </div>                    
-                </div>
             </div>
         </div>
     </div>

@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.contrib.auth.decorators import login_required
-from .models import (Product, Subcategory, Sizes, Subscription_Type, 
-Product_Subscription, Subscriptions)
+from django.views.generic import ListView
+from .models import Product, Subcategory, Sizes, Subscription_Type, Product_Subscription, Subscriptions
 from .forms import ProductForm, ProductSubsForm
 
 # Create your views here.
@@ -95,6 +95,11 @@ def product_detail(request, product_id):
     return render(request, 'products/product_detail.html', context)
 
 @login_required
+def product_mgt(request):
+    """Display Product Management Home Page"""
+    return render(request, 'products/product_management.html')
+
+@login_required
 def add_product(request):
     """ Add a product to the store """
     if not request.user.is_superuser:
@@ -128,7 +133,6 @@ def add_product(request):
     }
 
     return render(request, template, context)
-
 
 @login_required
 def edit_product(request, product_id):
@@ -209,15 +213,24 @@ def add_product_subs(request):
 
     return render(request, template, context)
 
+
+class Product_Subs_List(ListView):
+    """Create a listview of all Product Subscriptions"""
+    template_name = 'products/product_subscription_list.html'
+    queryset = Product_Subscription.objects.all()
+
+
 @login_required
-def edit_product_subs(request):
-    """ Add a product subscription for all products """
+def edit_product_subs(request, product_subs_id):
+    """ Update a product subscription for all products """
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can access this.')
         return redirect(reverse('home'))
 
+    product_subs = get_object_or_404(Product_Subscription, pk=product_subs_id)
+    print('---product subs', product_subs)
     if request.method == 'POST':
-        form = ProductSubsForm(request.POST, request.FILES)
+        form = ProductSubsForm(request.POST, request.FILES, instance=product_subs)
         if form.is_valid():
             form.save()
             messages.success(request, 'The product subscription has been successfully updated')
@@ -227,11 +240,12 @@ def edit_product_subs(request):
                            ('Failed to update product subscription. '
                             'Please ensure the form is valid.'))
     else:
-        form = ProductSubsForm()
+        form = ProductSubsForm(instance=product_subs)
 
     template = 'products/edit_product_subs.html'
     context = {
         'form': form,
+        'product_subs': product_subs,
     }
 
     return render(request, template, context)

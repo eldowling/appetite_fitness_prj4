@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container-fluid">
+        <div class="row pb-5">
+            <div class="col text-center mt-5">
+                <h2 class="logo-font mb-4">Product Management - Home</h2>
+                <p>Manage the Products and Product Subscriptions lists</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-4 mb-3 text-center">
+                <button type="button" class="btn btn-outline-secondary btn-lg"><a class="center" href="{% url 'add_product' %}">Add Product</a></button>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 mb-3 text-center">
+                <button type="button" class="btn btn-outline-secondary btn-lg"><a class="center" href="{% url 'add_product_subs' %}">Add Product Subscription</a></button>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 offset-md-3 offset-lg-0 mb-3 text-center">
+                <button type="button" class="btn btn-outline-secondary btn-lg"><a class="center" href="{% url 'prod_subs_list' %}">View / Edit Product Subscriptions</a></button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container-fluid">
+        <div class="row pb-5">
+            <div class="col text-center mt-5">
+                <h2 class="logo-font mb-4">Product Management</h2>
+                <h4 class="logo-font text-primary">Product Subscriptions List</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {% if object_list %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Subscription Type</th>
+                                <th>Size</th>
+                                <th>Price</th>
+                                <th>Qty. Available</th>
+                                <th>Delivery Charge</th>
+                            </tr>
+                        </thead>
+                        {% for prod_sub in object_list %}
+                        <tr>
+                            <td>{{ prod_sub.code }}</td>
+                            <td><a href="{% url 'edit_product_subs' prod_sub.id %}">{{ prod_sub.name }}</a></td>
+                            <td>{{ prod_sub.subscription_type }}</td>
+                            <td>{{ prod_sub.size }}</td>
+                            <td>{{ prod_sub.price }}</td>
+                            <td>{{ prod_sub.quantity_available }}</td>
+                            <td>{{ prod_sub.delivery_charge }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% else %}
+                    <p>There are no product subscriptions.</p>
+                {% endif %}   
+            </div>
+        </div>
+    </div>
+{% endblock %}
