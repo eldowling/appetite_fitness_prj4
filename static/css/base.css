@@ -26,11 +26,6 @@ html {
     width: fit-content;
 }
 
-.btn-black {
-    background: black;
-    color: white;
-}
-
 .tab-container{
     /*min-height: 14em;*/
     padding-bottom: 2em;
@@ -124,12 +119,12 @@ a.subcat-badge > span.badge:hover {
 
 .custom-checkbox .custom-control-label::before {
     border-radius: 0;
-    border-color: #dc3545;
+    border-color: #3498DB;
 }
 
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    background-color: #dc3545;
-    border-color: #dc3545;
+    background-color: #3498DB;
+    border-color: #3498DB;
     border-radius: 0;
 }
 

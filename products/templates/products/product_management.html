@@ -20,14 +20,29 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-4 mb-3 text-center">
-                <button type="button" class="btn btn-outline-secondary btn-lg"><a class="center" href="{% url 'add_product' %}">Add Product</a></button>
+            <div class="col text-center mt-5 mb-2">
+                <h5>Products</h5>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 mb-3 text-center">
-                <button type="button" class="btn btn-outline-secondary btn-lg"><a class="center" href="{% url 'add_product_subs' %}">Add Product Subscription</a></button>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-3 offset-lg-3 mb-3 text-center">
+                <a class="center btn btn-outline-secondary btn-lg" href="{% url 'add_product' %}">Add Product</a>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 offset-md-3 offset-lg-0 mb-3 text-center">
-                <button type="button" class="btn btn-outline-secondary btn-lg"><a class="center" href="{% url 'prod_subs_list' %}">View / Edit Product Subscriptions</a></button>
+            <div class="col-sm-12 col-md-6 col-lg-3 mb-3 text-center">
+                <a class="center btn btn-outline-secondary btn-lg" href="{% url 'products_list' %}">View / Edit Products</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center mt-5 mb-2">
+                <h5>Product Subscriptions</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-3 offset-lg-3 mb-3 text-center">
+                <a class="center btn btn-outline-secondary btn-lg" href="{% url 'add_product_subs' %}">Add Product Subscription</a>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3 mb-3 text-center">
+                <a class="center btn btn-outline-secondary btn-lg" href="{% url 'prod_subs_list' %}">View / Edit Product Subscriptions</a>
             </div>
         </div>
     </div>

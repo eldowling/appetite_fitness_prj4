@@ -99,6 +99,13 @@ def product_mgt(request):
     """Display Product Management Home Page"""
     return render(request, 'products/product_management.html')
 
+
+class Products_List(ListView):
+    """Create a listview of all Products"""
+    template_name = 'products/product_list.html'
+    queryset = Product.objects.all()
+
+
 @login_required
 def add_product(request):
     """ Add a product to the store """
@@ -184,7 +191,7 @@ def delete_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     product.delete()
     messages.success(request, 'Product deleted!')
-    return redirect(reverse('products'))
+    return redirect(reverse('products_list'))
 
 @login_required
 def add_product_subs(request):
@@ -198,7 +205,7 @@ def add_product_subs(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'The product subscription has been added successfully')
-            return redirect(reverse('products'))
+            return redirect(reverse('prod_subs_list'))
         else:
             messages.error(request,
                            ('Failed to add product subscription. '
@@ -228,13 +235,12 @@ def edit_product_subs(request, product_subs_id):
         return redirect(reverse('home'))
 
     product_subs = get_object_or_404(Product_Subscription, pk=product_subs_id)
-    print('---product subs', product_subs)
     if request.method == 'POST':
         form = ProductSubsForm(request.POST, request.FILES, instance=product_subs)
         if form.is_valid():
             form.save()
             messages.success(request, 'The product subscription has been successfully updated')
-            return redirect(reverse('products'))
+            return redirect(reverse('prod_subs_list'))
         else:
             messages.error(request,
                            ('Failed to update product subscription. '
@@ -249,3 +255,17 @@ def edit_product_subs(request, product_subs_id):
     }
 
     return render(request, template, context)
+
+
+@login_required
+def delete_product_subs(request, product_sub_id):
+    """ Delete a product from the store """
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can access this.')
+        return redirect(reverse('home'))
+
+    product_sub = get_object_or_404(Product_Subscription, pk=product_sub_id)
+    product_sub.delete()
+    messages.success(request, 'Product Subscription deleted!')
+    return redirect(reverse('prod_subs_list'))
+
