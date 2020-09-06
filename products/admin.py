@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import (Product, Category, Subcategory, Subscription_Type, 
-                    Sizes, Product_Subscription, Subscriptions, Colour)
+from .models import (Product, Category, Subcategory, Subscription_Type,
+                    Sizes, Product_Subscription, Subscriptions, Colour,
+                    Reviews)
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
@@ -70,6 +71,14 @@ class ColourAdmin(admin.ModelAdmin):
         'name',
     )
 
+class ReviewsAdmin(admin.ModelAdmin):
+    list_display = (
+        'product',
+        'title',
+        'user',
+        'created',
+    )
+
 
 # Register your models here.
 admin.site.register(Product, ProductAdmin)
@@ -80,3 +89,4 @@ admin.site.register(Sizes, SizesAdmin)
 admin.site.register(Colour, ColourAdmin)
 admin.site.register(Product_Subscription, Product_SubscriptionAdmin)
 admin.site.register(Subscriptions, SubscriptionsAdmin)
+admin.site.register(Reviews, ReviewsAdmin)

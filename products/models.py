@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from profiles.models import UserProfile
 import uuid
 
 
@@ -109,7 +111,7 @@ class Product_Subscription(models.Model):
         return self.name
 
 class Subscriptions(models.Model):
-    
+
     class Meta:
         verbose_name_plural = 'Subscriptions'
 
@@ -124,3 +126,41 @@ class Subscriptions(models.Model):
 
     def get_name(self):
         return self.name
+
+
+class Reviews(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Reviews'
+
+    product = models.ForeignKey('Product', null=True, blank=True,
+                                 on_delete=models.SET_NULL)
+    title = models.CharField(max_length=254)
+    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
+                                     null=True, blank=True,
+                                     related_name='reviews')
+    full_name = models.CharField(max_length=50, null=False, blank=False)
+    created = models.DateTimeField(editable=False)
+    modified = models.DateTimeField()
+    comment = models.TextField()
+    rating = models.DecimalField(max_digits=2, decimal_places=0, null=True,
+                                 blank=True)
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.created = timezone.now()
+        self.modified = timezone.now()
+        return super(Reviews, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+    def get_product(self):
+        return self.product
+
+    def get_user(self):
+        return self.user
+
+    def get_user_name(self):
+        return self.full_name

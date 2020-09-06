@@ -90,7 +90,7 @@ a.subcat-badge > span.badge:hover {
 }
 
 #add-product-form, 
-/*#add-product-subs-form,*/
+#add-product-subs-form,
 #edit-product-form .form-control {
     color: rgb(26, 39, 53);
     border: 1px solid #2C3E50;
