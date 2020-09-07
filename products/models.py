@@ -1,5 +1,9 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.contenttypes.fields import GenericRelation
+from star_ratings.models import Rating
+
 from profiles.models import UserProfile
 import uuid
 
@@ -79,8 +83,7 @@ class Product(models.Model):
     description = models.TextField()
     subscription = models.BooleanField(default=False, null=True, blank=True)
     product_sub = models.ManyToManyField('Product_Subscription', through='Subscriptions')
-    rating = models.DecimalField(max_digits=6, decimal_places=1, null=True,
-                                 blank=True, default=0)
+    ratings = GenericRelation(Rating, related_query_name='products')
     has_sizes = models.BooleanField(default=False, null=True, blank=True)
     colour = models.ForeignKey('Colour', null=True, blank=True,
                                  on_delete=models.SET_NULL)
@@ -135,7 +138,7 @@ class Reviews(models.Model):
 
     product = models.ForeignKey('Product', null=True, blank=True,
                                  on_delete=models.SET_NULL)
-    title = models.CharField(max_length=254)
+    title = models.CharField(max_length=254, null=False, blank=False)
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,
                                      related_name='reviews')
@@ -143,8 +146,13 @@ class Reviews(models.Model):
     created = models.DateTimeField(editable=False)
     modified = models.DateTimeField()
     comment = models.TextField()
-    rating = models.DecimalField(max_digits=2, decimal_places=0, null=True,
-                                 blank=True)
+    rating = models.IntegerField(
+        default=1,
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0)
+        ]
+     )
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''

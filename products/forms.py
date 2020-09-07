@@ -1,8 +1,9 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from .widgets import CustomClearableFileInput
-from .models import (Product, Category, Subcategory, Colour, 
-                    Product_Subscription, Subscriptions, Subscription_Type, Sizes)
+from .models import (Product, Category, Subcategory, Colour,
+                    Product_Subscription, Subscriptions,
+                    Subscription_Type, Sizes, UserProfile, Reviews)
 
 
 class ProductForm(forms.ModelForm):
@@ -39,7 +40,6 @@ class ProductForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = ('rounded-2')
 
-
 class ProductSubsForm(forms.ModelForm):
 
     class Meta:
@@ -55,5 +55,22 @@ class ProductSubsForm(forms.ModelForm):
 
         self.fields['subscription_type'].choices = subtype_friendly_names
         self.fields['size'].choices = sizes_friendly_names
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = ('rounded-2')
+
+class ReviewsForm(forms.ModelForm):
+
+    class Meta:
+        model = Reviews
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        product = Product.objects.all()
+        product_friendly_names = [(p.id, p.get_name()) for p in product]
+        user = UserProfile.objects.all()
+        # user_friendly_names = [(u.id, u.get_name()) for u in user]
+
+        self.fields['product'].choices = product_friendly_names
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = ('rounded-2')

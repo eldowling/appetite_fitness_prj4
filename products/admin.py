@@ -12,7 +12,6 @@ class ProductAdmin(admin.ModelAdmin):
         'subcategory',
         'subscription',
         'has_sizes',
-        'rating',
         'colour',
         'image',
     )

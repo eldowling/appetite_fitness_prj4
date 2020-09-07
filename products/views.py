@@ -4,7 +4,9 @@ from django.db.models import Q
 from django.db.models.functions import Lower
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
-from .models import Product, Subcategory, Sizes, Subscription_Type, Product_Subscription, Subscriptions
+from .models import (Product, Subcategory, Sizes, Subscription_Type,
+                    Product_Subscription, Subscriptions, Reviews)
+
 from .forms import ProductForm, ProductSubsForm
 
 # Create your views here.
@@ -67,6 +69,7 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     product_subscription = Product_Subscription.objects.filter(product=product)
     prod_sub_count = product_subscription.count()
+    reviews = Reviews.objects.filter(product=product)
     selected_subs_size = None
     sel_product_subscription = None
 
@@ -90,6 +93,7 @@ def product_detail(request, product_id):
         'product_subscription': product_subscription,
         'selected_subs_size': selected_subs_size,
         'sel_product_subscription': sel_product_subscription,
+        'reviews': reviews,
     }
 
     return render(request, 'products/product_detail.html', context)
