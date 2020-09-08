@@ -7,7 +7,7 @@ from django.views.generic import ListView
 from .models import (Product, Subcategory, Sizes, Subscription_Type,
                     Product_Subscription, Subscriptions, Reviews)
 
-from .forms import ProductForm, ProductSubsForm
+from .forms import ProductForm, ProductSubsForm, ReviewsForm
 
 # Create your views here.
 def all_products(request):
@@ -273,3 +273,30 @@ def delete_product_subs(request, product_sub_id):
     messages.success(request, 'Product Subscription deleted!')
     return redirect(reverse('prod_subs_list'))
 
+def add_review(request):
+    """ Add a review and rating for a product """
+    prod_id = 43
+    product = get_object_or_404(Product, pk=prod_id)
+    
+    if request.method == 'POST':
+        form = ReviewsForm(request.POST, request.FILES)
+     
+        if form.is_valid():
+            review = form.save()
+            messages.success(request, 'Your review has been added')
+            #return redirect(reverse('product_detail', args=[product.id]))
+            return redirect(reverse('products'))
+        else:
+            messages.error(request,
+                        ('Failed to add review. '
+                            'Please ensure the form is valid.'))
+    else:
+        form = ReviewsForm()
+
+    template = 'products/add_review.html'
+    context = {
+        'form': form,
+        'product': product,
+    }
+
+    return render(request, template, context)

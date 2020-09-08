@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load ratings %}
 
 {% block page_header %}
     <div class="container header-container">
@@ -67,9 +66,8 @@
                             <input type="hidden" id="has_sizes_val" value="{{ product.has_sizes }}">
                             <p><small class="text-warning"><i class="fas fa-tags mr-1"></i>{{ product.subcategory.name }}</small></p>
 
-                            Ratings val: {{ product.ratings.average }}
-                            {% if product.ratings %}
-                                <small class="text-warning"><i class="fas fa-star mr-1"></i>{{ product.ratings.average }} / 5</small>
+                            {% if product.rating %}
+                                <small class="text-warning"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
                             {% else %}
                                 <small class="text-warning">No Rating</small>
                             {% endif %}

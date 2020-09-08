@@ -1,9 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.contenttypes.fields import GenericRelation
-from star_ratings.models import Rating
-
 from profiles.models import UserProfile
 import uuid
 
@@ -83,7 +80,8 @@ class Product(models.Model):
     description = models.TextField()
     subscription = models.BooleanField(default=False, null=True, blank=True)
     product_sub = models.ManyToManyField('Product_Subscription', through='Subscriptions')
-    ratings = GenericRelation(Rating, related_query_name='products')
+    rating=models.DecimalField(max_digits=2, decimal_places=0, null=True,
+                                 blank=True)
     has_sizes = models.BooleanField(default=False, null=True, blank=True)
     colour = models.ForeignKey('Colour', null=True, blank=True,
                                  on_delete=models.SET_NULL)
@@ -91,6 +89,9 @@ class Product(models.Model):
     image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
+        return self.name
+    
+    def get_name(self):
         return self.name
 
 class Product_Subscription(models.Model):
@@ -142,17 +143,15 @@ class Reviews(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,
                                      related_name='reviews')
-    full_name = models.CharField(max_length=50, null=False, blank=False)
-    created = models.DateTimeField(editable=False)
-    modified = models.DateTimeField()
-    comment = models.TextField()
-    rating = models.IntegerField(
+    user_rating=models.IntegerField(
         default=1,
         validators=[
             MaxValueValidator(5),
             MinValueValidator(0)
         ]
      )
+    created = models.DateTimeField(editable=False)
+    comment = models.TextField()
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
@@ -170,5 +169,3 @@ class Reviews(models.Model):
     def get_user(self):
         return self.user
 
-    def get_user_name(self):
-        return self.full_name
