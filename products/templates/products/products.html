@@ -52,7 +52,7 @@
                 <div class="row">
                     {% for product in products %}
                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                            <div class="card border-secondary mb-3">
+                            <div class="card product-card border-secondary mb-3">
                                 {% if product.image %}
                                 <a href="{% url 'product_detail' product.id %}">
                                     <img class="card-img-top img-fluid text-secondary text-center" src="{{ product.image.url }}" alt="{{ product.name }}">
@@ -87,11 +87,9 @@
                                                 </a>
                                             </p>
                                             {% endif %}
-                                            {% if product.rating %}
-                                                <small class="text-warning"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 10</small>
-                                            {% else %}
-                                                <small class="text-warning">No Rating</small>
-                                            {% endif %}
+                                            <div class="ml-4">
+                                                {% include "products/star-ratings.html" %}
+                                            </div>
                                             {% if request.user.is_superuser %}
                                                 <div class="text-right">
                                                     <small>

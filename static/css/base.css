@@ -63,6 +63,15 @@ a.subcat-badge > span.badge:hover {
     cursor: pointer;
 }
 
+.product-card {
+    min-height: 25rem;
+}
+
+.review-title {
+    font-size: 1rem !important;
+    font-weight: bold;
+}
+
 .message-container {
     position: fixed;
     top: 5em;
@@ -158,11 +167,19 @@ a.subcat-badge > span.badge:hover {
     .header-container {
         padding-top: 7em;
     }
+
+    .product-card {
+        min-height: 25.9rem;
+    }
 }
 
 /* pad the top a bit when navbar is collapsed on mobile */
 @media (max-width: 991px) {
     .header-container {
         padding-top: 7em;
+    }
+
+    .product-card {
+        min-height: 26.4rem;
     }
 }

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -65,13 +67,8 @@
                             <input type="hidden" id="purchase_subs_size_id" name="purchase_subs_size_id" value="{{ selected_subs_size }}">
                             <input type="hidden" id="has_sizes_val" value="{{ product.has_sizes }}">
                             <p><small class="text-warning"><i class="fas fa-tags mr-1"></i>{{ product.subcategory.name }}</small></p>
-
-                            Prod Rating AVG: {{product.get_avg_rating}}
-                            {% if product.rating %}
-                                <small class="text-warning"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
-                            {% else %}
-                                <small class="text-warning">No Rating</small>
-                            {% endif %}
+                            
+                            {% include "products/star-ratings.html" %}
                             {% if request.user.is_superuser %}
                                 <div class="text-right">
                                     <small>
@@ -114,7 +111,7 @@
                             <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
+                            <a class="nav-link " data-toggle="tab" href="#reviews">Reviews</a>
                         </li>
                     </ul>
                     <div id="Descr_Review_Tab" class="tab-content mt-3 tab-container">
@@ -122,31 +119,36 @@
                             <p>{{ product.description }}</p>
                         </div>
                         <div class="tab-pane fade" id="reviews">
-                            <h4>Product Reviews</h4>
+                            <p>Read the reviews for this product from users below:</p><br>
                             {% for review in reviews %}
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-4">
-                                        {{ review.rating }}
-                                        
-                                    </div>
-                                    <div class="col-sm-6 col-md-4">
-                                        By: {{ review.user }}
-                                    </div>
-                                    <div class="col-sm-6 col-md-4">
-                                        {{ review.created }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h5>{{ review.title }}</h5>
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-12">
-                                        Comment{{ review.comment }}
-                                    </div>
-                                </div>
-                                <hr class="w-75">
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Rating</th>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="stars" style="--rating: {{ review.user_rating }};" 
+                                                    aria-label="Rating of this product is {{ review.user_rating }} out of 5.">
+                                                </div>
+                                            </td>
+                                            <td>{{ review.user }}</td>
+                                            <td>{{ review.created|date:'d-m-yy' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3"><p class="review-title">{{ review.title }}</p></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Comment:</th>
+                                            <td colspan="2">{{ review.comment }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             {% endfor %}
                         </div>
                     </div>

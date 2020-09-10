@@ -81,8 +81,6 @@ class Product(models.Model):
     description = models.TextField()
     subscription = models.BooleanField(default=False, null=True, blank=True)
     product_sub = models.ManyToManyField('Product_Subscription', through='Subscriptions')
-    #rating=models.DecimalField(max_digits=2, decimal_places=1, null=True,
-    #                             blank=True)
     has_sizes = models.BooleanField(default=False, null=True, blank=True)
     colour = models.ForeignKey('Colour', null=True, blank=True,
                                  on_delete=models.SET_NULL)
@@ -98,14 +96,16 @@ class Product(models.Model):
     def get_avg_rating(self):
         """Gets the rating from the user reviews of a product to calculate and
            display an average rating for each product"""
+           # This function was created with assistance from Malia Havlicek in Code Institute,
+           # who guided me to learn the aggregate function in Django, and how it can be used
+           # to display an Average from the user_ratings field
         try:
-            #Book.objects.all().aggregate(Avg('price'))
-            ratings = Reviews.objects.all(product=self.pk).aggregate(Avg('user_rating'))
-            #rating = Reviews.user_rating.all(product=self.pk).aggregate(reviews=Avg('user_rating'))
-            #rating = rating['reviews']
+            # Calculate the average rating for the product based on Reviews.user_rating
+            rating = Reviews.objects.filter(product=self.pk).aggregate(Avg('user_rating'))
+            rating = rating['user_rating__avg']
         except:
-            ratings = 0
-        return ratings
+            rating = 0
+        return rating
 
 class Product_Subscription(models.Model):
 
@@ -156,8 +156,10 @@ class Reviews(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,
                                      related_name='reviews')
-    user_rating = models.IntegerField(
+    user_rating = models.DecimalField(
         default=1,
+        max_digits=3,
+        decimal_places=0,
         validators=[
             MaxValueValidator(5),
             MinValueValidator(0)

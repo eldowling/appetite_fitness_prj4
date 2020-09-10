@@ -1,0 +1,45 @@
+/* -------------------------------Star Ratings */
+/*
+This was taken from https://css-tricks.com/five-methods-for-five-star-ratings/
+(https://codepen.io/FredGenkin/pen/eaXYGV - Method 5: Using Unicode symbols)
+to create the star ratings and fill the total number of stars based on the average
+product rating.
+Some changes were made to the colour and height used, as well as changing the css
+to only style the div .stars - changed from using body, so as not to alter the style
+or layout on the rest of the page where the rating stars are being used
+*/
+
+@charset "UTF-8";
+:root {
+  --star-size: 1.3rem;
+  --star-color: rgb(197, 196, 196);
+  --star-background: #F39C12;
+}
+
+.stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: var(--star-size);
+  font-family: Times;
+  line-height: 1;
+}
+.stars::before {
+  content: '★★★★★';
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+div .stars {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3vh;
+}
+
+* {
+  position: relative;
+  box-sizing: border-box;
+}
