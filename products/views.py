@@ -67,6 +67,8 @@ def all_products(request):
 def product_detail(request, product_id):
     """ A view to show a details for a single product"""
     product = get_object_or_404(Product, pk=product_id)
+    product.get_avg_rating()
+    print('product', product.get_avg_rating())
     product_subscription = Product_Subscription.objects.filter(product=product)
     prod_sub_count = product_subscription.count()
     reviews = Reviews.objects.filter(product=product)

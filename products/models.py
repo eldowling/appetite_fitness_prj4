@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 from profiles.models import UserProfile
 import uuid
 
@@ -80,8 +81,8 @@ class Product(models.Model):
     description = models.TextField()
     subscription = models.BooleanField(default=False, null=True, blank=True)
     product_sub = models.ManyToManyField('Product_Subscription', through='Subscriptions')
-    rating=models.DecimalField(max_digits=2, decimal_places=0, null=True,
-                                 blank=True)
+    #rating=models.DecimalField(max_digits=2, decimal_places=1, null=True,
+    #                             blank=True)
     has_sizes = models.BooleanField(default=False, null=True, blank=True)
     colour = models.ForeignKey('Colour', null=True, blank=True,
                                  on_delete=models.SET_NULL)
@@ -93,6 +94,18 @@ class Product(models.Model):
     
     def get_name(self):
         return self.name
+
+    def get_avg_rating(self):
+        """Gets the rating from the user reviews of a product to calculate and
+           display an average rating for each product"""
+        try:
+            #Book.objects.all().aggregate(Avg('price'))
+            ratings = Reviews.objects.all(product=self.pk).aggregate(Avg('user_rating'))
+            #rating = Reviews.user_rating.all(product=self.pk).aggregate(reviews=Avg('user_rating'))
+            #rating = rating['reviews']
+        except:
+            ratings = 0
+        return ratings
 
 class Product_Subscription(models.Model):
 
@@ -143,7 +156,7 @@ class Reviews(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,
                                      related_name='reviews')
-    user_rating=models.IntegerField(
+    user_rating = models.IntegerField(
         default=1,
         validators=[
             MaxValueValidator(5),
