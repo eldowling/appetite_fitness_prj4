@@ -275,25 +275,25 @@ def delete_product_subs(request, product_sub_id):
     messages.success(request, 'Product Subscription deleted!')
     return redirect(reverse('prod_subs_list'))
 
-def add_review(request):
+def add_review(request, product_id):
     """ Add a review and rating for a product """
-    prod_id = 43
-    product = get_object_or_404(Product, pk=prod_id)
+    # prod_id = 43
+    product = get_object_or_404(Product, pk=product_id)
     
     if request.method == 'POST':
         form = ReviewsForm(request.POST, request.FILES)
      
         if form.is_valid():
-            review = form.save()
+            form.save()
             messages.success(request, 'Your review has been added')
-            #return redirect(reverse('product_detail', args=[product.id]))
-            return redirect(reverse('products'))
+            return redirect(reverse('product_detail', args=[product.id]))
+            # return redirect(reverse('products'))
         else:
             messages.error(request,
                         ('Failed to add review. '
                             'Please ensure the form is valid.'))
     else:
-        form = ReviewsForm()
+        form = ReviewsForm(instance=product)
 
     template = 'products/add_review.html'
     context = {

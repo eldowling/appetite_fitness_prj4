@@ -137,7 +137,7 @@
                                                     aria-label="Rating of this product is {{ review.user_rating }} out of 5.">
                                                 </div>
                                             </td>
-                                            <td>{{ review.user }}</td>
+                                            <td>{{ review.user_profile.user.get_full_name }}</td>
                                             <td>{{ review.created|date:'d-m-yy' }}</td>
                                         </tr>
                                         <tr>

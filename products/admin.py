@@ -74,7 +74,7 @@ class ReviewsAdmin(admin.ModelAdmin):
     list_display = (
         'product',
         'title',
-        'user',
+        'user_profile',
         'user_rating',
         'created',
     )

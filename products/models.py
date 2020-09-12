@@ -153,7 +153,7 @@ class Reviews(models.Model):
     product = models.ForeignKey('Product', null=True, blank=True,
                                  on_delete=models.SET_NULL)
     title = models.CharField(max_length=254, null=False, blank=False)
-    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,
                                      related_name='reviews')
     user_rating = models.DecimalField(
