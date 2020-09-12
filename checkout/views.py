@@ -39,8 +39,7 @@ def checkout(request):
 
     if request.method == 'POST':
         basket = request.session.get('basket', {})
-        print ('---basket', basket)
-
+        
         form_data = {
             'full_name': request.POST['full_name'],
             'email': request.POST['email'],

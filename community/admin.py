@@ -7,7 +7,6 @@ class DiscussionsAdmin(admin.ModelAdmin):
         'user_profile',
         'product',
         'topic',
-        'image',
         'created',
         'modified',
     )
@@ -24,3 +23,7 @@ class Discussion_CommentsAdmin(admin.ModelAdmin):
     )
 
     ordering = ('created',)
+
+
+admin.site.register(Discussions, DiscussionsAdmin)
+admin.site.register(Discussion_Comments, Discussion_CommentsAdmin)

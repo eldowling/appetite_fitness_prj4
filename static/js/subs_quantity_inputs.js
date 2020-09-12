@@ -23,7 +23,6 @@ $('.submit-button').click(function(e) {
         //If size or subscription hasn't been selected - display message
         document.getElementById("submit-error").innerHTML = submit_msg;
     } else {
-            console.log("starting the post to add_to_basket....");
             $.post(url, data)
             .done(function() {
                 form.submit()

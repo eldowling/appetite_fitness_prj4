@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container-fluid">
+        <div class="row pb-5">
+            <div class="col text-center mt-5">
+                <h4 class="logo-font text-primary">Community Discussions</h4>
+            </div>
+        </div>
+        <div class="row pb-5">
+            <div class="col-sm-12 col-lg-10 text-right">
+                <a class="btn btn-success btn-sm rounded-1" href="{% url 'add_discussion' %}">New Topic</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {% if object_list %}
+                <div class="table-responsive">
+                    <table id="discussions_table" class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Product</th>
+                                <th>Discussion Topic</th>
+                                <th>Added By</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
+                        {% for discussion in object_list %}
+                        <tr>
+                            <td>{{ discussion.product }}</td>
+                            <td><a href="{% url 'view_topic' discussion.id %}">{{ discussion.topic }}</a></td>
+                            <td>{{ discussion.get_name }}</td>
+                            <td>{{ discussion.created }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% else %}
+                    <p>There are no discussions.</p>
+                {% endif %}   
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function () {
+            $('#discussions_table').DataTable({
+                "pagingType": "first_last_numbers"
+            });
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+{% endblock %}

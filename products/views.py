@@ -275,14 +275,15 @@ def delete_product_subs(request, product_sub_id):
     messages.success(request, 'Product Subscription deleted!')
     return redirect(reverse('prod_subs_list'))
 
+
+@login_required
 def add_review(request, product_id):
     """ Add a review and rating for a product """
-    # prod_id = 43
     product = get_object_or_404(Product, pk=product_id)
-    
+
     if request.method == 'POST':
         form = ReviewsForm(request.POST, request.FILES)
-     
+
         if form.is_valid():
             form.save()
             messages.success(request, 'Your review has been added')

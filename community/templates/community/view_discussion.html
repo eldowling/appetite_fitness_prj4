@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container-fluid mt-5 ml-2">
+        <div class="col-12 text-center">
+                <h5>{{ discussion.topic }}</h5>
+                <br>
+            </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-8 offset-md-2">
+                <div class="table-responsive">
+                    <table id="discussions_table" class="table table-sm">
+                        <thead>
+                            <tr class="table-dark">
+                                <th>{{ discussion.user_profile.user.get_full_name }}</th>
+                                <th>{{ discussion.created|date:'d-m-yy H:m' }}</th>
+                                <th> reply #</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td></td>
+                            <td colspan="2">{{ discussion.disc_topic_text|linebreaks }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-9 col-lg-8 offset-md-1 offset-lg-2">
+                <!--ListView With comments and add button-->
+            </div>
+        </div>
+
+        <!--ADD COMMENT MODAL FORM-->
+    </div>
+{% endblock %}

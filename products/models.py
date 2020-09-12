@@ -181,6 +181,8 @@ class Reviews(models.Model):
     def get_product(self):
         return self.product
 
-    def get_user(self):
-        return self.user
+    def get_name(self):
+        if self.user_profile:
+            return self.user_profile.user.get_full_name()
+        return None
 
