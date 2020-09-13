@@ -24,9 +24,9 @@
                     <table id="discussions_table" class="table table-sm">
                         <thead>
                             <tr class="table-dark">
-                                <th>{{ discussion.user_profile.user.get_full_name }}</th>
+                                <th>{{ discussion.get_name }}</th>
                                 <th>{{ discussion.created|date:'d-m-yy H:m' }}</th>
-                                <th> reply #</th>
+                                <th># 1</th>
                             </tr>
                         </thead>
                         <tr>
@@ -37,13 +37,37 @@
                 </div>
             </div>
         </div>
-
+        <div class="row pb-5">
+            {% if request.user %}
+                <div class="col-sm-12 col-lg-10 text-right">
+                    <a class="btn btn-success btn-sm rounded-1" href="{% url 'add_comment' discussion.id %}">Add Comment</a>
+                </div>
+            {% endif %}
+        </div>
         <div class="row">
             <div class="col-sm-12 col-md-9 col-lg-8 offset-md-1 offset-lg-2">
-                <!--ListView With comments and add button-->
+                {% if disc_comments %}
+                    {% for d_comment in disc_comments %}
+                        <div class="table-responsive">
+                            <table id="comments_table" class="table table-sm">
+                                <thead>
+                                    <tr class="table-dark">
+                                        <th>{{ d_comment.get_name }}</th>
+                                        <th>{{ d_comment.created|date:'d-m-yy H:m' }}</th>
+                                        <th># {{ forloop.counter|add:1 }}</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="2">{{ d_comment.comment|linebreaks }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="mt-5">There are no comments for this topic</p>
+                {% endif %}
             </div>
         </div>
-
-        <!--ADD COMMENT MODAL FORM-->
     </div>
 {% endblock %}

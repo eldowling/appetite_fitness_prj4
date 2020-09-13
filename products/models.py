@@ -165,7 +165,7 @@ class Reviews(models.Model):
             MinValueValidator(0)
         ]
      )
-    created = models.DateTimeField(editable=False)
+    created = models.DateTimeField(default=timezone.now, editable=False)
     comment = models.TextField()
 
     def save(self, *args, **kwargs):

@@ -36,19 +36,14 @@ class Discussions_CommentsForm(forms.ModelForm):
 
     class Meta:
         model = Discussion_Comments
-        fields = ('disc_topic', 'comment',)
+        fields = ('comment',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         placeholders = {
-            'disc_topic': 'Discussion Topic',
             'comment': 'Comments',
         }
-        discussion = Discussions.objects.all()
-        discussion_friendly_names = [(d.id, d.get_topic()) for d in discussion]
-
-        self.fields['discussion'].choices = discussion_friendly_names
-        self.fields['disc_topic'].widget.attrs['autofocus'] = True
+        
         for field in self.fields:
             if self.fields[field].required:
                 placeholder = f'{placeholders[field]} *'

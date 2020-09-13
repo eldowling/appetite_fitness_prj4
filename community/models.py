@@ -32,6 +32,7 @@ class Discussions(models.Model):
         return None
 
 
+
 class Discussion_Comments(models.Model):
 
     class Meta:
@@ -53,3 +54,4 @@ class Discussion_Comments(models.Model):
         if self.user_profile:
             return self.user_profile.user.get_full_name()
         return None
+

@@ -23,7 +23,8 @@
             <div class="col-12 col-md-6 offset-md-3">
                 <form method="POST" id="add-review-form" action="{% url 'add_review' product.id %}" class="form mb-2" enctype="multipart/form-data">
                     <div class="card border-success py-2 px-2 mb-3">
-                        {% csrf_token %}                        
+                        {% csrf_token %} 
+                        <h5>Add Review for: {{ product.name }}</h5>                       
                         {% for field in form %}
                             {{ field | as_crispy_field }}                            
                         {% endfor %}

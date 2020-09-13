@@ -4,8 +4,8 @@ from django.shortcuts import (
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
-from .forms import DiscussionsForm
-from .models import Discussions
+from .forms import DiscussionsForm, Discussions_CommentsForm
+from .models import Discussions, Discussion_Comments
 from profiles.models import UserProfile
 from products.models import Product
 
@@ -29,7 +29,7 @@ def add_discussion_topic(request):
                 'topic': request.POST['topic'],
                 'disc_topic_text': request.POST['disc_topic_text'],
             }
-            
+
             discussion_form = DiscussionsForm(form_data)
             if discussion_form.is_valid():
                 discussion_object = discussion_form.save(commit=False)
@@ -88,9 +88,47 @@ def view_topic(request, discussion_id):
     """A view to display the discussion details for the selected topic"""
 
     discussion = get_object_or_404(Discussions, pk=discussion_id)
-
+    disc_comments = Discussion_Comments.objects.filter(disc_topic=discussion_id)
+    
     template = 'community/view_discussion.html'
     context = {
+        'discussion': discussion,
+        'disc_comments': disc_comments,
+    }
+
+    return render(request, template, context)
+
+
+@login_required
+def add_comment(request, discussion_id):
+    """ Add a comment on the selected discussion topic """
+
+    discussion = get_object_or_404(Discussions, pk=discussion_id)
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            profile = UserProfile.objects.get(user=request.user)
+
+            form_data = {
+                'comment': request.POST['comment'],
+            }
+
+            d_comment_form = Discussions_CommentsForm(form_data)
+            if d_comment_form.is_valid():
+                discussion_object = d_comment_form.save(commit=False)
+                discussion_object.user_profile = profile
+                discussion_object.disc_topic = discussion
+                d_comment_form.save()
+
+                return redirect(reverse('view_topic', args=[discussion_id]))
+            else:
+                messages.error(request, 'There is an error on the form. \
+                    Please review the details entered')
+    else:
+        d_comment_form = Discussions_CommentsForm()
+
+    template = 'community/add_comment.html'
+    context = {
+        'form': d_comment_form,
         'discussion': discussion,
     }
 

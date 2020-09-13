@@ -5,7 +5,7 @@ from django.db.models.functions import Lower
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from .models import (Product, Subcategory, Sizes, Subscription_Type,
-                    Product_Subscription, Subscriptions, Reviews)
+                    Product_Subscription, Subscriptions, Reviews, UserProfile)
 
 from .forms import ProductForm, ProductSubsForm, ReviewsForm
 
@@ -282,23 +282,34 @@ def add_review(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
     if request.method == 'POST':
-        form = ReviewsForm(request.POST, request.FILES)
+        if request.user.is_authenticated:
+            profile = UserProfile.objects.get(user=request.user)
 
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your review has been added')
-            return redirect(reverse('product_detail', args=[product.id]))
-            # return redirect(reverse('products'))
-        else:
-            messages.error(request,
-                        ('Failed to add review. '
-                            'Please ensure the form is valid.'))
+            form_data = {
+                'title': request.POST['title'],
+                'user_rating': request.POST['user_rating'],
+                'comment': request.POST['comment'],
+            }
+            print('form_data', form_data)
+            review_form = ReviewsForm(form_data)
+
+            if review_form.is_valid():
+                review_object = review_form.save(commit=False)
+                review_object.user_profile = profile
+                review_object.product = product
+                review_form.save()
+                messages.success(request, 'Your review has been added')
+                return redirect(reverse('product_detail', args=[product.id]))
+            else:
+                messages.error(request,
+                            ('Failed to add review. '
+                                'Please ensure the form is valid.'))
     else:
-        form = ReviewsForm(instance=product)
+        review_form = ReviewsForm(instance=product)
 
     template = 'products/add_review.html'
     context = {
-        'form': form,
+        'form': review_form,
         'product': product,
     }
 
