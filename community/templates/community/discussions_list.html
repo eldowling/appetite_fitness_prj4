@@ -18,9 +18,11 @@
             </div>
         </div>
         <div class="row pb-5">
-            <div class="col-sm-12 col-lg-10 text-right">
-                <a class="btn btn-success btn-sm rounded-1" href="{% url 'add_discussion' %}">New Topic</a>
-            </div>
+            {% if request.user.is_authenticated %}
+                <div class="col-sm-12 col-lg-10 text-right">
+                    <a class="btn btn-success btn-sm rounded-1" href="{% url 'add_discussion' %}">New Topic</a>
+                </div>
+            {% endif %}
         </div>
         <div class="row">
             <div class="col-12">

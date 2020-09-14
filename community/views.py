@@ -20,6 +20,7 @@ class Discussions_List(ListView):
 def add_discussion_topic(request):
     """ Add a new discussion topic for a product """
 
+    # product = user's purchased product - ? do in forms.py?
     if request.method == 'POST':
         if request.user.is_authenticated:
             profile = UserProfile.objects.get(user=request.user)
@@ -52,33 +53,28 @@ def add_discussion_topic(request):
 
 
 @login_required
-def edit_discussion(request, product_id):
+def edit_discussion(request, discussion_id):
     """ Edit the selected discussion topic for a product """
 
+    discussion = get_object_or_404(Discussions, pk=discussion_id)
     if request.method == 'POST':
         if request.user.is_authenticated:
-            try:
-                discussion = get_object_or_404(Product, pk=discussion_id)
-                form_data = DiscussionsForm(initial={
-                    'topic': request.POST['topic'],
-                    'disc_topic_text': request.POST['disc_topic_text'],
-                })
-            except UserProfile.DoesNotExist:
-                discussion_form = DiscussionsForm()
-
-        discussion_form = DiscussionsForm(form_data)
-        if discussion_form.is_valid():
-            discussion_form.save()
-            # update with discussion id
-        else:
-            messages.error(request, 'There is an error on the form. \
-                Please review the details entered')
+            discussion_form = DiscussionsForm(request.POST, request.FILES, instance=discussion)
+            if discussion_form.is_valid():
+                discussion_form.save()
+                messages.success(request, 'The topic has been successfully updated')
+                return redirect(reverse('view_topic', args=[discussion_id]))
+            else:
+                messages.error(request,
+                            ('Failed to update topic. '
+                                'Please ensure the form is valid.'))
     else:
         discussion_form = DiscussionsForm(instance=discussion)
 
     template = 'community/edit_discussion.html'
     context = {
         'form': discussion_form,
+        'discussion': discussion,
     }
 
     return render(request, template, context)
@@ -89,7 +85,7 @@ def view_topic(request, discussion_id):
 
     discussion = get_object_or_404(Discussions, pk=discussion_id)
     disc_comments = Discussion_Comments.objects.filter(disc_topic=discussion_id)
-    
+
     template = 'community/view_discussion.html'
     context = {
         'discussion': discussion,
@@ -130,6 +126,34 @@ def add_comment(request, discussion_id):
     context = {
         'form': d_comment_form,
         'discussion': discussion,
+    }
+
+    return render(request, template, context)
+
+
+@login_required
+def edit_comment(request, comment_id):
+    """ Edit a commennt for the selected discussion topic """
+    
+    disc_comment = get_object_or_404(Discussion_Comments, pk=comment_id)
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            d_comment_form = Discussions_CommentsForm(request.POST, request.FILES, instance=disc_comment)
+            if d_comment_form.is_valid():
+                d_comment_form.save()
+                messages.success(request, 'The comment has been successfully updated')
+                return redirect(reverse('view_topic', args=[disc_comment.disc_topic.id]))
+            else:
+                messages.error(request,
+                            ('Failed to update comment. '
+                                'Please ensure the form is valid.'))
+    else:
+        d_comment_form = Discussions_CommentsForm(instance=disc_comment)
+
+    template = 'community/edit_comment.html'
+    context = {
+        'form': d_comment_form,
+        'd_comment': disc_comment,
     }
 
     return render(request, template, context)

@@ -15,9 +15,9 @@
     
     <div class="container-fluid mt-5 ml-2">
         <div class="col-12 text-center">
-                <h5>{{ discussion.topic }}</h5>
-                <br>
-            </div>
+            <h5>{{ discussion.topic }}</h5>
+            <br>
+        </div>
         <div class="row">
             <div class="col-sm-12 col-md-8 offset-md-2">
                 <div class="table-responsive">
@@ -26,24 +26,35 @@
                             <tr class="table-dark">
                                 <th>{{ discussion.get_name }}</th>
                                 <th>{{ discussion.created|date:'d-m-yy H:m' }}</th>
-                                <th># 1</th>
+                                <th class="text-right"># 1                                
+                                </th>
                             </tr>
                         </thead>
+                        {% if request.user == discussion.user_profile.user %}
+                        <tr>
+                            <td colspan="3" class="text-right">                                
+                                <a href="{% url 'edit_discussion' discussion.id %}" class="text-warning">
+                                <small>Edit</small></a>                                
+                            </td>
+                        </tr>
+                        {% endif %}
                         <tr>
                             <td></td>
                             <td colspan="2">{{ discussion.disc_topic_text|linebreaks }}</td>
+                        </tr>
+                        <tr >
+                            <td class="py-4">Replies to this topic:</td>
+                            <td colspan="2" class="py-4 text-right align-middle">
+                                {% if request.user.is_authenticated %}
+                                    <span class=""><a class="btn btn-success btn-sm rounded-1" href="{% url 'add_comment' discussion.id %}">Add Comment</a></span>
+                                {% endif %}
+                            </td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="row pb-5">
-            {% if request.user %}
-                <div class="col-sm-12 col-lg-10 text-right">
-                    <a class="btn btn-success btn-sm rounded-1" href="{% url 'add_comment' discussion.id %}">Add Comment</a>
-                </div>
-            {% endif %}
-        </div>
+        
         <div class="row">
             <div class="col-sm-12 col-md-9 col-lg-8 offset-md-1 offset-lg-2">
                 {% if disc_comments %}
@@ -54,9 +65,17 @@
                                     <tr class="table-dark">
                                         <th>{{ d_comment.get_name }}</th>
                                         <th>{{ d_comment.created|date:'d-m-yy H:m' }}</th>
-                                        <th># {{ forloop.counter|add:1 }}</th>
+                                        <th class="text-right"># {{ forloop.counter|add:1 }}</th>
                                     </tr>
                                 </thead>
+                                {% if request.user == d_comment.user_profile.user %}
+                                <tr>
+                                    <td colspan="3" class="text-right">                                      
+                                        <a href="{% url 'edit_comment' d_comment.id %}" class="text-warning">
+                                        <small>Edit</small></a>                                        
+                                    </td>
+                                </tr>
+                                {% endif %}
                                 <tr>
                                     <td></td>
                                     <td colspan="2">{{ d_comment.comment|linebreaks }}</td>
