@@ -8,6 +8,7 @@ class DiscussionsForm(forms.ModelForm):
     class Meta:
         model = Discussions
         fields = ('product', 'topic', 'disc_topic_text',)
+        exclude = ('product', )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -16,10 +17,7 @@ class DiscussionsForm(forms.ModelForm):
             'topic': 'Topic Title',
             'disc_topic_text': 'Disucussion Details',
         }
-        product = Product.objects.all()
-        product_friendly_names = [(p.id, p.get_name()) for p in product]
 
-        self.fields['product'].choices = product_friendly_names
         self.fields['topic'].widget.attrs['autofocus'] = True
         for field in self.fields:
             if self.fields[field].required:

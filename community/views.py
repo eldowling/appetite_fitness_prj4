@@ -1,5 +1,5 @@
 from django.shortcuts import (
-    render, redirect, reverse, get_object_or_404, HttpResponse
+    render, redirect, reverse, get_object_or_404, get_list_or_404, HttpResponse
 )
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,11 +8,13 @@ from .forms import DiscussionsForm, Discussions_CommentsForm
 from .models import Discussions, Discussion_Comments
 from profiles.models import UserProfile
 from products.models import Product
+from checkout.models import Order, OrderLineItem
 
 
 class Discussions_List(ListView):
     """Create a listview of all Discussions"""
     template_name = 'community/discussions_list.html'
+    #queryset = Discussions.objects.all()
     queryset = Discussions.objects.all()
 
 
@@ -20,13 +22,23 @@ class Discussions_List(ListView):
 def add_discussion_topic(request):
     """ Add a new discussion topic for a product """
 
-    # product = user's purchased product - ? do in forms.py?
+    if request.user.is_authenticated:
+        user_products = []
+        profile = get_object_or_404(UserProfile, user=request.user)
+        user_orders = get_list_or_404(Order, user_profile=profile)
+        for user_order in user_orders:
+            order_lineitem = get_list_or_404(OrderLineItem, order=user_order)
+            for order_li in order_lineitem:
+                if order_li.product not in user_products:
+                    user_products.append(order_li.product)
     if request.method == 'POST':
         if request.user.is_authenticated:
             profile = UserProfile.objects.get(user=request.user)
-
+            selected_product = request.POST['product']
+            print('selected_product', selected_product)
+            product = get_object_or_404(Product, name=selected_product)
             form_data = {
-                'product': request.POST['product'],
+                'product': product,
                 'topic': request.POST['topic'],
                 'disc_topic_text': request.POST['disc_topic_text'],
             }
@@ -47,6 +59,7 @@ def add_discussion_topic(request):
     template = 'community/add_discussion.html'
     context = {
         'form': discussion_form,
+        'user_products': user_products,
     }
 
     return render(request, template, context)
