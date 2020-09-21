@@ -57,7 +57,7 @@
 </form>
 
 {% if product.colour != 'none' %}
-    <p><strong>Colour:</strong> {{ product.colour }}</p>
+    <p><strong>Colour:</strong> {{ product.colour.name }}</p>
 {% endif %}
 
 {% block postloadjs %}

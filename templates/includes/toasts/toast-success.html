@@ -1,28 +1,26 @@
 <div class="toast custom-toast rounded-0 border-success bg-light" data-autohide="false">
     <div class="w-100 toast-capper bg-success"></div>
     <div class="toast-header">
-        <strong class="mr-auto ">Basket updated sucessfully</strong>
+        <strong class="mr-auto ">Success</strong>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="toast-body bg-success text-center small text-white w-100 mx-0 px-0">
         <div class="row">
-            <div class="col">
+            <div class="col mx-1">
                 {{ message }}
             </div>
         </div>
     </div>
+    {% if basket_items %}
     <div class="text-center text-primary mt-2">
         <h5>Items in your basket:</h5>
         <hr class="mt-1 mb-3">
     </div>
     <div class="current-basket-items-wrapper ml-1">
-        {% if not basket_items %}
-            <p class="text-center">There are no items currently in your basket</p>
-        {% else %}
-            <a href="{% url 'view_basket' %}"><p class="small text-right">Edit Basket</p></a>
-        {% endif %}
+        <a href="{% url 'view_basket' %}"><p class="small text-right">Edit Basket</p></a>
+        
         {% if grand_total and not on_profile_page %}
             {% for item in basket_items %}
                 <div class="row">
@@ -64,4 +62,5 @@
             </div>
         {% endif %}
     </div>
+    {% endif %}
 </div>

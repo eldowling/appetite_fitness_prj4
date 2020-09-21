@@ -70,9 +70,9 @@
                                     <div class="row">
                                         <div class="col">
                                             {% if product.subscription == True %}
-                                                <p class="mb-0 text-left ">Multiple Subscriptions Available</p>                                                                                                
+                                                <p class="mb-0 text-left "><small><strong>Multiple Subscriptions Available</strong></small></p>                                                                                                
                                             {% elif product.has_sizes == True %}
-                                                <p class="mb-0 text-left ">Multiple Sizes Available</p>
+                                                <p class="mb-0 text-left "><small><strong>Multiple Sizes Available</strong></small></p>
                                             {% else %}
                                                 {% for s in subscriptions %}
                                                     {% if product.id == s.product.id %}
