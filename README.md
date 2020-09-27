@@ -70,8 +70,9 @@ These will be used as a starting point in order to help build a draft of what th
 |30 | Store Owner | Delete a subscription | Remove subscriptions that are no longer used|
 
 After reviewing all of the user stories, some wireframes / mockups of the pages for the site were created, 
-These are available to view on [Balsamiq - Mobile Layout Wireframes](https://balsamiq.cloud/s11kk48/py0t2ol)
-[Balsamiq - Large screen layout wireframes](https://balsamiq.cloud/s11kk48/p31mhpy)
+These are wireframes available to view on Balsamiq:
+- [Nutriverse - Mobile layout wireframes](https://balsamiq.cloud/s11kk48/py0t2ol)
+- [Nutriverse - Large screen layout wireframes](https://balsamiq.cloud/s11kk48/p31mhpy)
 
 
 ## Features
@@ -104,11 +105,14 @@ The site also has a Community area which allows for members to add new discussio
 - The lists of Products or Subscriptions will be displayed to show the user all existing items. These lists can be sorted by each column heading and there is also a search option available to find a particular product or subscription through a keyword search of the name or description.
  
 
-### Features Left to Implement
+### Future Enhancements
 - The community area could be further developed with more options available to allow the user to add fitness challenges / exercise plans, which would include multiple steps or exercises to be entered for each day of the challenge / plan. 
 - An example of this would be a 30-day fitness challenge that focuses on a particular fitness area, with instructions to complete a range of different exercises on each day of the challenge.
+- The topics and comments in the community area could be enhanced to show more details about the user such as the date they joined the site, and the number of topics they have created on the site. Other details could be added depending on the sites requirements / areas of interests.
 - Another section that could be added would be an index to look up details for any exercise with pictures or videos on how to complete the exercise.
 - The user profile section could also be updated to include options to add and store multiple delivery addresses for the account. This could then be integrated into the Checkout page where the user could select the delivery address from their list of saved addresses.
+- Further customisation of the user profile could also be achieved by allowing the users to add or update a profile picture, and some details about themselves. The profile pictures could be displayed as a small circular image beside each of the user's reviews or community area topics / comments.
+- Some updates could be made to the Product Administration section in particular for the product deletion option where currently no warning is given to the user for them to confirm if the product should be deleted. An extra step could be added to this process to prevent user error in selecting the wrong product for deletion. This would ask the user to confirm the product being deleted, and give an option to cancel or continue with deleting the selected item.
 
 ## Technologies Used
 
@@ -203,7 +207,7 @@ Some of the technologies that I used to implement the features and functionality
 
 ## Testing
 
--- See Testing.md (link)
+- The tests carried out for the completion of this site are detailed in the [Testing Documentation](./Testing.md)
 
 ## Deployment
 
@@ -223,14 +227,14 @@ In addition, if it is not obvious, you should also describe how to run your code
 - The text for section Y was copied from the [Wikipedia article Z](https://en.wikipedia.org/wiki/Z)
 - [Business Name Generator](https://businessnamegenerator.com/)
 
-####CSS
+#### CSS
 - I initially thought of creating a home page with two images which were split at the top of the screen. I worked with this a little to test it before returning to try the Bootstrap carousel, where I have now implemented three rotating images relating to the three sections of the site.
 - [CSS Tricks - Multiple image background-image](https://css-tricks.com/almanac/properties/b/background-image/)
 - [Responsive Full Background Image Using CSS - William Craig](https://www.webfx.com/blog/web-design/responsive-background-image/)
 - [CSS background-image Property - W3Schools.com](https://www.w3schools.com/cssref/pr_background-image.asp)
 - [Bootstrap carousel resizing image - Stackoverflow](https://stackoverflow.com/questions/17357306/bootstrap-carousel-resizing-image)
 
-####Django
+#### Django
 - When it came to implementing my Product Details page, I needed to find out how to create the Model for the table structure where a Product has multiple Subscription Types and each Subscription Type had a Price and a Quantity Available. I also needed to understand the method used to extract the related data and display it on the Product Details page. For this I looked up some pages related to getting data from multiple tables. This in turn lead me to investigating the Django Select_Related and Prefetch_Related functions further to try and implement these with my project. I found that this was not the right solution and instead tried to find tutorials relating to Many to Many field relationships. I then found a few parts in the set of tutorials by Dennis Ivy to be very useful in what I was trying to implement, and I took these as the basis to write my own views and updated the models accordingly. The following links were used in order to research and implement the Many to Many related tables needed to build the Product Details page.
 - [Fetching data from multiple tables in Django - Stack Overflow](https://stackoverflow.com/questions/48596388/fetching-data-from-multiple-tables-in-django)
 - [Django get data from multiple tables](https://stackoverflow.com/questions/36569457/django-get-data-from-multiple-tables)
