@@ -8,15 +8,19 @@ The site also has an integrated administration and store management section. Thi
 
 ## Table of Contents
 - [Nutriverse](#nutriverse)
+  * [Table of Contents](#table-of-contents)
   * [UX](#ux)
   * [Features](#features)
     + [Existing Features](#existing-features)
-    + [Features Left to Implement](#features-left-to-implement)
+    + [Future Enhancements](#future-enhancements)
   * [Technologies Used](#technologies-used)
   * [Testing](#testing)
   * [Deployment](#deployment)
   * [Credits](#credits)
     + [Content](#content)
+      - [CSS](#css)
+    + [JavaScript / JQuery](#javascript---jquery)
+      - [Django](#django)
     + [Media](#media)
     + [Acknowledgments](#acknowledgments)
 
@@ -39,7 +43,7 @@ These will be used as a starting point in order to help build a draft of what th
 |5| Site User | Have a personalised user profile | View my personal order history and order confirmations, and save my payment details|
 | ||<em><strong>-- Viewing and Navigation --</strong></em>|
 |6| Shopper | View a list of products | Select some to purchase|
-|7| Shopper | View individual product details | Identify the description, product rating, product image and available subscriptions or sizes.|
+|7| Shopper | View individual product details | Identify the description, product rating and reviews, product image and available subscriptions or sizes.|
 |8| Shopper | View subscriptions available for a product | View available subscription options for a product, as well as the price for each and other options available.|
 |8| Shopper | View the total price of the items I have selected for purchase easily | Keep track of the overall total and avoid spending too much|
 | ||<em><strong>-- Sorting and Searching --</strong></em>|
@@ -96,6 +100,7 @@ The site also has a Community area which allows for members to add new discussio
 - The Stripe payments API provides a secure and convenient method to process the customer card payment details.
 - On confirmation of the order and payment being processed, the order summary page is then displayed. This can also be access through the user's profile where a history of all orders is displayed.
 - An order confirmation email is also sent once the order has been successfully completed, for the user to keep for their records.
+- The site users can also add product reviews, these reviews are visible on the Product Details page on the Reviews tab near the end of the page. The Add Review button is available to the site users and allows them to add a review with a title and details about the product as well as giving them the option to rate the product. When the review is saved it will display a star rating using star icons to depict rating with the number of stars out of a possible five stars. The same star rating is displayed on the product, which is calculated from an average star rating taken from all the reviews for that product.
 - The community area allows users to create discussion topics for both Fitness and Nutrition topics. The main community page displays a list of all previous topics. This list can be sorted and is automatically paginated to reduce the number of records being loaded, which is better for speed and uses less data.
 - A community member has the option to add new discussion topics for a selected product. This can provide an evaluation of the product / service or class. It can also be used to give a report on their progress through the program, or to ask questions related to the product. The discussion topic can be edited by the author.
 - Other community members can add comments to each discussion in order to respond to the topic posted. These comments can also be edited and updated by the comment author.
@@ -135,6 +140,8 @@ Some of the technologies that I used to implement the features and functionality
 	- **Bootstrap** is a CSS framework that contains  CSS and JavaScript based design templates to help in development of responsive, mobile-first websites.
 	- It has been used on all pages for the site in order to assist with the layout by making uses of the Grid, Table and Card templates.
 	- Bootstrap also has helper texts that allow the use of simple classes to format the layout further without having to re-write more CSS. For example the bottom margin can be set by just specifying the "mb-5" class / helper text in an element, and the Bootstrap CSS will then be used to apply it, which saves time in development as well as allowing consistency across each template.
+- [Bootswatch - Flatly Theme](https://bootswatch.com/flatly/)
+	- **Bootswatch** is a free and customisable theme that is used with Bootstrap.
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 	- **JavaScript** is one of three core technologies alongside HTML and CSS which are used to create web pages. It is a scripting language that is used to make the web page dynamic  by adding interactivity to it. This means with JavaScript code can be added for mouse click or mouse over, and other events on the web page. 
 	- A combination of functions were used in both JavaScript and JQuery in order to add functionality throughout the site.
@@ -338,7 +345,6 @@ Details of the updates and configuration completed to deploy to the production e
 ## Credits
 
 ### Content
-- The text for section Y was copied from the [Wikipedia article Z](https://en.wikipedia.org/wiki/Z)
 - [Business Name Generator](https://businessnamegenerator.com/)
 
 #### CSS
@@ -347,31 +353,121 @@ Details of the updates and configuration completed to deploy to the production e
 - [Responsive Full Background Image Using CSS - William Craig](https://www.webfx.com/blog/web-design/responsive-background-image/)
 - [CSS background-image Property - W3Schools.com](https://www.w3schools.com/cssref/pr_background-image.asp)
 - [Bootstrap carousel resizing image - Stackoverflow](https://stackoverflow.com/questions/17357306/bootstrap-carousel-resizing-image)
+- [Bootstrap 4 Responsive tables won't take up 100-width](https://stackoverflow.com/questions/41747667/bootstrap-4-responsive-tables-wont-take-up-100-width) - this forum question was used to try and fix an issue I had with trying to implement a responsive Bootstrap table, by moving the table-responsive class from the table tag to the div it resolved the issue.
+- [DataTables.net Bootstrap Tables]() A CSS script was used to apply the styling on the Data Tables used for the Discussion List View and Products / Product Subscriptions List views - more details about this is provided in the JavaScript / JQuery section below as the tables also use some JavaScript functions and libraries.
+	- The css library file "https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap.min.css" was also used together with the Bootstrap CDN
+- For the Product Ratings and Review I wanted to implement a star rating which would use an icon and the number of coloured stars would indicate the average rating for the product. For example a 4 out of 5 rating would display 4 coloured stars and 1 empty star. I looked up a few tutorials on this to try and find some JavaScript / CSS that could do this. These included the following tutorials / videos:
+	- [Star Ratings With JavaScript & Font Awesome - Traversy Media](https://www.youtube.com/watch?v=u3rylF3y3og)
+	- [Star Ratings Codepen - Brad Traversy](https://codepen.io/bradtraversy/pen/GQLRZv)
+	- [Pure CSS Star Rating Widget - How To Create a Simple Star Rating with Html and CSS - No Javascipt - by Online Tutorials](https://www.youtube.com/watch?v=Ep78KjstQuw)
+	- [Rating Systems in HTML, CSS and JS - Steve Griffith](https://www.youtube.com/watch?v=dPCj6Qkq13Y&t=48s)
+	- [#9. Django Ratings - Programming Knowledge .360](https://www.youtube.com/watch?v=uRJuONWrlEw&t=149s)
+	- [Convert ratings in stars in Django template - Stack Overflow](https://stackoverflow.com/questions/55448221/convert-ratings-in-stars-in-django-template)
+	- I successfully installed and implemented this Django application in order to generate the Product Star ratings and user review ratings. However when I began testing the star-ratings within the site I realised that it wasn't working exactly how I wanted it to and that the star ratings could be selected and un-selected too. There was also problems with other customisations I wanted to make, and although there is some documentation available for various settings used to customise the app, the documentation was limited and I couldn't find solutions to what I wanted to do. I then decided to uninstall the app and find an alternative solution. The link for the django-star-ratings app is below
+	- [django-star-ratings app](https://pypi.org/project/django-star-ratings/)
+	- [Please Add documentation for 'how to use' django-star-ratings with needed screenshots #140 - GitHub](https://github.com/wildfish/django-star-ratings/issues/140)	
+	- [Django Rated Reviews - Quick start guide](https://django-rated-reviews.readthedocs.io/en/latest/quickstart.html)
+	- [Five Methods for Five-Star Ratings - Alfred Genkin](https://css-tricks.com/five-methods-for-five-star-ratings/) After reading this I decided to try and implement "Method 4: Using CSS to draw the shape" in my solution and it is currently displaying star ratings for both products average rating and the user review ratings.
+
+
+### JavaScript / JQuery
+- I tried to implement some custom JavaScript functions that would allow the site to be more interactive for the user. Some of the pages I used as a reference to implement these functions are listed below
+- [HTML DOM Events - onchange Event - w3schools.com](https://www.w3schools.com/JSREF/event_onchange.asp) the onchange event was used in the Product Details page when a subscription or size was selected from the list, then a Javascript function "updateSubscription" will get the subscription ID and populate it to a hidden field. It can then submit the form which will get the subscription selected and pass the details back to the template using the view.
+- [JavaScript Events - w3schools.com](https://www.w3schools.com/js/js_events.asp)
+- [How can I use the JavaScript onchange event to submit a form? - Stack Overflow](https://stackoverflow.com/questions/23861674/how-can-i-use-the-javascript-onchange-event-to-submit-a-form/23861697#23861697)
+- [jQuery Traversing - Ancestors - w3schools.com](https://www.w3schools.com/jquery/jquery_traversing_ancestors.asp)
+- [Jquery remove parent or parents until a specific class name - Stack Overflow](https://stackoverflow.com/questions/43952269/jquery-remove-parent-or-parents-until-a-specific-class-name)
+- [Form Validation with JavaScript - Check for an Empty Text Field - Ralph Phillips](https://www.youtube.com/watch?v=Pc2e2YpKArg&t=342s)
+- I looked into using the following table functionality which was documented on the MDBootstrap website, I thought at firsth that it only needed the JQuery functions to support it, however it on reading further I seen that this was a downloadable product that needed to be purchased and so I didn't continue to try and use it.
+	- [MDBootstrap Responsive Tables](https://mdbootstrap.com/docs/jquery/tables/responsive/)
+	- [MDBootstrap Pagination and Advanced Table Options](https://mdbootstrap.com/docs/jquery/tables/pagination/)
+- I continued to research other options to apply advanced table styles to display the discussion topic list views in the Community Area as well as the Products and Product Subscriptions list views in the Product Management section. I was able to find something suitable on the DataTables.net site:
+- [DataTables.net Bootstrap Tables](https://datatables.net/examples/styling/bootstrap) These tables can be easily integrated with Bootstrap tables and using Bootstrap styling options. There was some additional CSS libraries installed (see CSS section above). The following JavaScript libraries were also used to complete the table functionality
+	- https://code.jquery.com/jquery-3.5.1.js
+	- https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js
+	- https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap.min.js
+
 
 #### Django
 - When it came to implementing my Product Details page, I needed to find out how to create the Model for the table structure where a Product has multiple Subscription Types and each Subscription Type had a Price and a Quantity Available. I also needed to understand the method used to extract the related data and display it on the Product Details page. For this I looked up some pages related to getting data from multiple tables. This in turn lead me to investigating the Django Select_Related and Prefetch_Related functions further to try and implement these with my project. I found that this was not the right solution and instead tried to find tutorials relating to Many to Many field relationships. I then found a few parts in the set of tutorials by Dennis Ivy to be very useful in what I was trying to implement, and I took these as the basis to write my own views and updated the models accordingly. The following links were used in order to research and implement the Many to Many related tables needed to build the Product Details page.
-- [Fetching data from multiple tables in Django - Stack Overflow](https://stackoverflow.com/questions/48596388/fetching-data-from-multiple-tables-in-django)
-- [Django get data from multiple tables](https://stackoverflow.com/questions/36569457/django-get-data-from-multiple-tables)
-- [Django Documentation - QuerySet API Reference](https://docs.djangoproject.com/en/3.0/ref/models/querysets/)
-- [Django select_related and prefetch_related - by Goutom Roy | Better Programming(https://medium.com/better-programming/django-select-related-and-prefetch-related-f23043fd635d)
-- [Daily Django - #09 - select_related() e prefetch_related()](https://www.youtube.com/watch?v=JU7scCwEAI0)
-- [Querying One-To-Many Relationships in Django - PrettyPrinted](https://www.youtube.com/results?search_query=django+select_related+and+prefetch_related)
-- [How to Get Data Out of a Django Model and in to the HTML Template (Django Tutorial) | Part 48 - Max Goodridge](https://www.youtube.com/watch?v=VxOsCKMStuw&t=322s)
-- [Django - Filter the prefetch_related queryset - Stack Overflow](https://stackoverflow.com/questions/52757040/django-filter-the-prefetch-related-queryset)
-- [Django select_related Examples |Django select_related and prefetch_related |Django n+1 Query Problem - Code Band](https://www.youtube.com/watch?v=mO-pfdJpnBA)
-- [How to Use a Many to Many Field in a Django Model (Django Tutorial) | Part 55- Max Goodridge](https://www.youtube.com/watch?v=nwpLCa79DUw&list=PLw02n0FEB3E3VSHjyYMcFadtQORvl1Ssj&index=54)
-- [Django Documentation - Many-to-many relationships](https://docs.djangoproject.com/en/dev/topics/db/examples/many_to_many/)
-- [Database Relationships | One To Many & Many to Many | Django (3.0) Crash Course Tutorials (pt 6) - Dennis Ivy](https://www.youtube.com/watch?v=wIPHER2UBB4)
-- [Database Model Queries | Django (3.0) Crash Course Tutorials (pt 7) - Dennis Ivy](https://www.youtube.com/watch?v=PD3YnPSHC-c)
-- [Rendering Data to Templates | Template Tags | Django (3.0) Crash Course Tutorials (pt 8) - Dennis Ivy](https://www.youtube.com/watch?v=7a23TbUXfWE)
-- [Dynamic URL Routing & Templates | Django (3.0) Crash Course Tutorials (pt 9) - Dennis Ivy](https://www.youtube.com/watch?v=HhjnQIpXqPc)
-- Also on the Product Details page, I wanted to have an update functionality once the Subscription Type select box was changed, that it would automatically display the price and quantity available for the selected subscription. Instead I ended up with "Change" button to submit the form and query the database. I hope to have more time to implement the Javascript to do this without the need for a button in the future. The resources used to implement this are detailed below.
-- [How to display value of a field in a *linked* table, in a Django template? - Stack Overflow](https://stackoverflow.com/questions/25232741/how-to-display-value-of-a-field-in-a-linked-table-in-a-django-template)
-- [Populating a drop-down from Database in Django - Stack Overflow](https://stackoverflow.com/questions/54171359/populating-a-drop-down-from-database-in-django)
-- [Django - Populating data from database in a dropdown select tag - Stack Overflow](https://stackoverflow.com/questions/49731140/django-populating-data-from-database-in-a-dropdown-select-tag)
-- [Django dynamic forms - on-the-fly field population? - Stack Overflow](https://stackoverflow.com/questions/8998428/django-dynamic-forms-on-the-fly-field-population)
-- [Django/jQuery Cascading Select Boxes? - Stack Overflow](https://stackoverflow.com/questions/3233850/django-jquery-cascading-select-boxes)
-- [HTML DOM Events - onchange Event - w3schools.com](https://www.w3schools.com/JSREF/event_onchange.asp)
+	- [Fetching data from multiple tables in Django - Stack Overflow](https://stackoverflow.com/questions/48596388/fetching-data-from-multiple-tables-in-django)
+	- [Django get data from multiple tables](https://stackoverflow.com/questions/36569457/django-get-data-from-multiple-tables)
+	- [Django Documentation - QuerySet API Reference](https://docs.djangoproject.com/en/3.0/ref/models/querysets/)
+	- [Django select_related and prefetch_related - by Goutom Roy | Better Programming(https://medium.com/better-programming/django-select-related-and-prefetch-related-f23043fd635d)
+	- [Daily Django - #09 - select_related() e prefetch_related()](https://www.youtube.com/watch?v=JU7scCwEAI0)
+	- [Querying One-To-Many Relationships in Django - PrettyPrinted](https://www.youtube.com/results?search_query=django+select_related+and+prefetch_related)
+	- [How to Get Data Out of a Django Model and in to the HTML Template (Django Tutorial) | Part 48 - Max Goodridge](https://www.youtube.com/watch?v=VxOsCKMStuw&t=322s)
+	- [Django - Filter the prefetch_related queryset - Stack Overflow](https://stackoverflow.com/questions/52757040/django-filter-the-prefetch-related-queryset)
+	- [Django select_related Examples |Django select_related and prefetch_related |Django n+1 Query Problem - Code Band](https://www.youtube.com/watch?v=mO-pfdJpnBA)
+	- [How to Use a Many to Many Field in a Django Model (Django Tutorial) | Part 55- Max Goodridge](https://www.youtube.com/watch?v=nwpLCa79DUw&list=PLw02n0FEB3E3VSHjyYMcFadtQORvl1Ssj&index=54)
+	- [How to Create Useful Many to Many Relationships in Django (Django Tutorial) | Part 56 - Max Goodridge](https://www.youtube.com/watch?v=bFhuOULgKDs)
+	- [Django Documentation - Many-to-many relationships](https://docs.djangoproject.com/en/dev/topics/db/examples/many_to_many/)
+	- [Database Relationships | One To Many & Many to Many | Django (3.0) Crash Course Tutorials (pt 6) - Dennis Ivy](https://www.youtube.com/watch?v=wIPHER2UBB4)
+	- [Database Model Queries | Django (3.0) Crash Course Tutorials (pt 7) - Dennis Ivy](https://www.youtube.com/watch?v=PD3YnPSHC-c)
+	- [Tips for Using Django's ManyToManyField - Lacey Williams Henschel](https://www.revsys.com/tidbits/tips-using-djangos-manytomanyfield/)
+	- [Django Documentation - Many-to-many through](https://docs.djangoproject.com/en/3.0/ref/models/fields/#django.db.models.ManyToManyField.through)
+	- [Django Many To Many Insert Ordering - Stack Overflow](https://stackoverflow.com/questions/1880530/django-many-to-many-insert-ordering)
+	- [Rendering Data to Templates | Template Tags | Django (3.0) Crash Course Tutorials (pt 8) - Dennis Ivy](https://www.youtube.com/watch?v=7a23TbUXfWE)
+	- [Dynamic URL Routing & Templates | Django (3.0) Crash Course Tutorials (pt 9) - Dennis Ivy](https://www.youtube.com/watch?v=HhjnQIpXqPc)
+	- [Django Documentation - Built-in template tags and filters](https://docs.djangoproject.com/en/3.0/ref/templates/builtins/)
+- Defining a Unique Constraint for a field in a Model
+	- [Django Models - Constraints reference](https://docs.djangoproject.com/en/3.0/ref/models/constraints/#django.db.models.UniqueConstraint.fields)
+	- [Django Models - Fields reference](https://docs.djangoproject.com/en/3.0/ref/models/fields/)
+	- [Django UniqueConstraint - Stack Overflow](https://stackoverflow.com/q/56024059)
+	- [How to define two Django fields unique in certain conditions - Stack Overflow](https://stackoverflow.com/questions/62863568/how-to-define-two-django-fields-unique-in-certain-conditions?noredirect=1&lq=1)
+- Also on the Product Details page, I wanted to have an update functionality once the Subscription Type select box was changed, that it would automatically display the price and quantity available for the selected subscription. Instead I ended up with "Change" button to submit the form and query the database. This method was initially implemented using the change button beside the select box, as I progressed through the project I was able to create the JavaScript function that allowed for the form to be submitted - This is detailed in the JavaScript section above. The resources used to implement this are detailed below.
+	- [How to display value of a field in a *linked* table, in a Django template? - Stack Overflow](https://stackoverflow.com/questions/25232741/how-to-display-value-of-a-field-in-a-linked-table-in-a-django-template)
+	- [Populating a drop-down from Database in Django - Stack Overflow](https://stackoverflow.com/questions/54171359/populating-a-drop-down-from-database-in-django)
+	- [Django - Populating data from database in a dropdown select tag - Stack Overflow](https://stackoverflow.com/questions/49731140/django-populating-data-from-database-in-a-dropdown-select-tag)
+	- [Django dynamic forms - on-the-fly field population? - Stack Overflow](https://stackoverflow.com/questions/8998428/django-dynamic-forms-on-the-fly-field-population)
+	- [Django/jQuery Cascading Select Boxes? - Stack Overflow](https://stackoverflow.com/questions/3233850/django-jquery-cascading-select-boxes)
+	- [Django - Built-in template tags and filters](https://docs.djangoproject.com/en/3.0/ref/templates/builtins/#id2)
+	- [How to pass csrf_token to javascript file in django? - Stack Overflow](https://stackoverflow.com/questions/23349883/how-to-pass-csrf-token-to-javascript-file-in-django)
+- For the Product Rating on the Product Details page, I needed to create a function to get the average rating which would be calculated from the Reviews.user_rating field. I looked at many options including doing it in the view using a filter query, and then update the Products table with the average rating value, but couldn't find a solution that worked well. I also looked at creating a function and returning the value to a view. I also asked for help with this on Slack and Malia Havlicek (Lead) was able to give me some some links to look at. By looking at these resources and some further help, I was able to build a function in the Product Model and reference the function from the template using "{{ product.get_avg_rating }}"
+	- [Django - Function inside a model. How to call it from a view?](https://stackoverflow.com/questions/21093591/django-function-inside-a-model-how-to-call-it-from-a-view)
+	- [Django Documentation - Generating aggregates over a QuerySet](https://docs.djangoproject.com/en/3.1/topics/db/aggregation/#generating-aggregates-over-a-queryset)
+- For the Checkout page I needed to find some tutorials on adding items to the basket/cart, as I was trying to add items that had subscriptions / foreign key fields and was having issues with getting the subscription details to add to the basket. I used the following tutorials to help with my understanding of the process and then could try to implement a solution
+	- [Django Ecommerce Website | Add to Cart Functionality | Part 3 - Dennis Ivy](https://www.youtube.com/watch?v=woORrr3QNh8&t=1426s)
+	- [Django tutorial for beginners - 26 Cart Item - Coding Point](https://www.youtube.com/watch?v=N3VWvPqWnwc&t=64s)
+- On the checkout page I wanted to use an animated icon for the loading page while the payment was being processed - these are some of the examples I found
+	- [https://fontawesome.com/how-to-use/on-the-web/styling/animating-icons](https://fontawesome.com/how-to-use/on-the-web/styling/animating-icons)
+- I needed to find solutions the error "Reverse for '' Not Found"
+	- [Django - Reverse for '' not found. '' is not a valid view function or pattern name - Stack Overflow](https://stackoverflow.com/questions/45724006/django-reverse-for-not-found-is-not-a-valid-view-function-or-pattern-na)
+	- [What is a NoReverseMatch error, and how do I fix it? - Stack Overflow](https://stackoverflow.com/a/38390178)
+- I wanted to create a list of all items in certain tables such as the Community Discussion Topics and the Products or Product Subscriptions in the Product Management section. I looked at various tutorials related to List views in order to be able to implement them.
+	- [Try DJANGO Tutorial - 36 - Class Based Views - ListView - CodingEntrepreneurs](https://www.youtube.com/watch?v=Xeh9r0CXBmU&t=59s)
+	- [Try DJANGO Tutorial - 37 - Class Based Views - DetailView - CodingEntrepreneurs](https://www.youtube.com/watch?v=TrJtYmfTWiA)
+	- [The Basics of Django ListView - Pretty Printed](https://www.youtube.com/watch?v=J74OTEhmLU0)
+	- [Django Filtering System with django-filter - Filter Queryset - The Dumbfounds](https://www.youtube.com/watch?v=nle3u6Ww6Xk&t=59s)
+	- [Best way to filter ListView with drop down form in Django - Stack Overflow](https://stackoverflow.com/questions/46491786/best-way-to-filter-listview-with-drop-down-form-in-django)
+	- [Django Documentation - Built-in class-based generic views](https://docs.djangoproject.com/en/3.1/topics/class-based-views/generic-display/)
+	- [Django Tutorial Part 6: Generic list and detail views - MDN Web docs](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views)
+	- [django no reverse match with filtered ListView - Stack Overflow](https://stackoverflow.com/questions/57803351/django-no-reverse-match-with-filtered-listview)
+- For the Community Area I wanted to try and implement a filter on the products that would allow the user to only add a discusssion for products that they had previously purchased. In doing this I came across some errors - one of these was when I tried to put a filter on the order line items by using the orders which was itself a filter of the selected users' Orders. The error I got on loading that view was "The QuerySet value for an exact lookup must be limited to one result using slicing". Using the following topics I was able to finish the filter that I wished to build and I was able to popultate the users' ordered products to a select box on the form.
+	- [The QuerySet value for an exact lookup must be limited to one result using slicing. Filter error - Stack Overflow](https://stackoverflow.com/questions/55994907/the-queryset-value-for-an-exact-lookup-must-be-limited-to-one-result-using-slici)
+	- [Django - display all products created by a user](https://stackoverflow.com/questions/47027356/django-display-all-products-created-by-a-user)
+	- [MultipleObjectsReturned Django - Stack Overflow](https://stackoverflow.com/questions/52155601/multipleobjectsreturned-django)
+	- [get_list_or_404 with multiple filters in django - Stack Overflow](https://stackoverflow.com/questions/12950250/get-list-or-404-with-multiple-filters-in-django)
+	- [Python django.shortcuts.get_list_or_404() Examples - Programcreek.com](https://www.programcreek.com/python/example/50062/django.shortcuts.get_list_or_404)
+	- [Getting only the models related to a Django queryset - Stack Overflow](https://stackoverflow.com/questions/15162177/getting-only-the-models-related-to-a-django-queryset)
+	- [Django excluding one queryset from another - Stack Overflow](https://stackoverflow.com/questions/22266734/django-excluding-one-queryset-from-another)
+- On the Community Discussions page when a topic was selected to view, I wanted to display a number in the list to show the comment number beside each comment I did this by displaying the {{forloop.counter}} but needed to add 1 to it to start from 1
+	- [Django Template: How to modify the value in the for-loop tag?](https://stackoverflow.com/questions/30120196/django-template-how-to-modify-the-value-in-the-for-loop-tag)
+- Also on the community discussions I wanted to show the created date for the discussion topic as well as the comments field, I wanted to learn how to format the date in a different format to how it was displayed by default
+	- [Django Documentation - Date Format in template](https://docs.djangoproject.com/en/3.1/ref/templates/builtins/#date)
+	- [How to format datetime objects in the view and template in Django - Ourcodeworld.com](https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django)
+- To add line breaks on a form TextField
+	- [newline in models.TextField() not rendered in template](https://stackoverflow.com/a/50630089)
+- In the add product form of products management I wanted to add a link to Add / View Product Subscriptions above the Product Subscription select box, I researched some topics on this to find how to customise the form widgets in such a way. I also wanted to add some helper text below the input fields
+	- [How to add a custom button or link beside a form field - Stack Overflow](https://stackoverflow.com/questions/45648692/how-to-add-a-custom-button-or-link-beside-a-form-field)
+	- [How can I change the modelform label and give it a custom name - Stack Overflow](https://stackoverflow.com/questions/36905060/how-can-i-change-the-modelform-label-and-give-it-a-custom-name/36905090)
+	- [Django Documentation - Overriding default fields](https://docs.djangoproject.com/en/dev/topics/forms/modelforms/#overriding-the-default-fields)
+	- [Django: how do I include a url link in a form label - Stack Overflow](https://stackoverflow.com/questions/6490408/django-how-do-i-include-a-url-link-in-a-form-label)
+	- [Adding links to full change forms for inline items in django admin? - Stack Overflow](https://stackoverflow.com/questions/2857001/adding-links-to-full-change-forms-for-inline-items-in-django-admin/2925462)
+	- [Display some free text in between Django Form fields - Stack Overflow](https://stackoverflow.com/questions/727917/display-some-free-text-in-between-django-form-fields)
+- When it came to backing up and restoring the data in the SQLite database so that it could be restored to the new Postgres Database in Heroku, I needed to find more details on how to use the dumpdata and loaddata commands
+	- [Django dumpdata and loaddata - by itseranga](https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata)
+	
 
 ### Media
 - The photos used in this site were obtained from ...

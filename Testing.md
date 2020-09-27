@@ -127,6 +127,15 @@ The scenarios used for testing each of the sites components are detailed below:
 		- [x] Webhook details for a successful payment in Stripe: "Webhook received: payment_intent.succeeded | SUCCESS: Verified order already in database"
 		- [x] When the payment has been processed and a successful status has been received back from Stripe then the Order Confirmation page will be displayed with the Order details, delivery address and billing details. A message is also displayed to confirm that an email has been sent to the registered email address for the user.
 		- [x] Check that the order confirmation email has been received which shows the correct order details and delivery information
+    9. Adding a product review - an authenticated user has the option to add a review under the Product Details page. The following tests were performed to test that the reviews could be added and viewed on the product details page	
+		- [x] Select the reviews tab on a product while logged out, the Add Review button is not available
+		- [x] Login and select a product, click on Review tab again and check that the Add Review button is now available
+		- [x] Leave the review title and comment fields blank and try to submit the form - Error displayed and required field borders are shown in red
+		- [x] Try to enter a decimal number for the rating - Error displayed asking to round the number to the nearest value
+		- [x] Enter the title, comment and rating value, then click Add Review - Form submitted and redirected back to the Product Details page, success message is also displayed
+		- [x] Check that the review is displayed under this product details and that all fields from the review and user are correctly displayed
+		- [x] Check that the star rating value is displayed correctly with the star icons in the review
+		- [x] Check that the product rating has been updated with the average rating and is correctly displayed with the star icons
 
 4. Community and Discussions:
 	1. When the Community area is loaded a list of existing topics will be displayed, the following tests were performed to check the functionality of this list as follows:
