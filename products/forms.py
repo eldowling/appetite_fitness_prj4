@@ -15,7 +15,9 @@ class ProductForm(forms.ModelForm):
             'product_sub': _(''),
         }
         help_texts = {
+            'subscription': _('Select No for Accessories or Clothing that would not have a subscription'),
             'product_sub': _('Hold Ctrl and click for multi-select'),
+            'has_sizes': _('Select Yes items like Clothing have an assoicated size'),
         }
 
     image = forms.ImageField(label='Image',

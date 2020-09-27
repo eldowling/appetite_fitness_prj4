@@ -100,7 +100,14 @@ The site also has a Community area which allows for members to add new discussio
 - A community member has the option to add new discussion topics for a selected product. This can provide an evaluation of the product / service or class. It can also be used to give a report on their progress through the program, or to ask questions related to the product. The discussion topic can be edited by the author.
 - Other community members can add comments to each discussion in order to respond to the topic posted. These comments can also be edited and updated by the comment author.
 - The site has a Product Management section to allow store administrators to add, edit or delete products and subscriptions to the store. The main page in the Product Management section displays some buttons for quick and simple access to the different options available. These include Add Product, View a list of products - which allows individual products to be selected to edit or delete. The same options are available for product subscriptions.
+- The store has many Products which are linked to many Product Subscriptions, this many-to-many relationship is managed using a "through" table called Subscriptions.
 - When adding a new product, there are a number of selection boxes to choose options from, this makes it easier for product entry. There is also a list of subscriptions that can be added to any product. These are available in a multi-select list box so that a number of subscriptions can be selected and assigned to any product. There are also convenient links access the add or edit subscriptions sections from the add or edit product pages.
+- There are some fields in the Products model that are used to provide selection functionality when loading the templates, or excluding items when calculating delivery charges, a summary of these fields and their uses are detailed below:
+	- Product.Subscription - This boolean field is used to show the Product Subscription list on the Product Details page. It was used because as the models evolved and I grew to understand how the many-to-many relationship worked, then all products ended up with a product subscription which has the price and stock available fields.
+	- Product.Has_Sizes - Also a boolean field to determine if the Product has sizes, and used to display the Sizes list instead of the subscription list on the Product Details page.
+	- There can be 3 types of Products: Those with a subscription, those with a size, and those with neither as they are just an item such as a sports bag or exercise mat and don't need a selection from either list. They do however have to be associated with a product subscription which is where the price and stock available is taken from.
+	- Product.product_sub - This is the ManyToManyField from the Product_Subscription model. All products must have one product subscription, but if the value in Product.Subscription is False - then the subscription list will not be displayed, and the price and quantity will be displayed directly on the product details page. Similarly if the Product.Has_Sizes is True then the sizes list will be displayed instead of the subscription list on the product details page.
+	- Some helper texts were added to the Add Product form to assist with the values used in these fields.
 - On adding a new subscription the user can select the subscription type as well as the price, quantity available and delivery charge (Y/N) - this is used to calculate delivery costs when the user is checking out. As some products are available as online programs or classes - there would be no need to charge for delivery of such subscriptions.
 - The lists of Products or Subscriptions will be displayed to show the user all existing items. These lists can be sorted by each column heading and there is also a search option available to find a particular product or subscription through a keyword search of the name or description.
  
@@ -201,8 +208,9 @@ Some of the technologies that I used to implement the features and functionality
 	- **GitHub** provides hosting for software development and version control using Git. It offers the distributed version control and source code management functionality of Git, plus its own features.
 	- It can be used as a command line tool, but a Web-based graphical interface is also available to use which provides access control and several collaboration features, such as a wikis and basic task management tools for every project.
 	- As the project was being developed it was pushed to a GitHub software repository which acted as a backup and version control, meaning that a previous version could be rolled back to using GitHub command line functions or the web-based interface.
-
-
+- [GitPod](https://gitpod.io/)
+	- Development of the application was completed in **GitPod** which is an online IDE which can be launched from any GitHub page and provides a fully working development environment, including a VS Code-powered IDE and a cloud-based Linux container configured specifically for the project at hand.
+	- It contains the entire development workflow in a browser tab, and has convenient tools for sharing and collaborating.
 
 
 ## Testing
@@ -211,14 +219,120 @@ Some of the technologies that I used to implement the features and functionality
 
 ## Deployment
 
-This section should describe the process you went through to deploy the project to a hosting platform (e.g. GitHub Pages or Heroku).
+In order to deploy the project to the Heroku hosting platform a number of configuration settings had to be completed. The Production environment also uses a Postgres database, and the database models as well as the data from the SQLite development database had to be recreated in the new Postgres database.
+Details of the updates and configuration completed to deploy to the production environment are detailed below
 
-In particular, you should provide all details of the differences between the deployed version and the development version, if any, including:
-- Different values for environment variables (Heroku Config Vars)?
-- Different configuration files?
-- Separate git branch?
-
-In addition, if it is not obvious, you should also describe how to run your code locally.
+- Database Setup and Configuration	
+	- I used the dumpdata command to take a backup of individual tables in the SQLite database
+	- The Heroku Postgres database was created and configured
+	- After this 2 new applications were installed **dj-database-url** and ***psycopg2-binary** - these were used to connect to the Heroku Postgres database
+	- Updates were required in Settings.py in order to set the DATABASES configuration settings to use the dj-database-url
+	- Added the DATABASE_URL to the Heroku config vars
+	- After this the migrations needed to be run to transfer all of the models to the new Postgres database.
+	- Once this was completed, the loaddata commands were run, I choose to run the command for each model individually with the backed up data from the SQLite database. This helped in saving some time rather than having to reconfigure a lot of settings that had been manually done in the Django admin.
+	- A superuser was created and validated for access to the admin
+- Heroku Configuration Settings
+	- Gunicorn was installed then to act as a web server
+	- Created the Procfile - this tells Heroku to create a webdino that runs Gunicorn to server the Django application
+	- Temporarily disabled Collect Static to stop Heroku trying to collect static when deployed "DISABLE_COLLECTSTATIC = 1 --app nutriverse"
+	- Add Heroku application name to the ALLOWED_HOSTS in settings.py
+	- I linked the GitHub repository in Heroku and allowed automatic deploys from the GitHub master after doing an initial push to the Heroku master
+	- A new secret key was generated and the a key for SECRET_KEY was added to the config vars in Heroku, as well as updating the settings.py to get this value from the environment variables.
+	- Added a key in the GitPod Environment Variables for DEVELOPMENT = True, and updated the settings.py to remove the secret key allow it to switch between the development and production environments easily.
+- Amazon S3	Setup and Configuration
+	- Created an Amazon AWS account and signed into the AWS Management console
+	- Found the Amazon S3 service and created a new bucket in it to match the Heroku app name
+	- Select Europe West 1 region (nearest my location), and unticked the box to block all public access.
+	- Accepted the acknowledgment that the bucket will be public, then created the bucket
+	- Click on the properties tab and turn on static website hosting, enter the defaults for index.html & error.html and click save. 
+	- On the permissions tab the CORS configuration had to be pasted into the text box - to set up the required access between Heroku app and the S3 bucket
+	- On the policy tab click the policy generator and select S3 bucket policy.
+	- Allow all priciples by using a * 
+	- Select Get Object in the Action list
+	- Go to the Bucket Policy Editor on the Permissions tab and copy the ARN, and paste it into the ARN box at the end of the policy generator
+	- Click Add Statement, then Generate Policy
+	- Now copy the policy into the Bucket Policy Editor, modify the resource key to include slash star at the end of the Resourse line, which allows access to all resouces in the bucket. Then click Save
+	- Go to the Access Control List option under the Permissions tab
+	- Select Everyone under Public Access, and tick the List objects box, then click Save
+- Creating IAM users and Access Groups
+	- Go to the services menu in AWS and click on IAM (Identity and Access Management)
+	- 3 steps to be completed in this section: Create a Group, Access Policy to give the group access to the bucket, assing a user to the group
+	- **Group Creation**
+		- Click Groups, select New Groups and enter a name for your group according to its function such as "manage-nutriverse"
+		- Click next step twice, the click Create Group
+	- **Create Policy**
+		- Click Policies, and Create Policy, then select the JSON tab
+		- Select import managed policy and search fro S3 and import "S3 full access policy"
+		- Change the Resource on the JSON tab from having [star] which would have access to everything, and instead paste in the ARN which can be copied from the S3 Bucket Policy page.  
+		- This will allow full access to the bucket and everything in the bucket only.
+		- Click Save and then review policy and give it a name and description
+		- Name "eldowling-nutriverse-policy"
+		- Description "Access to S3 bucket for Nutriverse static files"
+		- Then click Create Policy
+	- **Attaching Groups**
+		- Select Groups, then select the group that was created (manage-nutriverse group)
+		- Click attach policy in permissions
+		- Search for the policy name that was created (eldowling-nutriverse-policy) and select it
+		- Click attach policy
+	- **Adding User to the Group**
+		- Select Users and click Add user
+		- Enter a name: "Nutriverse-staticfiles-user"
+		- Tick progrmmatic acces and click Next
+		- Add user to the Group, select the group name "manage-nutriverse" and click Next
+		- Click Next again and then Create user
+		- **Download and Save** the csv file - important to save this as it will be used to configure the in Heroku
+- Configuring Application to connect to the S3 bucket
+	- Install **boto3** and **django-storages** in the Django project - these are needed to connect to the S3 storages
+	- In settings.py add 'storages' to the INSTALLED_APPS
+	- Also in settings.py add the AWS connection settings which are detailed below, use if USE_AWS key is True from the Heroku environment variables so that these settings are only applied in the production environment
+	- **Config vars for settings.py**:
+		- AWS_STORAGE_BUCKET_NAME = 'nutriverse-edowling'
+		- AWS_S3_REGION_NAME = 'eu-west-1'
+		- AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+		- AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+	- **Add new variables to Heroku config vars**
+		- AWS_SECRET_ACCESS_KEY - use settings from the csv file that was downloaded and saved 
+		- AWS_ACCESS_KEY_ID - use settings from the csv file that was downloaded and saved 
+		- USE_AWS = True
+		- Delete the DISABLE_COLLECTSTATIC variable - Django will collect static files automatically and upload them to Heroku the next time the project is deployed.
+	- In settings.py add another variable below the other AWS vars
+	- AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com' 
+	- This tells Django where the static files are coming from in production.
+	- Created 2 custom classes: **StaticStorage** and **MediaStorage** to set the location of static files and media files, these are saved in custom_storages.py
+	- The settings to use these file locations are created in settings.py add the following variables to it which is also done just below the "if USE_AWS" condition:
+		- STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+		- STATICFILES_LOCATION = 'static'
+		- DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+		- MEDIAFILES_LOCATION = 'media'
+		- STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
+		- MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
+	- Commit these settings and push to Heroku
+- Copy Media files to the S3 bucket
+	- Open S3 and create a new folder called "Media" in the bucket
+	- Inside the new folder click on Upload, the Add Files and select all of the product images
+	- Click Next and select "Grant public read access to these objects" under Manage Public Permissions
+	- Click Next through to the end, then click Upload
+- Add Stripe Keys to Heroku Config Vars
+	- A new webhook needs to be created in Stripe for the url to the Heroku app: "https://nutriverse.herokuapp.com/checkout/wh/"
+	- A signing secret can then be copied from this webhook to the Heroku Config vars as well as the Strip secret key:
+		- STRIPE_SECRET_KEY - get the settings from the Stripe account
+		- STRIPE_WH_SECRET - get this from the new webhook created
+	- Send a test webhook from Stripe to the Heroku app, check that it returns a successful message at the bottom of the page.
+- Email Configuration
+	- In your email account (Gmail used for this project) open settings
+	- Select Accounts & Import, then other Gmail account settings
+	- Click the security tab, and turn on 2 step verification
+	- Click Get started and enter password
+	- Select verification method
+	- In settings, signing in under Google
+	- Add App Passwords
+	- Select Mail
+	- Choose "Other" and type "Django" then click Generate
+	- Copy the password and set up the following 2 variables in Heroku config vars:
+		- EMAIL_HOST_PASS - copied from Gmail app password just created
+		- EMAIL_HOST_USER - type your own email address for the account you used to configure the app password.
+	- Commit this and push it to GitHub / Heroku
+	- Test by creating a new account in the application and checking that the verification email is sent.
 
 
 ## Credits
