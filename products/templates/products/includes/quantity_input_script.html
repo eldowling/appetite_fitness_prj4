@@ -20,17 +20,39 @@
         $(`#increment-qty_${itemId}`).prop('disabled', plusDisabled);
     }
 
+    // Check purchase quantity against the quantity available in stock
+    function checkStockAvailable(itemId) {
+        var selected_quantity = parseInt($(`#id_qty_${itemId}`).val());
+        var qty_avail = Number(document.getElementById("purchase_qty_available").value);
+        if(selected_quantity>qty_avail) {
+            var submit_msg = "Reduce Quantity - There is not enough stock available"
+            document.getElementById("submit-error").innerHTML = submit_msg;
+            //document.getElementById('qty').value='';
+            return "INSUFFICIENT STOCK";
+        } else {
+            // Stock is OK
+            return "OK";
+        }
+    }
+
+    // Clear the error in submit-error div
+    function clearError() {
+        document.getElementById("submit-error").innerHTML = "";
+    }
+
     // Ensure proper enabling/disabling of all inputs on page load
     var allQtyInputs = $('.qty_input');
     for(var i = 0; i < allQtyInputs.length; i++){
         var itemId = $(allQtyInputs[i]).data('item_id');
         handleEnableDisable(itemId);
-    }
+    } 
 
     // Check enable/disable every time the input is changed
     $('.qty_input').change(function() {
         var itemId = $(this).data('item_id');
         handleEnableDisable(itemId);
+        clearError();
+        checkStockAvailable(itemId);
         
     });
 
@@ -42,6 +64,8 @@
        $(closestInput).val(currentValue + 1);
        var itemId = $(this).data('item_id');
        handleEnableDisable(itemId);
+       clearError();
+       checkStockAvailable(itemId);
     });
 
     // Decrement quantity
@@ -52,5 +76,9 @@
        $(closestInput).val(currentValue - 1);
        var itemId = $(this).data('item_id');
        handleEnableDisable(itemId);
+       clearError();
+       checkStockAvailable(itemId);
     });
+
+    
 </script>

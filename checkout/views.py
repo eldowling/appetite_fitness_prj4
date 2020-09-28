@@ -35,11 +35,10 @@ def cache_checkout_data(request):
 def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
-    # client_secret = 'temp client secret'
 
     if request.method == 'POST':
         basket = request.session.get('basket', {})
-        
+
         form_data = {
             'full_name': request.POST['full_name'],
             'email': request.POST['email'],
@@ -68,6 +67,10 @@ def checkout(request):
                         for subs_size, quantity in item_data['item_subscription'].items():
                             prod_sub = product_subscription.filter(subscription_type=subs_size)
                             selected_product_subs = get_object_or_404(Product_Subscription, pk=prod_sub[0].id)
+                            # Future enhancement - need to check if the quantity_available >= quantity
+                            # before the order_line_item is saved. 
+                            # If there is not enough stock then the user should be asked if they would
+                            # like to purchase the quantity that is available, or to remove the item from their order
                             order_line_item = OrderLineItem(
                                 order=order,
                                 product=product,
@@ -83,6 +86,10 @@ def checkout(request):
                                 prod_size = p.size
                             sel_prod_size = get_object_or_404(Sizes, code=prod_size)
                             selected_product_subs = get_object_or_404(Product_Subscription, pk=prod_sub[0].id)
+                            # Future enhancement - need to check if the quantity_available >= quantity
+                            # before the order_line_item is saved. 
+                            # If there is not enough stock then the user should be asked if they would
+                            # like to purchase the quantity that is available, or to remove the item from their order
                             order_line_item = OrderLineItem(
                                 order=order,
                                 product=product,
@@ -91,6 +98,15 @@ def checkout(request):
                                 product_size=sel_prod_size,
                             )
                             order_line_item.save()
+                    # Update quantity_available - reduce stock after purchase
+                    if selected_product_subs.quantity_available >= quantity:
+                        selected_product_subs.quantity_available -= quantity
+                        selected_product_subs.save()
+                    else:
+                        messages.error(request, (
+                            "There was an error updating the stock for this product %s"
+                            % selected_product_subs.name)
+                        )
                 except Product.DoesNotExist:
                     messages.error(request, (
                         "A product in your basket was not found in our database."

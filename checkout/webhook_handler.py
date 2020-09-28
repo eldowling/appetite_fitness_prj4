@@ -107,6 +107,7 @@ class StripeWH_Handler:
         else:
             order = None
             try:
+                # If order does not exist then it should be created
                 order = Order.objects.create(
                     full_name=shipping_details.name,
                     user_profile=profile,
@@ -129,6 +130,10 @@ class StripeWH_Handler:
                         for subs_size, quantity in item_data['item_subscription'].items():
                             prod_sub = product_subscription.filter(subscription_type=subs_size)
                             selected_product_subs = Product_Subscription.objects.get(pk=prod_sub[0].id)
+                            # Future enhancement - need to check if the quantity_available >= quantity
+                            # before the order_line_item is saved. 
+                            # If there is not enough stock then the user should be asked if they would
+                            # like to purchase the quantity that is available, or to remove the item from their order
                             order_line_item = OrderLineItem(
                                 order=order,
                                 product=product,
@@ -143,6 +148,10 @@ class StripeWH_Handler:
                                 prod_size = p.size
                             sel_prod_size = Sizes.objects.get(code=prod_size)
                             selected_product_subs = Product_Subscription.objects.get(pk=prod_sub[0].id)
+                            # Future enhancement - need to check if the quantity_available >= quantity
+                            # before the order_line_item is saved. 
+                            # If there is not enough stock then the user should be asked if they would
+                            # like to purchase the quantity that is available, or to remove the item from their order
                             order_line_item = OrderLineItem(
                                 order=order,
                                 product=product,
@@ -151,6 +160,10 @@ class StripeWH_Handler:
                                 product_size=sel_prod_size,
                             )
                             order_line_item.save()
+                    # Update quantity_available - reduce stock after purchase
+                    if selected_product_subs.quantity_available >= quantity:
+                        selected_product_subs.quantity_available -= quantity
+                        selected_product_subs.save()
             except Exception as e:
                 if order:
                     order.delete()
