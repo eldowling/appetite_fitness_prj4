@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Avg
 from django.db.models.functions import Lower
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
@@ -30,6 +30,12 @@ def all_products(request):
                 products = products.annotate(lower_name=Lower('name'))
             if sortkey == 'subcategory':
                 sortkey = 'subcategory__code'
+            if sortkey == 'price':
+                sortkey = 'product_sub__price'
+            #if sortkey == 'rating':
+                # reviews = Reviews.objects.aggregate(Avg('user_rating')).order_by('user_rating__avg')
+                # return reviews
+                #'sortkey = 'user_rating__avg'
             if 'direction' in request.GET:
                 direction = request.GET['direction']
                 if direction == 'desc':
