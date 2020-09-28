@@ -13,27 +13,9 @@ from checkout.models import Order, OrderLineItem
 
 class Discussions_List(ListView):
     """Create a listview of all Discussions"""
-    model = Discussions
     template_name = 'community/discussions_list.html'
-    # queryset = Discussions.objects.all()
+    queryset = Discussions.objects.all()
     paginate_by = 10
-
-    def get_queryset(self):
-        # .../update/list/?filter=filter-val&orderby=order-val
-        filter_val = self.request.GET.get('filter', 'fitness')
-        order = self.request.GET.get('orderby', 'created')
-        filtered_products = Product.objects.filter(category__code=filter_val)
-        print('---filtered products', filtered_products)
-        new_context = Discussions.objects.filter(
-            product=filtered_products,
-        ).order_by(order)
-        return new_context
-
-    def get_context_data(self, **kwargs):
-        context = super(Discussions_List, self).get_context_data(**kwargs)
-        context['filter'] = self.request.GET.get('filter', 'fitness')
-        context['orderby'] = self.request.GET.get('orderby', 'created')
-        return context
 
 
 @login_required
@@ -42,21 +24,24 @@ def add_discussion_topic(request):
 
     if request.user.is_authenticated:
         user_products = []
+        # get the profile, then the orders for that profile
         profile = get_object_or_404(UserProfile, user=request.user)
         user_orders = get_list_or_404(Order, user_profile=profile)
         for user_order in user_orders:
+            # for each of the user's orders get the order line items
             order_lineitem = get_list_or_404(OrderLineItem, order=user_order)
             for order_li in order_lineitem:
+                # for each line item added it to the
+                # user_products list, without duplicates
                 if order_li.product not in user_products:
                     user_products.append(order_li.product)
     if request.method == 'POST':
         if request.user.is_authenticated:
             profile = UserProfile.objects.get(user=request.user)
-            selected_product = request.POST['product']
-            print('---selected_product', selected_product)
+            selected_product = request.POST.get('discussion_product', False)
             product = get_object_or_404(Product, name=selected_product)
-            #print('product--- ', product)
             form_data = {
+                'product': product,
                 'topic': request.POST['topic'],
                 'disc_topic_text': request.POST['disc_topic_text'],
             }
@@ -65,7 +50,6 @@ def add_discussion_topic(request):
             if discussion_form.is_valid():
                 discussion_object = discussion_form.save(commit=False)
                 discussion_object.user_profile = profile
-                #discussion_object.product = product
                 discussion_form.save()
 
                 return redirect('discussions_list')

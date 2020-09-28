@@ -24,8 +24,8 @@
                     <div class="card border-success py-2 px-2 mb-3">
                         {% csrf_token %}  
                         <div class="form-group">
-                            <label for="product">Example select</label>
-                            <select class="form-control" id="product">
+                            <label for="discussion_product">Products</label>
+                            <select class="form-control" id="discussion_product" name="discussion_product">
                                 {% for product in user_products %}
                                     {% if product.category|cut:" " == "fitness" or product.category|cut:" " == "nutrition" %}
                                         <option>{{ product }}</option>

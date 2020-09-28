@@ -32,8 +32,8 @@ html {
 }
 
 .carousel-w-100 {
-  width: 100% !important;
-  height: 72%;
+  width: 90% !important;
+  height: 30%;
 }
 
 .carousel-caption {
@@ -115,6 +115,10 @@ a.subcat-badge > span.badge:hover {
 #edit-product-form .form-control {
     color: rgb(26, 39, 53);
     border: 1px solid #2C3E50;
+}
+
+.gray-bkg {
+    background: gray;
 }
 
 .maintenance-extra {

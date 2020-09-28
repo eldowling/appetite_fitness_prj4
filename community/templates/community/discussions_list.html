@@ -27,8 +27,13 @@
         <div class="row">
             <div class="col-12">
                 {% if object_list %}
+                <!--Fitness Discussions-->
+                <div class="gray-bkg text-center py-2">
+                    <h5><em>Fitness Discussions:</em></h5>                    
+                </div>
+                <br>
                 <div class="table-responsive">
-                    <table id="discussions_table" class="table">
+                    <table id="discussions_table_fitness" class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th>Product</th>
@@ -37,10 +42,6 @@
                                 <th>Date Added</th>
                             </tr>
                         </thead>
-                        <!--Fitness Discussions-->
-                        <tr>
-                            <td colspan="4"><h5><em>Fitness Discussions:</em></h5></td>
-                        </tr>
                         {% for discussion in object_list %}
                             {% if discussion.product.category.code == 'fitness' %}
                         <tr>
@@ -51,10 +52,25 @@
                         </tr>
                             {% endif %}
                         {% endfor %}
-                        <!--Nutrition Discussions-->
-                        <tr>
-                            <td colspan="4"><h5><em>Nutrition Discussions:</em></h5></td>
-                        </tr>
+                    </table>
+                </div>
+
+                <!--Nutrition Discussions-->
+                <br>
+                <div class="gray-bkg text-center py-2">
+                    <h5><em>Nutrition Discussions:</em></h5>
+                </div>
+                <br>
+                <div class="table-responsive">
+                    <table id="discussions_table_nutrition" class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Product</th>
+                                <th>Discussion Topic</th>
+                                <th>Added By</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
                         {% for discussion in object_list %}
                             {% if discussion.product.category.code == 'nutrition' %}
                         <tr>
@@ -79,7 +95,10 @@
     {{ block.super }}
     <script>
         $(document).ready(function () {
-            $('#discussions_table').DataTable({
+            $('#discussions_table_fitness').DataTable({
+                "pagingType": "first_last_numbers"
+            });
+            $('#discussions_table_nutrition').DataTable({
                 "pagingType": "first_last_numbers"
             });
             $('.dataTables_length').addClass('bs-select');
