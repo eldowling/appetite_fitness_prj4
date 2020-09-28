@@ -14,7 +14,7 @@ from checkout.models import Order, OrderLineItem
 class Discussions_List(ListView):
     """Create a listview of all Discussions"""
     template_name = 'community/discussions_list.html'
-    #queryset = Discussions.objects.all()
+    #queryset = Discussions.objects.filter()
     queryset = Discussions.objects.all()
 
 

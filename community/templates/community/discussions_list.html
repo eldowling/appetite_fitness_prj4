@@ -37,13 +37,33 @@
                                 <th>Date Added</th>
                             </tr>
                         </thead>
+                        <!--Fitness Discussions-->
+                        <tr>
+                            <td colspan="4"><h5><em>Fitness Discussions:</em></h5></td>
+                        </tr>
                         {% for discussion in object_list %}
+                            {% if discussion.product.category.code == 'fitness' %}
                         <tr>
                             <td>{{ discussion.product }}</td>
                             <td><a href="{% url 'view_topic' discussion.id %}">{{ discussion.topic }}</a></td>
                             <td>{{ discussion.get_name }}</td>
                             <td>{{ discussion.created }}</td>
                         </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <!--Nutrition Discussions-->
+                        <tr>
+                            <td colspan="4"><h5><em>Nutrition Discussions:</em></h5></td>
+                        </tr>
+                        {% for discussion in object_list %}
+                            {% if discussion.product.category.code == 'nutrition' %}
+                        <tr>
+                            <td>{{ discussion.product }}</td>
+                            <td><a href="{% url 'view_topic' discussion.id %}">{{ discussion.topic }}</a></td>
+                            <td>{{ discussion.get_name }}</td>
+                            <td>{{ discussion.created }}</td>
+                        </tr>
+                            {% endif %}
                         {% endfor %}
                     </table>
                 </div>
