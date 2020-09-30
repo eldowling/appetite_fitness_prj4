@@ -72,7 +72,7 @@ These will be used as a starting point in order to help build a draft of what th
 After reviewing all of the user stories, some wireframes / mockups of the pages for the site were created, 
 These are wireframes available to view on Balsamiq:
 - [Nutriverse - Mobile layout wireframes](https://balsamiq.cloud/s11kk48/py0t2ol)
-- [Nutriverse - Large screen layout wireframes](https://balsamiq.cloud/s11kk48/p31mhpy)
+- [Nutriverse - Large screen layout wireframes](https://balsamiq.cloud/s11kk48/p8tfm35)
 
 
 ## Features
@@ -248,6 +248,9 @@ Some of the technologies that I used to implement the features and functionality
 - [GitPod](https://gitpod.io/)
 	- Development of the application was completed in **GitPod** which is an online IDE which can be launched from any GitHub page and provides a fully working development environment, including a VS Code-powered IDE and a cloud-based Linux container configured specifically for the project at hand.
 	- It contains the entire development workflow in a browser tab, and has convenient tools for sharing and collaborating.
+- [coverage](https://pypi.org/project/django-coverage/)
+	- **coverage** is a reporting tool to use on your tests which shows how much of your code is exercised with your tests.
+	- It was used in this project to generate a report of the coverage of tests created for a particular app
 
 
 ## Testing
@@ -522,12 +525,16 @@ Details of the updates and configuration completed to deploy to the production e
 - [Senior Workout Advanced - Shutterstock](https://www.shutterstock.com/image-photo/senior-couple-exercising-gym-619305275)
 - [Children's Fitness Workout by Lucas](https://images.pexels.com/photos/296301/pexels-photo-296301.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
 - [Advanced Children's Workout by Luis Quintero](https://images.pexels.com/photos/1671217/pexels-photo-1671217.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
-- [Online Kettlebells Workout by Purple Smith from Pexels
- ](https://images.pexels.com/photos/4527389/pexels-photo-4527389.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
-- [Online HIIT Workout by Karolina Grabowska from Pexels
-](https://images.pexels.com/photos/1671217/pexels-photo-1671217.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
+- [Online Kettlebells Workout by Purple Smith from Pexels](https://images.pexels.com/photos/4527389/pexels-photo-4527389.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
+- [Online HIIT Workout by Karolina Grabowska from Pexels](https://images.pexels.com/photos/1671217/pexels-photo-1671217.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
 - [Senior Workout Online - Shutterstock](https://www.shutterstock.com/image-photo/fitness-training-online-senior-woman-home-1672681894)
+- [Medicine Ball 3kg - Amazon.com](https://m.media-amazon.com/images/I/81n+-q4G47L._AC_UL480_FMwebp_QL65_.jpg)
+- [Medicine Ball 5kg - Amazon.com](https://m.media-amazon.com/images/I/91Vmngw-z5L._AC_UL480_FMwebp_QL65_.jpg)
+- [Medicine Ball 10kg - Amazon.com](https://m.media-amazon.com/images/I/51fO3yD359L._AC_UL480_FMwebp_QL65_.jpg)
+- [Resistance bands set of 3 - Amazon.com](https://m.media-amazon.com/images/I/81LlSQGGwLL._AC_UL480_FMwebp_QL65_.jpg)
+- [Resistance Bands 21 piece set - Amazon.com](https://m.media-amazon.com/images/I/71yPK88pcPL._AC_UL480_FMwebp_QL65_.jpg)
 
 ### Acknowledgments
 
-- I received inspiration for this project from X
+- I would like to thank everyone who supported me through the completion of this project, in particular to my mentor Dick Vlaanderen, who guided and advised me throughout the course.
+- I'd also like to thank the Tutors and Leads in Code Institute and fellow students on Slack, all of whom played a part in helping me to find different solutions when 

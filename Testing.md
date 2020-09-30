@@ -48,7 +48,9 @@ The scenarios used for testing each of the sites components are detailed below:
 	1. Tested the products catalog using the following filters and searches:
 		- [x] Display full catalog for all products
 		- [ ] Selected the Products sorting by Price - but got an error, this was because the price field had been removed from the Products model onto the Product Subscriptions model as prices are now linked to individual subscriptions. An update is required to the view to change the filter / sort query for the price field. Testing will redone when the updates have been completed.
+		- [x] Selected the Products sorting by Price (2nd iteration) - this is now working when an update was made to sort on the Product Subscription price
 		- [ ] Selected the Products sorting by Rating - also got an error for this as the average rating is now calculated through a function called "get_avg_rating" in the Product model, which calculates the average rating from the Reviews model user_rating field for ratings on each individual product. An update is also required for this filter / sort query in order to user the calculated average rating for sorting the products list. Re-testing will be required on this element again, once completed.
+		- [ ] Selected the Products sorting by Rating (2nd iteration) - I tried to implement a complicated aggregate function which got the rating for each product and then sorted it, however I ran into many errors with this and it would need further research to try and implement it correctly. In this revision I have opted to remove the rating sort options until a solution has been found to work correctly.
 		- [x] Selected sort by Category for all products - the Products Catalog was displayed successfully, and the categories tag displayed in each product card was sorted alphabetically (A-Z).
 		- [x] Used the Sort option to change the sort direction from (Z-A) - Product list was correctly displayed with categories in reverse alphabetical order.
 		- [x] Used the sort option to sort products by Name, both ascending and descending - both worked correctly sorting by the product name.
@@ -148,7 +150,7 @@ The scenarios used for testing each of the sites components are detailed below:
 		- [x] Select the topic title link to open the topic to view / edit / add comments
 		- [x] Select the New Topic button to access the Add Topic form
 	2. When adding or editing a topic, the product will be selected from the list of products. The user must enter details in both the title and description fields before being able to save the topic.
-		- [x] Try to save a topic without the required fileds being completed - The field border is displayed in red when the required field has not been completed
+		- [x] Try to save a topic without the required fields being completed - The field border is displayed in red when the required field has not been completed
 		- [x] Enter details in all the fields and click Add Topic - the topic is saved and then displayed in the list of topics on the main Community page
 		- [x] Select the topic that was just added and ensure the edit link is available
 		- [x] Select a topic created by another user to check that it cannot be edited by the current user - the Edit link is not available in this case
@@ -195,3 +197,9 @@ The scenarios used for testing each of the sites components are detailed below:
 		- [x] Update some of the fields and click the Update Product Subscription button - the form is submitted and the updated subscription can be viewed in the subscriptions list view.
 		- [x] The updated subscription is available in the product subscriptions list on the Add or Edit Product forms
 	9. Delete Subscription - this option can only be accessed through the product subscriptions list view. When the correct product subscription has been found, then click on the delete icon for that subscription row. The product subscription will be deleted immediately and a message is displayed confirming to the user of its successful deletion.
+6. Unit Testing
+	- As part of the testing I created some tests for the views, forms and models on the Community app
+	- I faced some problems with the views test where it tests the add discussion view, as this has some complexity to it where the Products list is filtered to only display the User's Ordered Products.
+	- Although I had written most of the tests for both the add discussion and edit discussion views, I was not able to complete the part where the users's ordered products could be set in order to run the test.
+	- Another issue that I had was for edit comment, for this it was returning an error because a response of 302 was expected but it got a value of 200.
+	- I tried a number of different things to fix this issue, but it needs more research to identify the error and fix the test.

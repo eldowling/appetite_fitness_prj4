@@ -116,7 +116,7 @@
                     </ul>
                     <div id="Descr_Review_Tab" class="tab-content mt-3 tab-container">
                         <div class="tab-pane fade show active" id="description">
-                            <p>{{ product.description }}</p>
+                            <p>{{ product.description|linebreaks }}</p>
                         </div>
                         <div class="tab-pane fade" id="reviews">
                             <p>Read the reviews for this product from users below:</p><br>
@@ -152,7 +152,7 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">Comment:</th>
-                                            <td colspan="2">{{ review.comment }}</td>
+                                            <td colspan="2">{{ review.comment|linebreaks }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
