@@ -2,12 +2,13 @@
 
 "Nutriverse" - a Nutrition and Fitness Universe: This is a space created to allow our customers to view different Fitness and Nutrition products, services and classes that are available, as well as our range of accessories and merchandise. It allows the customer to view each product description and reviews before deciding on their purchase.
 
-The Community section allows our customers to add discussion topics for any of the services we offer, where they can share their experiences of these and other users can comment on the topics to answer questions. This area allows customers to support eachother as well as offering tips and advice.
+The Community section allows our customers to add discussion topics for any of the services we offer, where they can share their experiences of these and other users can comment on the topics to answer questions. This area allows customers to support each other as well as offering tips and advice.
 
 The site also has an integrated administration and store management section. This allows authorised users to easily update and maintain the products and subscriptions available in the store.
 
 ## Table of Contents
 - [Nutriverse](#nutriverse)
+  * [Table of Contents](#table-of-contents)
   * [UX](#ux)
   * [Features](#features)
     + [Existing Features](#existing-features)
@@ -17,6 +18,9 @@ The site also has an integrated administration and store management section. Thi
   * [Deployment](#deployment)
   * [Credits](#credits)
     + [Content](#content)
+      - [CSS](#css)
+    + [JavaScript / JQuery](#javascript---jquery)
+      - [Django](#django)
     + [Media](#media)
     + [Acknowledgments](#acknowledgments)
 
@@ -235,7 +239,7 @@ Some of the technologies that I used to implement the features and functionality
 	- It was used as the development database while creating the project, providing fast and reliable data services to the application. SQLite works great as the database engine for most low to medium traffic websites
 - [Heroku Postgres](https://www.heroku.com/postgres)
 	- **Heroku Postgres** is a managed SQL database service provided directly by Heroku. You can access a Heroku Postgres database from any language with a PostgreSQL driver, including all languages officially supported by Heroku.
-	- When deploying the website to Heroku, the Heroku Postgres database was selected to use in the production environment because SQLite runs in memory, and backs up its data store in files on disk. This is not suitable for use with the Heroku ephemeral filesystem where the contents will be cleared periodically. If the SQLite database was used on Heroku, the entire database at least once every 24 hours.	
+	- When deploying the website to Heroku, the Heroku Postgres database was selected to use in the production environment because SQLite runs in memory, and backs up its data store in files on disk. This is not suitable for use with the Heroku ephemeral file system where the contents will be cleared periodically. If the SQLite database was used on Heroku, the entire database at least once every 24 hours.	
 - [Heroku](https://www.heroku.com)
 	- **Heroku** is a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud. 
 	- It is used to deploy, manage, and scale modern apps. The platform is elegant, flexible, and easy to use, and offers the simplest path for getting apps to market.
@@ -287,16 +291,16 @@ Details of the updates and configuration completed to deploy to the production e
 	- Click on the properties tab and turn on static website hosting, enter the defaults for index.html & error.html and click save. 
 	- On the permissions tab the CORS configuration had to be pasted into the text box - to set up the required access between Heroku app and the S3 bucket
 	- On the policy tab click the policy generator and select S3 bucket policy.
-	- Allow all priciples by using a * 
+	- Allow all principles by using a * 
 	- Select Get Object in the Action list
 	- Go to the Bucket Policy Editor on the Permissions tab and copy the ARN, and paste it into the ARN box at the end of the policy generator
 	- Click Add Statement, then Generate Policy
-	- Now copy the policy into the Bucket Policy Editor, modify the resource key to include slash star at the end of the Resourse line, which allows access to all resouces in the bucket. Then click Save
+	- Now copy the policy into the Bucket Policy Editor, modify the resource key to include slash star at the end of the Resource line, which allows access to all resources in the bucket. Then click Save
 	- Go to the Access Control List option under the Permissions tab
 	- Select Everyone under Public Access, and tick the List objects box, then click Save
 - Creating IAM users and Access Groups
 	- Go to the services menu in AWS and click on IAM (Identity and Access Management)
-	- 3 steps to be completed in this section: Create a Group, Access Policy to give the group access to the bucket, assing a user to the group
+	- 3 steps to be completed in this section: Create a Group, Access Policy to give the group access to the bucket, assigning a user to the group
 	- **Group Creation**
 		- Click Groups, select New Groups and enter a name for your group according to its function such as "manage-nutriverse"
 		- Click next step twice, the click Create Group
@@ -317,7 +321,7 @@ Details of the updates and configuration completed to deploy to the production e
 	- **Adding User to the Group**
 		- Select Users and click Add user
 		- Enter a name: "Nutriverse-staticfiles-user"
-		- Tick progrmmatic acces and click Next
+		- Tick programmatic access and click Next
 		- Add user to the Group, select the group name "manage-nutriverse" and click Next
 		- Click Next again and then Create user
 		- **Download and Save** the csv file - important to save this as it will be used to configure the in Heroku
@@ -387,6 +391,10 @@ Details of the updates and configuration completed to deploy to the production e
 - [CSS background-image Property - W3Schools.com](https://www.w3schools.com/cssref/pr_background-image.asp)
 - [Bootstrap carousel resizing image - Stackoverflow](https://stackoverflow.com/questions/17357306/bootstrap-carousel-resizing-image)
 - [Bootstrap 4 Responsive tables won't take up 100-width](https://stackoverflow.com/questions/41747667/bootstrap-4-responsive-tables-wont-take-up-100-width) - this forum question was used to try and fix an issue I had with trying to implement a responsive Bootstrap table, by moving the table-responsive class from the table tag to the div it resolved the issue.
+- For some of the main pages in the site, such as the product details, basket and checkout, I referred back to the mini project's Boutique Ado page layout for some of the elements. I learnt to customise them as I progressed through this project and became more confident with using the bootstrap helper classes.
+- I also tried to develop a theme and returned to implement this across all of the pages to keep the format the same for the whole site.
+- The functionality in the views was also used as an example for building this site, I feel I've gained experience by trying to implement new parts such as the subscriptions, and also some elements of the Community and Reviews apps where I got to do some more complex functions and queries.
+- I have detailed a lot of these further on in the Django section for all of the references I used in learning about how to build the new functionality.
 - [DataTables.net Bootstrap Tables]() A CSS script was used to apply the styling on the Data Tables used for the Discussion List View and Products / Product Subscriptions List views - more details about this is provided in the JavaScript / JQuery section below as the tables also use some JavaScript functions and libraries.
 	- The css library file "https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap.min.css" was also used together with the Bootstrap CDN
 - For the Product Ratings and Review I wanted to implement a star rating which would use an icon and the number of coloured stars would indicate the average rating for the product. For example a 4 out of 5 rating would display 4 coloured stars and 1 empty star. I looked up a few tutorials on this to try and find some JavaScript / CSS that could do this. These included the following tutorials / videos:
@@ -396,7 +404,7 @@ Details of the updates and configuration completed to deploy to the production e
 	- [Rating Systems in HTML, CSS and JS - Steve Griffith](https://www.youtube.com/watch?v=dPCj6Qkq13Y&t=48s)
 	- [#9. Django Ratings - Programming Knowledge .360](https://www.youtube.com/watch?v=uRJuONWrlEw&t=149s)
 	- [Convert ratings in stars in Django template - Stack Overflow](https://stackoverflow.com/questions/55448221/convert-ratings-in-stars-in-django-template)
-	- I successfully installed and implemented this Django application in order to generate the Product Star ratings and user review ratings. However when I began testing the star-ratings within the site I realised that it wasn't working exactly how I wanted it to and that the star ratings could be selected and un-selected too. There was also problems with other customisations I wanted to make, and although there is some documentation available for various settings used to customise the app, the documentation was limited and I couldn't find solutions to what I wanted to do. I then decided to uninstall the app and find an alternative solution. The link for the django-star-ratings app is below
+	- I successfully installed and implemented this Django application in order to generate the Product Star ratings and user review ratings. However when I began testing the star-ratings within the site I realised that it wasn't working exactly how I wanted it to and that the star ratings could be selected and deselected too. There was also problems with other customisations I wanted to make, and although there is some documentation available for various settings used to customise the app, the documentation was limited and I couldn't find solutions to what I wanted to do. I then decided to uninstall the app and find an alternative solution. The link for the django-star-ratings app is below
 	- [django-star-ratings app](https://pypi.org/project/django-star-ratings/)
 	- [Please Add documentation for 'how to use' django-star-ratings with needed screenshots #140 - GitHub](https://github.com/wildfish/django-star-ratings/issues/140)	
 	- [Django Rated Reviews - Quick start guide](https://django-rated-reviews.readthedocs.io/en/latest/quickstart.html)
@@ -411,7 +419,7 @@ Details of the updates and configuration completed to deploy to the production e
 - [jQuery Traversing - Ancestors - w3schools.com](https://www.w3schools.com/jquery/jquery_traversing_ancestors.asp)
 - [Jquery remove parent or parents until a specific class name - Stack Overflow](https://stackoverflow.com/questions/43952269/jquery-remove-parent-or-parents-until-a-specific-class-name)
 - [Form Validation with JavaScript - Check for an Empty Text Field - Ralph Phillips](https://www.youtube.com/watch?v=Pc2e2YpKArg&t=342s)
-- I looked into using the following table functionality which was documented on the MDBootstrap website, I thought at firsth that it only needed the JQuery functions to support it, however it on reading further I seen that this was a downloadable product that needed to be purchased and so I didn't continue to try and use it.
+- I looked into using the following table functionality which was documented on the MDBootstrap website, I thought at first that it only needed the JQuery functions to support it, however it on reading further I seen that this was a downloadable product that needed to be purchased and so I didn't continue to try and use it.
 	- [MDBootstrap Responsive Tables](https://mdbootstrap.com/docs/jquery/tables/responsive/)
 	- [MDBootstrap Pagination and Advanced Table Options](https://mdbootstrap.com/docs/jquery/tables/pagination/)
 - I continued to research other options to apply advanced table styles to display the discussion topic list views in the Community Area as well as the Products and Product Subscriptions list views in the Product Management section. I was able to find something suitable on the DataTables.net site:
@@ -533,8 +541,22 @@ Details of the updates and configuration completed to deploy to the production e
 - [Medicine Ball 10kg - Amazon.com](https://m.media-amazon.com/images/I/51fO3yD359L._AC_UL480_FMwebp_QL65_.jpg)
 - [Resistance bands set of 3 - Amazon.com](https://m.media-amazon.com/images/I/81LlSQGGwLL._AC_UL480_FMwebp_QL65_.jpg)
 - [Resistance Bands 21 piece set - Amazon.com](https://m.media-amazon.com/images/I/71yPK88pcPL._AC_UL480_FMwebp_QL65_.jpg)
+- [Weightloss Nutrition Plan - iStock Photo](https://media.istockphoto.com/photos/nutritionist-giving-consultation-to-patient-with-healthy-fruit-and-picture-id1160789077?b=1&k=6&m=1160789077&s=170667a&w=0&h=tZc-Ib2FgTsulqi3wfDucAW7-Rdlr8wQ5GxfUGbVb3I=)
+- [Muscletone Nutrition Plan - iStock Photo](https://media.istockphoto.com/photos/bodybuilder-with-salad-picture-id93275659?b=1&k=6&m=93275659&s=170667a&w=0&h=25ska3uF5fYJY6vULRQoCsIEumjfwPJb4WHAG36EB_4=)
+- [Training Nutrition Plan - iStock Photo](https://media.istockphoto.com/photos/beautiful-blonde-caucasian-woman-drinking-water-while-her-boyfriend-picture-id1126916653?b=1&k=6&m=1126916653&s=170667a&w=0&h=pBDW_1MIg9ptjZFzTZn6VkAy6wQ1H6_JTrAs5SHbEPE=)
+- [Personalised Nutrition Plan - iStock Photo](https://media.istockphoto.com/photos/healthy-food-and-fitness-concept-picture-id1140567039?b=1&k=6&m=1140567039&s=170667a&w=0&h=rIAqmOFSl4HQf1FUl-sWUNJnonwZh4t81fY8ErX07Gg=)
+- [Detox Nutrition Plan - iStock Photo](https://cdn.pixabay.com/photo/2017/01/20/17/25/detox-1995433__340.jpg)
+- [White TShirt - Amazon.com](https://m.media-amazon.com/images/I/41g+-elby5L._AC_UL480_FMwebp_QL65_.jpg)
+- [Black TShirt - Amazon.com](https://m.media-amazon.com/images/I/71Rlxjo5+rL._AC_UL480_FMwebp_QL65_.jpg)
+- [Red TShirt - Amazon.com](https://m.media-amazon.com/images/I/71JlVBWBQOL._AC_UL480_FMwebp_QL65_.jpg)
+- [Black Sports Bag - Amazon.com](https://m.media-amazon.com/images/I/71zu-5CCo7L._AC_UL480_FMwebp_QL65_.jpg)
+- [White Water Bottle - Amazon.com](https://m.media-amazon.com/images/I/61gp5lVdrVL._AC_UL480_FMwebp_QL65_.jpg)
+- [Blue Water Bottle - Amazon.com](https://m.media-amazon.com/images/I/719nOMYZj4L._AC_UL480_FMwebp_QL65_.jpg)
+- [Red Water Bottle - Amazon.com](https://m.media-amazon.com/images/I/71h47t3DHbL._AC_UY327_FMwebp_QL65_.jpg)
 
 ### Acknowledgments
 
-- I would like to thank everyone who supported me through the completion of this project, in particular to my mentor Dick Vlaanderen, who guided and advised me throughout the course.
-- I'd also like to thank the Tutors and Leads in Code Institute and fellow students on Slack, all of whom played a part in helping me to find different solutions when 
+- I would like to thank everyone who supported me through the completion of this project, in particular to my mentor Dick Vlaanderen, who guided and advised me throughout the course. It was always a pleasure talking with him.
+- I'd also like to thank the Tutors and Leads in Code Institute and fellow students on Slack, all of whom played a part in helping me to find different solutions especially when I was stuck on really difficult issues that I could not seem to resolve.
+- I would also like to acknowledge the Code Institute and directors for the wonderful opportunity to take part in this course, not just for the challenges it posed but also for the great learning and skills I gained throughout the course.
+- Lastly I'd like to thank my family for their patience, endurance, support and encouragement they gave me throughout the course.

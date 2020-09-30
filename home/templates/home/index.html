@@ -55,6 +55,16 @@
             </a>
         </div>
         <!--End Carosel-->
+
+        <br>
+        <div class="d-block d-md-none">
+            <p>Please come and visit our specialised areas</p>
+            <ul>
+                <li><a href="{% url 'products' %}?category=fitness">Take a look at the fantastic fitness programs we have for all ages</a></li>
+                <li><a href="{% url 'products' %}?category=nutrition">View our range of nutrition programs - customised to suit you</a></li>
+                <li><a href="{% url 'discussions_list' %}">Access our Community Discussion Areas here</a></li>
+            </ul>
+        </div>
             
     </div>
 {% endblock %}
