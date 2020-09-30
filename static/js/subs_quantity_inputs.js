@@ -1,6 +1,6 @@
     // Check that a subscription / size has been selected before submitting form
     $('.submit-button').click(function(e) {
-        e.preventDefault()
+        e.preventDefault();
         var form = document.getElementById('add-basket');
         var itemId = $(this).attr('id').split('add_')[1];
         var quantity = parseInt($(`#id_qty_${itemId}`).val());
@@ -29,9 +29,9 @@
                 // Submit the form
                 $.post(url, data)
                 .done(function() {
-                    form.submit()
+                    form.submit();
                 });
             }
                 
         }
-    })
+    });

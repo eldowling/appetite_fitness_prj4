@@ -6,7 +6,7 @@
         if (document.getElementById("purchase_qty_available") != null) {
             var qty_avail = Number(document.getElementById("purchase_qty_available").value);
         } else {
-            var qty_avail = 0;
+            qty_avail = 0;
         }
         
         var minusDisabled = currentValue < 2;
@@ -14,7 +14,7 @@
         if (isNaN(qty_avail) || (qty_avail < 1)) {
             var plusDisabled = currentValue > 98;
         }else{
-            var plusDisabled = (currentValue > qty_avail-1);
+            plusDisabled = (currentValue > qty_avail-1);
         }
         $(`#decrement-qty_${itemId}`).prop('disabled', minusDisabled);
         $(`#increment-qty_${itemId}`).prop('disabled', plusDisabled);
@@ -25,7 +25,7 @@
         var selected_quantity = parseInt($(`#id_qty_${itemId}`).val());
         var qty_avail = Number(document.getElementById("purchase_qty_available").value);
         if(selected_quantity>qty_avail) {
-            var submit_msg = "Reduce Quantity - There is not enough stock available"
+            var submit_msg = "Reduce Quantity - There is not enough stock available";
             document.getElementById("submit-error").innerHTML = submit_msg;
             //document.getElementById('qty').value='';
             return "INSUFFICIENT STOCK";
