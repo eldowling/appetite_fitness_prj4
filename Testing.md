@@ -73,20 +73,22 @@ The scenarios used for testing each of the sites components are detailed below:
 		- [x] Filtered by Subcategory "Weights" from the Accessories menu - Displayed 7 product under this subcategory
 	5. Tested the Community menu options from the nav bar:
 		- [x] All Community - shows all the discussion topics that have been entered in the Community Area
-		- [ ] Filtered by "Fitness Plan Discussions" from the Community menu - 
-		- [ ] Filtered by "Nutrition Plan Discussions" from the Community menu - 
+		- [ ] Filtered by "Fitness Plan Discussions" from the Community menu - Could not implement with the List view, see note below
+		- [ ] Filtered by "Nutrition Plan Discussions" from the Community menu - Could not implement with the List view, see note below
+		- Some issues were encountered in trying to implement the filter on the List View - these are detailed further in the the Features section of the Readme file. As a result of these issues, I have removed the 2 filter options from the menu, and instead have grouped the Discussions list into two groups for Fitness and Nutrition.
 		
 3. Products selection, Purchase and Checkout:
 	1. Products were selected from the product catalog to open the product detail page, the following settings were tested:
 		- [x] The product picture and name are displayed
 		- [x] The subscription or size list box is displayed - tested this for both types of products (with Subscriptions or with Sizes) and the correct list box is displayed for both types.
 		- [x] Check that the Subscription/Size, Price, Available Stock, and Colour placeholders are visible.
-		- [x] That the quantity input box and +/- buttons are available and that they work to increase / decrease the quantity
+		- [x] That the quantity input box and +/- buttons are available and that they work to increase / decrease the quantity, and also check against the stock available.
 		- [x] That the subcategory and rating are displayed
 		- [x] Check that the product description and reviews tabs can be viewed, and that the correct reviews are displayed for each product
 		- [x] Click the Keep Shopping button to return to the Products Catalog
 	2. When the Add to Basket button is clicked it will trigger a JavaScript function which checks that a subscription or size (if applicable) has been selected before allowing the product to be added to the basket
 		- [x] Click the Add to Basket button - correctly displayed an error below the subscription select box to indicate that a subscription needs to be selected before adding a product to the basket
+		- [x] Enter a quantity that is greater than the quantity available and try to click Add to Basket - Error is displayed telling the user to reduce the quantity
 		- [x] Select a subscription and test the Add to Basket button again - Product and quantity selected is the successfully added to the basket
 		- [ ] Add to basket on mobile layout causes the basket icon in the nav bar to disappear - Error to be reviewed and fixed before re-testing.
 	3. Selecting the subscription or size for a product has gone through a number of iterations and improvements were made as to how this would work best for the user experience and convenience. The different methods that I tried before getting to the final solution are detail below:
@@ -127,7 +129,8 @@ The scenarios used for testing each of the sites components are detailed below:
 		- [x] Webhook details for a successful payment in Stripe: "Webhook received: payment_intent.succeeded | SUCCESS: Verified order already in database"
 		- [x] When the payment has been processed and a successful status has been received back from Stripe then the Order Confirmation page will be displayed with the Order details, delivery address and billing details. A message is also displayed to confirm that an email has been sent to the registered email address for the user.
 		- [x] Check that the order confirmation email has been received which shows the correct order details and delivery information
-    9. Adding a product review - an authenticated user has the option to add a review under the Product Details page. The following tests were performed to test that the reviews could be added and viewed on the product details page	
+		- [x] Check that the quantity available (stock) for a product purchased has been reduced by the quantity amount that was purchased.
+	9. Adding a product review - an authenticated user has the option to add a review under the Product Details page. The following tests were performed to test that the reviews could be added and viewed on the product details page	
 		- [x] Select the reviews tab on a product while logged out, the Add Review button is not available
 		- [x] Login and select a product, click on Review tab again and check that the Add Review button is now available
 		- [x] Leave the review title and comment fields blank and try to submit the form - Error displayed and required field borders are shown in red

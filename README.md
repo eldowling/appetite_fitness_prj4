@@ -8,7 +8,6 @@ The site also has an integrated administration and store management section. Thi
 
 ## Table of Contents
 - [Nutriverse](#nutriverse)
-  * [Table of Contents](#table-of-contents)
   * [UX](#ux)
   * [Features](#features)
     + [Existing Features](#existing-features)
@@ -18,9 +17,6 @@ The site also has an integrated administration and store management section. Thi
   * [Deployment](#deployment)
   * [Credits](#credits)
     + [Content](#content)
-      - [CSS](#css)
-    + [JavaScript / JQuery](#javascript---jquery)
-      - [Django](#django)
     + [Media](#media)
     + [Acknowledgments](#acknowledgments)
 
@@ -87,44 +83,78 @@ While viewing the products available on the site, the user can also read through
 The site also has a Community area which allows for members to add new discussion topics for the range of products, so that they can provide progress reports or share their experience of how they progressed in the program, as well as being a base to ask questions or share ideas with other community members.
  
 ### Existing Features
-- The site has an option to allow the user to register and login to their profile, which allows them to store and update their delivery details for faster checkouts. As well as being able to view their order history. On completion of the registration process a confirmation email is sent to the user to allow them to complete the account setup process by validating their email address using the validation link provided.
-- As part of the user profile configuration, the user has the option to reset their password through the use of a link. This will send an email to the registered email address and provide them with a link to enter a new password.
-- The main page in the site provides access to the three main categories: "Fitness Products", "Nutrition Products" and "Community Area". A navbar with additional subcategory options is also available to filter the product selection further, to display similar items from that subcategory.
-- The products page will display all of the products by default, a search bar is also provided to allow a keyword search on the product titles and descriptions to allow them to search for a specific item that they are interested in purchasing.
-- There is a product sorting option to allow the customer to view and compare similar products by price or rating
-- On selecting an individual product, the user can then view further information about the product, including its description, reviews and rating and the subscriptions available for the product.
-- The subscriptions options available for a product are listed in a select box, when any of the subscriptions are selected then the fields below it will be populated to show the price and availability for that subscription.
-- When an item is added to the basket the total basket price is calculated and displayed in the navbar at the top of the page, which provides a convenient way for users to easily see and keep track of the total cost of their purchases.
-- The view basket option allows the customer to review the items that were selected for purchase, it also allows for the quantity selected on individual items to be adjusted, as well as being able to remove the item from the basket completely. 
-- The customer can checkout their purchases quickly and easily without the need to input too many details. There is also an option to save the delivery address details which will be automatically populated into the delivery details on any subsequent purchases.
-- The Stripe payments API provides a secure and convenient method to process the customer card payment details.
-- On confirmation of the order and payment being processed, the order summary page is then displayed. This can also be access through the user's profile where a history of all orders is displayed.
-- An order confirmation email is also sent once the order has been successfully completed, for the user to keep for their records.
-- The site users can also add product reviews, these reviews are visible on the Product Details page on the Reviews tab near the end of the page. The Add Review button is available to the site users and allows them to add a review with a title and details about the product as well as giving them the option to rate the product. When the review is saved it will display a star rating using star icons to depict rating with the number of stars out of a possible five stars. The same star rating is displayed on the product, which is calculated from an average star rating taken from all the reviews for that product.
-- The community area allows users to create discussion topics for both Fitness and Nutrition topics. The main community page displays a list of all previous topics. This list can be sorted and is automatically paginated to reduce the number of records being loaded, which is better for speed and uses less data.
-- A community member has the option to add new discussion topics for a selected product. This can provide an evaluation of the product / service or class. It can also be used to give a report on their progress through the program, or to ask questions related to the product. The discussion topic can be edited by the author.
-- Other community members can add comments to each discussion in order to respond to the topic posted. These comments can also be edited and updated by the comment author.
-- The site has a Product Management section to allow store administrators to add, edit or delete products and subscriptions to the store. The main page in the Product Management section displays some buttons for quick and simple access to the different options available. These include Add Product, View a list of products - which allows individual products to be selected to edit or delete. The same options are available for product subscriptions.
-- The store has many Products which are linked to many Product Subscriptions, this many-to-many relationship is managed using a "through" table called Subscriptions.
-- When adding a new product, there are a number of selection boxes to choose options from, this makes it easier for product entry. There is also a list of subscriptions that can be added to any product. These are available in a multi-select list box so that a number of subscriptions can be selected and assigned to any product. There are also convenient links access the add or edit subscriptions sections from the add or edit product pages.
-- There are some fields in the Products model that are used to provide selection functionality when loading the templates, or excluding items when calculating delivery charges, a summary of these fields and their uses are detailed below:
-	- Product.Subscription - This boolean field is used to show the Product Subscription list on the Product Details page. It was used because as the models evolved and I grew to understand how the many-to-many relationship worked, then all products ended up with a product subscription which has the price and stock available fields.
-	- Product.Has_Sizes - Also a boolean field to determine if the Product has sizes, and used to display the Sizes list instead of the subscription list on the Product Details page.
-	- There can be 3 types of Products: Those with a subscription, those with a size, and those with neither as they are just an item such as a sports bag or exercise mat and don't need a selection from either list. They do however have to be associated with a product subscription which is where the price and stock available is taken from.
-	- Product.product_sub - This is the ManyToManyField from the Product_Subscription model. All products must have one product subscription, but if the value in Product.Subscription is False - then the subscription list will not be displayed, and the price and quantity will be displayed directly on the product details page. Similarly if the Product.Has_Sizes is True then the sizes list will be displayed instead of the subscription list on the product details page.
-	- Some helper texts were added to the Add Product form to assist with the values used in these fields.
-- On adding a new subscription the user can select the subscription type as well as the price, quantity available and delivery charge (Y/N) - this is used to calculate delivery costs when the user is checking out. As some products are available as online programs or classes - there would be no need to charge for delivery of such subscriptions.
-- The lists of Products or Subscriptions will be displayed to show the user all existing items. These lists can be sorted by each column heading and there is also a search option available to find a particular product or subscription through a keyword search of the name or description.
+- Site Registration and Profile
+	- The site has an option to allow the user to register and login to their profile, which allows them to store and update their delivery details for faster checkouts. As well as being able to view their order history. On completion of the registration process a confirmation email is sent to the user to allow them to complete the account setup process by validating their email address using the validation link provided.
+	- As part of the user profile configuration, the user has the option to reset their password through the use of a link. This will send an email to the registered email address and provide them with a link to enter a new password.
+- Viewing and Navigation
+	- The main page in the site provides access to the three main categories: "Fitness Products", "Nutrition Products" and "Community Area". A navbar with additional subcategory options is also available to filter the product selection further, to display similar items from that subcategory.
+	- The products page will display all of the products by default, a search bar is also provided to allow a keyword search on the product titles and descriptions to allow them to search for a specific item that they are interested in purchasing.
+	- There is a product sorting option to allow the customer to view and compare similar products by price or rating
+- Purchase and Checkout
+	- On selecting an individual product, the user can then view further information about the product, including its description, reviews and rating and the subscriptions available for the product.
+	- The subscriptions options available for a product are listed in a select box, when any of the subscriptions are selected then the fields below it will be populated to show the price and availability for that subscription.
+	- When the subscription is selected, there is some JavaScript to check the quantity being selected against the quantity available for that product or subscription. The + button is disable when it reaches the stock available level to prevent the user adding more items to their basket than is available.
+	- Some further validations are completed at two stages when the Quantity is changed and when the Add to Basket button is clicked:
+		- When the quantity is updated a function is run to check that the value is within the range 1 to 99 and disables either the + or - button when it reaches these values
+		- The function also checks the quantity against the stock available for the product / subscription. If the quantity is greater than the stock available it will display a warning to the user.
+		- When the form is being submitted there is another function to check that the item has a subscription or size selected has been selected. Otherwise it will prompt the user to select one.
+		- The quantity ordered is checked against the quantity available to ensure that there is enough stock at the time of adding to the basket.
+		- The stock should be checked again before processing the order.
+	- When an item is added to the basket the total basket price is calculated and displayed in the navbar at the top of the page, which provides a convenient way for users to easily see and keep track of the total cost of their purchases.
+	- The view basket option allows the customer to review the items that were selected for purchase, it also allows for the quantity selected on individual items to be adjusted, as well as being able to remove the item from the basket completely. 
+	- The customer can checkout their purchases quickly and easily without the need to input too many details. There is also an option to save the delivery address details which will be automatically populated into the delivery details on any subsequent purchases.
+	- The Stripe payments API provides a secure and convenient method to process the customer card payment details.
+	- The order will be added to the database during this process, and the stock for the products purchased will be reduced by the quantity purchased. 
+	- There are some limitations with this as there might be less stock when the customer is checking out, as another customer might have also selected to purchase this item in that time. Some additional work is required to complete a solution to this, but due to time limitations I have not been able to complete it. This is documented further in the Future Enhancements section.
+	- On confirmation of the order and payment being processed, the order summary page is then displayed. This can also be access through the user's profile where a history of all orders is displayed.
+	- An order confirmation email is also sent once the order has been successfully completed, for the user to keep for their records.
+- Product Rating and Reviews
+	- The site users can also add product reviews, these reviews are visible on the Product Details page on the Reviews tab near the end of the page. 
+	- The Add Review button is available to the site users and allows them to add a review with a title and details about the product as well as giving them the option to rate the product. 
+	- When the review is saved it will display a star rating using star icons to depict rating with the number of stars out of a possible five stars. 
+	- The same star rating is displayed on the product, which is calculated from an average star rating taken from all the reviews for that product.
+- Community and Discussions
+	- The community area allows users to create discussion topics for both Fitness and Nutrition topics. The main community page displays a list of all previous topics. This list can be sorted and is automatically paginated to reduce the number of records being loaded, which is better for speed and uses less data.
+	- Issues encountered with filtering the discussions list view by Fitness / Nutrition type topics:
+		- Although I made a few attempts at trying to add a filter to the list view, I ran into a lot of issues with getting it to work. I also asked for the Tutors advise on how to use a filter on it, but I was advised that class based views were not recommended, but did provide me with some links to have a look at if I wished. 
+		- As I had already used one to display all discussions without a filter, I then decided to try out a few different suggestions from the links. I still ended up with errors after implementing these.
+		- As a workaround, I decided to reverse these changes, and instead added an if statement to the template so that I could display the discussion topics in two separate groups and put a heading for each group in the table at the start of each of the groups.
+		- I also removed the two category filter options from the nav bar
+		- In a future iteration of this page, I would create a view to display the objects in the same way as other pages were built. I used this as I thought it was a good method to display a list of the discussions easily. However I've learnt a lot from being able to try and work through some of these issues.
+	- A community member has the option to add new discussion topics for a selected product. This can provide an evaluation of the product / service or class. It can also be used to give a report on their progress through the program, or to ask questions related to the product. The discussion topic can be edited by the author.
+	- Other community members can add comments to each discussion in order to respond to the topic posted. These comments can also be edited and updated by the comment author.
+- Product Management / Admin
+	- The site has a Product Management section to allow store administrators to add, edit or delete products and subscriptions to the store. The main page in the Product Management section displays some buttons for quick and simple access to the different options available. These include Add Product, View a list of products - which allows individual products to be selected to edit or delete. The same options are available for product subscriptions.
+	- The store has many Products which are linked to many Product Subscriptions, this many-to-many relationship is managed using a "through" table called Subscriptions.
+	- When adding a new product, there are a number of selection boxes to choose options from, this makes it easier for product entry. There is also a list of subscriptions that can be added to any product. These are available in a multi-select list box so that a number of subscriptions can be selected and assigned to any product. There are also convenient links access the add or edit subscriptions sections from the add or edit product pages.
+	- There are some fields in the Products model that are used to provide selection functionality when loading the templates, or excluding items when calculating delivery charges, a summary of these fields and their uses are detailed below:
+		- Product.Subscription - This boolean field is used to show the Product Subscription list on the Product Details page. It was used because as the models evolved and I grew to understand how the many-to-many relationship worked, then all products ended up with a product subscription which has the price and stock available fields.
+		- Product.Has_Sizes - Also a boolean field to determine if the Product has sizes, and used to display the Sizes list instead of the subscription list on the Product Details page.
+		- There can be 3 types of Products: Those with a subscription, those with a size, and those with neither as they are just an item such as a sports bag or exercise mat and don't need a selection from either list. They do however have to be associated with a product subscription which is where the price and stock available is taken from.
+		- Product.product_sub - This is the ManyToManyField from the Product_Subscription model. All products must have one product subscription, but if the value in Product.Subscription is False - then the subscription list will not be displayed, and the price and quantity will be displayed directly on the product details page. Similarly if the Product.Has_Sizes is True then the sizes list will be displayed instead of the subscription list on the product details page.
+		- Some helper texts were added to the Add Product form to assist with the values used in these fields.
+	- On adding a new subscription the user can select the subscription type as well as the price, quantity available and delivery charge (Y/N) - this is used to calculate delivery costs when the user is checking out. As some products are available as online programs or classes - there would be no need to charge for delivery of such subscriptions.
+	- The lists of Products or Subscriptions will be displayed to show the user all existing items. These lists can be sorted by each column heading and there is also a search option available to find a particular product or subscription through a keyword search of the name or description.
  
 
 ### Future Enhancements
-- The community area could be further developed with more options available to allow the user to add fitness challenges / exercise plans, which would include multiple steps or exercises to be entered for each day of the challenge / plan. 
-- An example of this would be a 30-day fitness challenge that focuses on a particular fitness area, with instructions to complete a range of different exercises on each day of the challenge.
-- The topics and comments in the community area could be enhanced to show more details about the user such as the date they joined the site, and the number of topics they have created on the site. Other details could be added depending on the sites requirements / areas of interests.
-- Another section that could be added would be an index to look up details for any exercise with pictures or videos on how to complete the exercise.
-- The user profile section could also be updated to include options to add and store multiple delivery addresses for the account. This could then be integrated into the Checkout page where the user could select the delivery address from their list of saved addresses.
-- Further customisation of the user profile could also be achieved by allowing the users to add or update a profile picture, and some details about themselves. The profile pictures could be displayed as a small circular image beside each of the user's reviews or community area topics / comments.
-- Some updates could be made to the Product Administration section in particular for the product deletion option where currently no warning is given to the user for them to confirm if the product should be deleted. An extra step could be added to this process to prevent user error in selecting the wrong product for deletion. This would ask the user to confirm the product being deleted, and give an option to cancel or continue with deleting the selected item.
+- Stock Management & Order Processing
+	- When the product is being purchased there is currently a check in place to ensure that there is enough stock for the quantity being ordered. This happens when the product is being added to the basket.
+	- During the checkout process when the order is being saved to the database, the stock for the selected product is also reduced
+	- This solution is not ideal, as other customers could have ordered that product during the time between where the first customer had added it to the basket, and when they went to check out. This means that the stock might not be available.
+	- Some more development is needed in order to check for the stock before the order has been created, and if there is not sufficient stock available the user should then be prompted to reduce the quantity they wish to purchase, or to cancel the purchase of this product. 
+	- When the user has made their selection they should check out again.
+	- Due to time limitations I have not completed this section, but would be done in the next iteration.
+- Community and Discussions
+	- The community area could be further developed with more options available to allow the user to add fitness challenges / exercise plans, which would include multiple steps or exercises to be entered for each day of the challenge / plan. 
+	- An example of this would be a 30-day fitness challenge that focuses on a particular fitness area, with instructions to complete a range of different exercises on each day of the challenge.
+	- The topics and comments in the community area could be enhanced to show more details about the user such as the date they joined the site, and the number of topics they have created on the site. Other details could be added depending on the sites requirements / areas of interests.
+	- Another section that could be added would be an index to look up details for any exercise with pictures or videos on how to complete the exercise.
+- User Profile
+	- The user profile section could also be updated to include options to add and store multiple delivery addresses for the account. This could then be integrated into the Checkout page where the user could select the delivery address from their list of saved addresses.
+	- Further customisation of the user profile could also be achieved by allowing the users to add or update a profile picture, and some details about themselves. The profile pictures could be displayed as a small circular image beside each of the user's reviews or community area topics / comments.
+- Product Management
+	- Some updates could be made to the Product Administration section in particular for the product deletion option where currently no warning is given to the user for them to confirm if the product should be deleted. An extra step could be added to this process to prevent user error in selecting the wrong product for deletion. This would ask the user to confirm the product being deleted, and give an option to cancel or continue with deleting the selected item.
 
 ## Technologies Used
 
@@ -423,12 +453,16 @@ Details of the updates and configuration completed to deploy to the production e
 	- [Django/jQuery Cascading Select Boxes? - Stack Overflow](https://stackoverflow.com/questions/3233850/django-jquery-cascading-select-boxes)
 	- [Django - Built-in template tags and filters](https://docs.djangoproject.com/en/3.0/ref/templates/builtins/#id2)
 	- [How to pass csrf_token to javascript file in django? - Stack Overflow](https://stackoverflow.com/questions/23349883/how-to-pass-csrf-token-to-javascript-file-in-django)
+- The JavaScript function detailed above was also modified to check the stock available against the quantity being purchased. The link below was used to help with creating the function, I combined this with the other checks that were being done and returned a status from the new function called "checkStockAvailable()". If the status returned = "OK" then it could proceed with submitting the form. Otherwise an error was displayed to the user.
+	- [JavaScript Quantity Validation - Stack Overflow](https://stackoverflow.com/a/16931755)
 - For the Product Rating on the Product Details page, I needed to create a function to get the average rating which would be calculated from the Reviews.user_rating field. I looked at many options including doing it in the view using a filter query, and then update the Products table with the average rating value, but couldn't find a solution that worked well. I also looked at creating a function and returning the value to a view. I also asked for help with this on Slack and Malia Havlicek (Lead) was able to give me some some links to look at. By looking at these resources and some further help, I was able to build a function in the Product Model and reference the function from the template using "{{ product.get_avg_rating }}"
 	- [Django - Function inside a model. How to call it from a view?](https://stackoverflow.com/questions/21093591/django-function-inside-a-model-how-to-call-it-from-a-view)
 	- [Django Documentation - Generating aggregates over a QuerySet](https://docs.djangoproject.com/en/3.1/topics/db/aggregation/#generating-aggregates-over-a-queryset)
 - For the Checkout page I needed to find some tutorials on adding items to the basket/cart, as I was trying to add items that had subscriptions / foreign key fields and was having issues with getting the subscription details to add to the basket. I used the following tutorials to help with my understanding of the process and then could try to implement a solution
 	- [Django Ecommerce Website | Add to Cart Functionality | Part 3 - Dennis Ivy](https://www.youtube.com/watch?v=woORrr3QNh8&t=1426s)
 	- [Django tutorial for beginners - 26 Cart Item - Coding Point](https://www.youtube.com/watch?v=N3VWvPqWnwc&t=64s)
+- In the checkout view the Order and Order Items will be written to the database, I needed to also update the stock and reduce it by the quantity being purchased. I looked at the link below which gave me an idea of how I was going to approach it. I also had some suggestions made by my mentor Dick Vlaanderen to help simplify the method to update it slightly, as I had already a variable that stored the filtered the selected product subscription object, so I could just use this variable to select the field that I wanted to update.
+	- [Django: How to edit value and store back in database - Stack Overflow](https://stackoverflow.com/a/54535126)
 - On the checkout page I wanted to use an animated icon for the loading page while the payment was being processed - these are some of the examples I found
 	- [https://fontawesome.com/how-to-use/on-the-web/styling/animating-icons](https://fontawesome.com/how-to-use/on-the-web/styling/animating-icons)
 - I needed to find solutions the error "Reverse for '' Not Found"
@@ -442,8 +476,11 @@ Details of the updates and configuration completed to deploy to the production e
 	- [Best way to filter ListView with drop down form in Django - Stack Overflow](https://stackoverflow.com/questions/46491786/best-way-to-filter-listview-with-drop-down-form-in-django)
 	- [Django Documentation - Built-in class-based generic views](https://docs.djangoproject.com/en/3.1/topics/class-based-views/generic-display/)
 	- [Django Tutorial Part 6: Generic list and detail views - MDN Web docs](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views)
-	- [django no reverse match with filtered ListView - Stack Overflow](https://stackoverflow.com/questions/57803351/django-no-reverse-match-with-filtered-listview)
-- For the Community Area I wanted to try and implement a filter on the products that would allow the user to only add a discusssion for products that they had previously purchased. In doing this I came across some errors - one of these was when I tried to put a filter on the order line items by using the orders which was itself a filter of the selected users' Orders. The error I got on loading that view was "The QuerySet value for an exact lookup must be limited to one result using slicing". Using the following topics I was able to finish the filter that I wished to build and I was able to popultate the users' ordered products to a select box on the form.
+	- [Django no reverse match with filtered ListView - Stack Overflow](https://stackoverflow.com/questions/57803351/django-no-reverse-match-with-filtered-listview)
+	- [Django Documentation - Retrieving specific objects with filters](https://docs.djangoproject.com/en/3.1/topics/db/queries/#retrieving-specific-objects-with-filters)
+	- [How do I do an OR filter in a Django query? - Stack Overflow](https://stackoverflow.com/questions/739776/how-do-i-do-an-or-filter-in-a-django-query)
+	- [Django ListView - Form to filter and sort - Stack Overflow](https://stackoverflow.com/questions/33350362/django-listview-form-to-filter-and-sort)
+- For the Community Area I wanted to try and implement a filter on the products that would allow the user to only add a discussion for products that they had previously purchased. In doing this I came across some errors - one of these was when I tried to put a filter on the order line items by using the orders which was itself a filter of the selected users' Orders. The error I got on loading that view was "The QuerySet value for an exact lookup must be limited to one result using slicing". Using the following topics I was able to finish the filter that I wished to build and I was able to populate the users' ordered products to a select box on the form.
 	- [The QuerySet value for an exact lookup must be limited to one result using slicing. Filter error - Stack Overflow](https://stackoverflow.com/questions/55994907/the-queryset-value-for-an-exact-lookup-must-be-limited-to-one-result-using-slici)
 	- [Django - display all products created by a user](https://stackoverflow.com/questions/47027356/django-display-all-products-created-by-a-user)
 	- [MultipleObjectsReturned Django - Stack Overflow](https://stackoverflow.com/questions/52155601/multipleobjectsreturned-django)
@@ -451,6 +488,8 @@ Details of the updates and configuration completed to deploy to the production e
 	- [Python django.shortcuts.get_list_or_404() Examples - Programcreek.com](https://www.programcreek.com/python/example/50062/django.shortcuts.get_list_or_404)
 	- [Getting only the models related to a Django queryset - Stack Overflow](https://stackoverflow.com/questions/15162177/getting-only-the-models-related-to-a-django-queryset)
 	- [Django excluding one queryset from another - Stack Overflow](https://stackoverflow.com/questions/22266734/django-excluding-one-queryset-from-another)
+- Also relating to the filtered products on the Add Discussion form, I had an error when it came to submitting the form, it seemed to be related to the product I was trying to set from the selected value on the form. "MultiValueDictKeyError  ... 'product' ". To resolve this issue I had some help from the Tutor Support, who advised me to look at a link for a similar issue. On reading over this a few times and trying it out, I found / fixed the issue.
+	- [django MultiValueDictKeyError error, how do I deal with it](https://stackoverflow.com/a/5895670)
 - On the Community Discussions page when a topic was selected to view, I wanted to display a number in the list to show the comment number beside each comment I did this by displaying the {{forloop.counter}} but needed to add 1 to it to start from 1
 	- [Django Template: How to modify the value in the for-loop tag?](https://stackoverflow.com/questions/30120196/django-template-how-to-modify-the-value-in-the-for-loop-tag)
 - Also on the community discussions I wanted to show the created date for the discussion topic as well as the comments field, I wanted to learn how to format the date in a different format to how it was displayed by default
@@ -470,19 +509,23 @@ Details of the updates and configuration completed to deploy to the production e
 	
 
 ### Media
-- The photos used in this site were obtained from ...
+- The photos used for the products and main images were obtained from the following sources
 - [Logo] - wix.com
-- [Main images x2 - Shutterstock]
+- [Main image - Fitness by  Andrea Piacquadio](https://www.pexels.com/photo/selective-focus-photography-of-woman-in-white-sports-brassiere-standing-near-woman-sitting-on-pink-yoga-mat-864939/)
+- [Main image - Nutrition by  Ella Olsson](https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
+- [Main image - Community by  Helena Lopes](https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
 - [BodySculpt Beginner by Steve Buissinne - Pixabay](https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2465478)
 - [BodySculpt Intermediate by Taco Fleur - Pixabay](https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2054729)
 - [BodySculpt Advanced by Pete Linforth - Pixabay](https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1946596)
 - [BodyTone by Scott Webb - Pixabay](https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=828726)
 - [Senior Workout Beginner - Shutterstock](https://www.shutterstock.com/image-photo/portrait-happy-men-women-on-fitness-259037090)
 - [Senior Workout Advanced - Shutterstock](https://www.shutterstock.com/image-photo/senior-couple-exercising-gym-619305275)
-- [Children's Fitness Workout - Shutterstock](https://www.shutterstock.com/image-photo/cute-funny-children-dance-studio-569123587)
-- [Advanced Children's Workout - Shutterstock](https://www.shutterstock.com/image-photo/laughing-preteen-kids-posing-sport-equipment-1309879342)
-- [Online Kettlebells Workout - ]
-- [Online HIIT Workout - ]
+- [Children's Fitness Workout by Lucas](https://images.pexels.com/photos/296301/pexels-photo-296301.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
+- [Advanced Children's Workout by Luis Quintero](https://images.pexels.com/photos/1671217/pexels-photo-1671217.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
+- [Online Kettlebells Workout by Purple Smith from Pexels
+ ](https://images.pexels.com/photos/4527389/pexels-photo-4527389.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
+- [Online HIIT Workout by Karolina Grabowska from Pexels
+](https://images.pexels.com/photos/1671217/pexels-photo-1671217.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)
 - [Senior Workout Online - Shutterstock](https://www.shutterstock.com/image-photo/fitness-training-online-senior-woman-home-1672681894)
 
 ### Acknowledgments

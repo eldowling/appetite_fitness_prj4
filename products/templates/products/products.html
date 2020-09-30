@@ -76,7 +76,7 @@
                                             {% else %}
                                                 {% for s in subscriptions %}
                                                     {% if product.id == s.product.id %}
-                                                    <p class="lead mb-0 text-left font-weight-bold">€{{ s.product_sub.price }}</p>
+                                                    <p class="lead mb-0 text-left font-weight-bold"><small><strong>€{{ s.product_sub.price }}</strong></small></p>
                                                     {% endif %}
                                                 {% endfor %}
                                             {% endif %}

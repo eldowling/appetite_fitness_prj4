@@ -15,7 +15,6 @@ class Discussions_List(ListView):
     """Create a listview of all Discussions"""
     template_name = 'community/discussions_list.html'
     queryset = Discussions.objects.all()
-    paginate_by = 10
 
 
 @login_required
@@ -41,7 +40,6 @@ def add_discussion_topic(request):
             selected_product = request.POST.get('discussion_product', False)
             product = get_object_or_404(Product, name=selected_product)
             form_data = {
-                'product': product,
                 'topic': request.POST['topic'],
                 'disc_topic_text': request.POST['disc_topic_text'],
             }
@@ -50,6 +48,7 @@ def add_discussion_topic(request):
             if discussion_form.is_valid():
                 discussion_object = discussion_form.save(commit=False)
                 discussion_object.user_profile = profile
+                discussion_object.product = product
                 discussion_form.save()
 
                 return redirect('discussions_list')

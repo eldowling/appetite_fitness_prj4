@@ -7,15 +7,14 @@ class DiscussionsForm(forms.ModelForm):
 
     class Meta:
         model = Discussions
-        fields = ('product', 'topic', 'disc_topic_text',)
+        fields = ['topic', 'disc_topic_text']
         exclude = ('product', )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         placeholders = {
-            'product': 'Product',
             'topic': 'Topic Title',
-            'disc_topic_text': 'Disucussion Details',
+            'disc_topic_text': 'Discussion Details',
         }
 
         self.fields['topic'].widget.attrs['autofocus'] = True
@@ -34,14 +33,14 @@ class Discussions_CommentsForm(forms.ModelForm):
 
     class Meta:
         model = Discussion_Comments
-        fields = ('comment',)
+        fields = ['comment']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         placeholders = {
             'comment': 'Comments',
         }
-        
+
         for field in self.fields:
             if self.fields[field].required:
                 placeholder = f'{placeholders[field]} *'
