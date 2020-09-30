@@ -32,10 +32,6 @@ def all_products(request):
                 sortkey = 'subcategory__code'
             if sortkey == 'price':
                 sortkey = 'product_sub__price'
-            if sortkey == 'rating':
-                reviews = Reviews.objects.filter(product=OuterRef('pk'))
-                products = products.annotate(avg_rating=Subquery(reviews.aggregate(Avg('user_rating'))))
-                sortkey = '-avg_rating'
             if 'direction' in request.GET:
                 direction = request.GET['direction']
                 if direction == 'desc':
