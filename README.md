@@ -266,9 +266,35 @@ Some of the technologies that I used to implement the features and functionality
 In order to deploy the project to the Heroku hosting platform a number of configuration settings had to be completed. The Production environment also uses a Postgres database, and the database models as well as the data from the SQLite development database had to be recreated in the new Postgres database.
 Details of the updates and configuration completed to deploy to the production environment are detailed below
 
-- Database Setup and Configuration	
-	- I used the dumpdata command to take a backup of individual tables in the SQLite database
-	- The Heroku Postgres database was created and configured
+- Database Setup and Configuration
+	- The Heroku Postgres database was created and configured in Heroku app
+	- I then ran all of the migrations against the new database. I encountered an error with one of the migrations, but when I looked at the settings in the migration file, I found that it would be best to skip this migration and proceed with running the remaining migrations - which ran without any further issues.
+	- I used the dumpdata command to take a backup of individual tables in the SQLite database, these were done as follows:
+	- **Dumpdata** - models data backup
+		- I ran the following commands to backup up the Products fixtures folder
+		- python3 manage.py dumpdata products.category > category.json
+		- python3 manage.py dumpdata products.subcategory > subcategory.json
+		- python3 manage.py dumpdata products.colour > colour.json
+		- python3 manage.py dumpdata products.sizes > sizes.json
+		- python3 manage.py dumpdata products.subscription_type > subscription_type.json
+		- python3 manage.py dumpdata products.product_subscription > product_subscription.json
+		- python3 manage.py dumpdata products.product > product.json
+		- python3 manage.py dumpdata products.subscription > subscription.json
+		- I also backed the user model using the following command, this file is stored in the root directory
+		- python3 manage.py dumpdata auth.user > user.json
+	- I switched back to the production database using settings.py and started using the loaddata commands to restore the data in the tables to the PostgreSQL database
+	- **Loaddata** - models data restore
+		- When running the loaddata commands, they need to be run in a specific order as shown below. This is because of foreign keys being used in some tables, so the items need to be created first before they can be used as a foreign key in another table.
+		- python3 manage.py loaddata products category.json
+		- python3 manage.py loaddata products subcategory.json
+		- python3 manage.py loaddata products colour.json
+		- python3 manage.py loaddata products sizes.json
+		- python3 manage.py loaddata products subscription_type.json
+		- python3 manage.py loaddata products product_subscription.json
+		- python3 manage.py loaddata products product.json
+		- python3 manage.py loaddata products subscription.json
+		- I opted to restore the user table so that I would have some users ready set up for testing and saved extra configurations. Use the command below to restore the user table
+		- python3 manage.py loaddata user.json	
 	- After this 2 new applications were installed **dj-database-url** and ***psycopg2-binary** - these were used to connect to the Heroku Postgres database
 	- Updates were required in Settings.py in order to set the DATABASES configuration settings to use the dj-database-url
 	- Added the DATABASE_URL to the Heroku config vars
